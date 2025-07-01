@@ -1,0 +1,16 @@
+{
+  "name": "sudoku-apps",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:killer": "yarn workspace killer start",
+    "dev:classic": "yarn workspace classic start",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
+  }
+}
