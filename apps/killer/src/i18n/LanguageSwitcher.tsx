@@ -1,11 +1,11 @@
 // LanguageSwitcher.tsx
 
 import {useFocusEffect} from '@react-navigation/native';
+import {appStorage} from '@sudoku/shared-storages';
 import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useTheme} from '../context/ThemeContext';
-import {appStorage} from '../storage';
 import {LANGUAGES} from '../utils/constants';
 import i18n, {autoDetectLanguage} from './i18n';
 
@@ -16,7 +16,7 @@ export default function LanguageSwitcher() {
 
   useFocusEffect(
     useCallback(() => {
-      autoDetectLanguage().then(lang => {
+      autoDetectLanguage().then((lang) => {
         if (lang) {
           setSelectedLang(lang);
         }
@@ -35,7 +35,7 @@ export default function LanguageSwitcher() {
       style={[styles.container, {backgroundColor: theme.backgroundSecondary}]}>
       <Text style={[styles.label, {color: theme.text}]}>{t('language')}</Text>
       <View style={styles.buttons}>
-        {LANGUAGES.map(lang => (
+        {LANGUAGES.map((lang) => (
           <TouchableOpacity
             key={lang.code}
             style={[

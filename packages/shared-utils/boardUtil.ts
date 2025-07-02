@@ -1,7 +1,6 @@
 // boardUtil.ts
-import { CellValue } from '@sudoku/shared-types';
-import { Board } from 'sudoku-core';
-import { BOARD_SIZE } from './constants';
+import {CellValue} from '@sudoku/shared-types';
+import {BOARD_SIZE} from './constants';
 
 /**
  * Chuyển string thành mảng 2 chiều theo số cột nhất định (thường là 9 với Sudoku).
@@ -21,24 +20,16 @@ export function stringToGrid(input: string, columns = 9): CellValue[][] {
   return grid;
 }
 
-export function convertBoardToGrid(board: Board): CellValue[][] {
-  const grid: CellValue[][] = [];
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    grid.push(board.slice(i * BOARD_SIZE, i * BOARD_SIZE + BOARD_SIZE));
-  }
-  return grid;
-}
-
 // Tạo mảng 9x9 cho mỗi ô trong Sudoku
 export function createEmptyGrid<T>(): (T | null)[][] {
-  return Array.from({ length: BOARD_SIZE }, () =>
-    Array.from({ length: BOARD_SIZE }, () => null),
+  return Array.from({length: BOARD_SIZE}, () =>
+    Array.from({length: BOARD_SIZE}, () => null),
   );
 }
 
 export function createEmptyGridNumber(): number[][] {
-  return Array.from({ length: BOARD_SIZE }, () =>
-    Array.from({ length: BOARD_SIZE }, () => 0),
+  return Array.from({length: BOARD_SIZE}, () =>
+    Array.from({length: BOARD_SIZE}, () => 0),
   );
 }
 
@@ -47,20 +38,9 @@ export function createEmptyGridNumber(): number[][] {
  * @returns Mảng 9x9x9
  */
 export function createEmptyGridNotes<T>(): T[][][] {
-  return Array.from({ length: BOARD_SIZE }, () =>
-    Array.from({ length: BOARD_SIZE }, () => []),
+  return Array.from({length: BOARD_SIZE}, () =>
+    Array.from({length: BOARD_SIZE}, () => []),
   );
-}
-
-export function convertBoardToCore(board: CellValue[][]): Board {
-  return board.flat();
-}
-
-export function getCellFromIndex(index: number): { row: number; col: number } {
-  return {
-    row: Math.floor(index / BOARD_SIZE),
-    col: index % BOARD_SIZE,
-  };
 }
 
 /**

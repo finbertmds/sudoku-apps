@@ -1,11 +1,7 @@
 // storage/playerProfileStorage.ts
-import {storage} from '.';
-import {PlayerProfile} from '../types/player';
-import {
-  DEFAULT_PLAYER_ID,
-  STORAGE_KEY_CURRENT_PLAYER_ID,
-  STORAGE_KEY_PLAYERS,
-} from '../utils/constants';
+import { PlayerProfile } from '@sudoku/shared-types';
+import { DEFAULT_PLAYER_ID, STORAGE_KEY_CURRENT_PLAYER_ID, STORAGE_KEY_PLAYERS } from '@sudoku/shared-utils';
+import { storage } from '.';
 
 const getAllPlayers = (): PlayerProfile[] => {
   try {
@@ -19,13 +15,13 @@ const getAllPlayers = (): PlayerProfile[] => {
 const savePlayers = (players: PlayerProfile[]) => {
   try {
     storage.set(STORAGE_KEY_PLAYERS, JSON.stringify(players));
-  } catch (_) {}
+  } catch (_) { }
 };
 
 const clearPlayers = () => {
   try {
     storage.delete(STORAGE_KEY_PLAYERS);
-  } catch (_) {}
+  } catch (_) { }
 };
 
 const getCurrentPlayerId = (): string => {
@@ -40,13 +36,13 @@ const getCurrentPlayerId = (): string => {
 const setCurrentPlayerId = (id: string) => {
   try {
     storage.set(STORAGE_KEY_CURRENT_PLAYER_ID, id);
-  } catch (_) {}
+  } catch (_) { }
 };
 
 const clearCurrentPlayerId = () => {
   try {
     storage.delete(STORAGE_KEY_CURRENT_PLAYER_ID);
-  } catch (_) {}
+  } catch (_) { }
 };
 
 const getCurrentPlayer = (): PlayerProfile | null => {
@@ -73,14 +69,14 @@ const updatePlayer = (player: PlayerProfile) => {
     const all = getAllPlayers();
     const updated = all.map((p) => (p.id === player.id ? player : p));
     savePlayers(updated);
-  } catch (_) {}
+  } catch (_) { }
 };
 
 const clearAll = () => {
   try {
     clearPlayers();
     clearCurrentPlayerId();
-  } catch (_) {}
+  } catch (_) { }
 };
 
 export const playerProfileStorage = {

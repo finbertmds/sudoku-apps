@@ -1,11 +1,10 @@
 // i18n.ts
 
+import {LANGUAGES} from '@/utils/constants';
+import {appStorage} from '@sudoku/shared-storages';
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import * as RNLocalize from 'react-native-localize';
-import {LANGUAGES} from '../utils/constants';
-
-import {appStorage} from '../storage';
 import en from './locales/en.json';
 import ja from './locales/ja.json';
 import vi from './locales/vi.json';
@@ -18,7 +17,7 @@ const resources = {
 
 const fallback = {languageTag: LANGUAGES[0].code};
 const getBestLanguage = () => {
-  const bestLang = RNLocalize.findBestLanguageTag(LANGUAGES.map(l => l.code));
+  const bestLang = RNLocalize.findBestLanguageTag(LANGUAGES.map((l) => l.code));
   return bestLang?.languageTag || fallback.languageTag;
 };
 

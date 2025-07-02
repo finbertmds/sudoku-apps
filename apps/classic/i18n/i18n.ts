@@ -1,11 +1,10 @@
 // i18n.ts
 
+import {LANGUAGES} from '@/utils/constants';
+import {appStorage} from '@sudoku/shared-storages';
 import * as Localization from 'expo-localization';
 import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
-import {LANGUAGES} from '../utils/constants';
-
-import {appStorage} from '../storage';
 import en from './locales/en.json';
 import ja from './locales/ja.json';
 import vi from './locales/vi.json';

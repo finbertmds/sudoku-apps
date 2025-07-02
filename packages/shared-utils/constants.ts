@@ -1,4 +1,4 @@
-import { AppSettings } from '@sudoku/shared-types';
+import {AppSettings} from '@sudoku/shared-types';
 
 export const BOARD_SIZE = 9;
 export const CELL_SIZE = 40;
