@@ -2,6 +2,7 @@ import {AppSettings} from '@sudoku/shared-types';
 
 export const BOARD_SIZE = 9;
 export const CELL_SIZE = 40;
+export const CAGE_PADDING = 4;
 
 export const ANIMATION_DURATION = 300; // in ms
 export const ANIMATION_TYPE = {

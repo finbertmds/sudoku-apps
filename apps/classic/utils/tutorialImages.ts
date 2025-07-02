@@ -20,9 +20,10 @@ export const tutorialImages = {
 };
 
 export const getTutorialImage = (
+  _tutorialImages: typeof tutorialImages,
   slide: keyof typeof tutorialImages,
   mode: ColorSchemeName,
 ) => {
   const fallbackMode = mode === 'dark' ? 'dark' : 'light';
-  return tutorialImages[slide][fallbackMode];
+  return _tutorialImages[slide][fallbackMode];
 };

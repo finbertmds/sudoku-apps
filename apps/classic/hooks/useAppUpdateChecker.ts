@@ -1,8 +1,8 @@
 // src/hooks/useAppUpdateChecker.ts
+import {appConfig} from '@/appConfig';
 import {useEffect, useState} from 'react';
 import {Platform} from 'react-native';
 import VersionCheck from 'react-native-version-check';
-import {appConfig} from '../appConfig';
 
 const parseVersion = (version: string): [number, number, number] => {
   const [major, minor, patch] = version.split('.').map((v) => parseInt(v, 10));

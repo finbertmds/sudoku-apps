@@ -1,17 +1,26 @@
+import {autoDetectLanguage} from '@/i18n/i18n';
+import {darkTheme, lightTheme} from '@/theme/themeStyles';
+import {SCREENS} from '@/utils/constants';
+import {setupEventListeners} from '@sudoku/shared-events';
+import {useAppPause} from '@sudoku/shared-hooks';
+import {
+  createExpoNavigationImpl,
+  setNavigationImpl,
+} from '@sudoku/shared-navigation';
+import {runMigrationsIfNeeded} from '@sudoku/shared-storages';
+import {ThemeProvider} from '@sudoku/shared-themes';
 import {useFonts} from 'expo-font';
-import {Stack} from 'expo-router';
+import {Stack, useRouter} from 'expo-router';
 import {StatusBar} from 'expo-status-bar';
+import {useEffect} from 'react';
 import 'react-native-reanimated';
 
-import {ThemeProvider} from '@/context/ThemeContext';
-import {setupEventListeners} from '@/events/setupEventListeners';
-import {SCREENS} from '@/utils/constants';
-import {useEffect} from 'react';
-import {useAppPause} from '../hooks/useAppPause';
-import {autoDetectLanguage} from '../i18n/i18n';
-import {runMigrationsIfNeeded} from '../storage/runMigrationsIfNeeded';
-
 export default function RootLayout() {
+  const router = useRouter();
+  useEffect(() => {
+    setNavigationImpl(createExpoNavigationImpl());
+  }, [router]);
+
   useEffect(() => {
     setupEventListeners();
     runMigrationsIfNeeded();
@@ -35,7 +44,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider>
+    <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>
       <Stack
         screenOptions={{
           headerShown: false,

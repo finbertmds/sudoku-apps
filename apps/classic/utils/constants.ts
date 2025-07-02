@@ -1,4 +1,4 @@
-import {Level} from '@sudoku/shared-types';
+import {Level, TutorialImages} from '@sudoku/shared-types';
 
 export const SCREENS = {
   HOME_TABS: '(tabs)',
@@ -54,4 +54,23 @@ export const CELLS_TO_REMOVE_RANGE: Record<Level, number[]> = {
   medium: [40, 46],
   hard: [50, 54],
   expert: [60, 64],
+};
+
+export const TUTORIAL_IMAGES: TutorialImages = {
+  slide1: {
+    light: require('../assets/tutorial/tutorial1.png'),
+    dark: require('../assets/tutorial/tutorial1_dark.png'),
+  },
+  slide2: {
+    light: require('../assets/tutorial/tutorial2.png'),
+    dark: require('../assets/tutorial/tutorial2_dark.png'),
+  },
+  slide3: {
+    light: require('../assets/tutorial/tutorial3.png'),
+    dark: require('../assets/tutorial/tutorial3_dark.png'),
+  },
+  slide4: {
+    light: require('../assets/tutorial/tutorial4.png'),
+    dark: require('../assets/tutorial/tutorial4_dark.png'),
+  },
 };

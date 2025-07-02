@@ -1,0 +1,97 @@
+// Statistics/TimeLineChart.tsx
+
+import EmptyContainer from '@/commons/EmptyContainer';
+import {useTheme} from '@sudoku/shared-themes';
+import {DailyStats} from '@sudoku/shared-types';
+import {CHART_WIDTH, formatShortChartDate} from '@sudoku/shared-utils';
+import {useTranslation} from 'react-i18next';
+import {Dimensions, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {LineChart} from 'react-native-chart-kit';
+import {AbstractChartConfig} from 'react-native-chart-kit/dist/AbstractChart';
+
+const screenWidth = Dimensions.get('window').width;
+
+type TimeLineChartProps = {
+  dailyStats: DailyStats[];
+  chartConfig: AbstractChartConfig;
+};
+
+const TimeLineChart = ({dailyStats, chartConfig}: TimeLineChartProps) => {
+  const {theme} = useTheme();
+  const {t} = useTranslation();
+
+  if (dailyStats.length === 0) {
+    return <EmptyContainer text={t('timesPerDay')} />;
+  }
+
+  const labels = dailyStats.map((s) => formatShortChartDate(s.date));
+  const timeData = dailyStats.map((s) => Math.floor(s.totalTimeSeconds / 60)); // phút
+  const chartWidth = Math.max(dailyStats.length * CHART_WIDTH, screenWidth);
+
+  return (
+    <View style={[styles.container, {backgroundColor: theme.background}]}>
+      <Text style={[styles.title, {color: theme.text}]}>
+        {t('timesPerDay')}
+      </Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <LineChart
+          data={{
+            labels,
+            datasets: [{data: timeData}],
+          }}
+          width={chartWidth}
+          height={220}
+          fromZero
+          chartConfig={{
+            ...chartConfig,
+          }}
+          yLabelsOffset={32}
+          style={styles.chart}
+          bezier
+          renderDotContent={({x, y, index}) => (
+            <View
+              key={index}
+              style={[
+                styles.dot,
+                {
+                  top: y - 16,
+                  left: x - 15,
+                },
+              ]}>
+              <Text style={[styles.dotText, {color: theme.secondary}]}>
+                {timeData[index]}
+              </Text>
+            </View>
+          )}
+        />
+      </ScrollView>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    paddingLeft: 12,
+    paddingRight: 12,
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 16,
+    marginTop: 16,
+    marginBottom: 6,
+    fontWeight: '600' as const,
+  },
+  chart: {
+    borderRadius: 12,
+  },
+  dot: {
+    position: 'absolute',
+    width: 30,
+    alignItems: 'center',
+  },
+  dotText: {
+    fontSize: 12,
+  },
+});
+
+export default TimeLineChart;

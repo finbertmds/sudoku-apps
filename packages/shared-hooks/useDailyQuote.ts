@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
-import { DailyQuotes } from '../types';
-import { getDailyQuote } from '../utils/getDailyQuote';
+// useDailyQuote.ts
+
+import {DailyQuotes} from '@sudoku/shared-types';
+import {getDailyQuote} from '@sudoku/shared-utils';
+import {useEffect, useState} from 'react';
 
 export const useDailyQuote = () => {
   const [quote, setQuote] = useState<DailyQuotes | null>(null);
@@ -21,5 +23,5 @@ export const useDailyQuote = () => {
     loadQuote();
   }, []);
 
-  return { quote, loadQuote };
+  return {quote, loadQuote};
 };

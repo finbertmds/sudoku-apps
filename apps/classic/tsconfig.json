@@ -4,10 +4,16 @@
     "strict": true,
     "paths": {
       "@/*": ["./*"],
+      "@sudoku/shared-components": ["../../packages/shared-components"],
+      "@sudoku/shared-events": ["../../packages/shared-events"],
       "@sudoku/shared-hooks": ["../../packages/shared-hooks"],
+      "@sudoku/shared-icons": ["../../packages/shared-icons"],
+      "@sudoku/shared-navigation": ["../../packages/shared-navigation"],
+      "@sudoku/shared-services": ["../../packages/shared-services"],
+      "@sudoku/shared-storages": ["../../packages/shared-storages"],
+      "@sudoku/shared-themes": ["../../packages/shared-themes"],
       "@sudoku/shared-types": ["../../packages/shared-types"],
-      "@sudoku/shared-utils": ["../../packages/shared-utils"],
-      "@sudoku/shared-storages": ["../../packages/shared-storages"]
+      "@sudoku/shared-utils": ["../../packages/shared-utils"]
     },
     "moduleSuffixes": [".native", ".web", ""]
   },

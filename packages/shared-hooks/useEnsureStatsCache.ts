@@ -1,8 +1,8 @@
-// src/hooks/useEnsureStatsCache.ts
+// useEnsureStatsCache.ts
 
-import { useEffect } from 'react';
-import { PlayerService, StatsService } from '../services';
-import { TimeRange } from '../types';
+import {PlayerService, StatsService} from '@sudoku/shared-services';
+import {TimeRange} from '@sudoku/shared-types';
+import {useEffect} from 'react';
 
 export function useEnsureStatsCache() {
   const updateStatsCache = async (): Promise<boolean> => {
@@ -19,9 +19,8 @@ export function useEnsureStatsCache() {
         ];
 
         const playerId = await PlayerService.getCurrentPlayerId();
-        const allLogsByPlayerId = await StatsService.getLogsByPlayerId(
-          playerId,
-        );
+        const allLogsByPlayerId =
+          await StatsService.getLogsByPlayerId(playerId);
         await StatsService.updateStatsWithAllCache(
           allLogsByPlayerId,
           affectedRanges,

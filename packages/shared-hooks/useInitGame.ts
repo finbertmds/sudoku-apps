@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react';
-import { BoardService } from '../services/BoardService';
-import { InitGame } from '../types';
+// useInitGame.ts
+
+import {BoardService} from '@sudoku/shared-services';
+import {CellValue} from '@sudoku/shared-types';
+import {useEffect, useState} from 'react';
 
 interface UseInitGameResult {
-  cages: InitGame['cages'] | null;
-  solvedBoard: InitGame['solvedBoard'] | null;
+  solvedBoard: CellValue[][] | null;
 }
 
 export const useInitGame = (id: string): UseInitGameResult => {
-  const [cages, setCages] = useState<InitGame['cages'] | null>(null);
-  const [solvedBoard, setSolvedBoard] = useState<
-    InitGame['solvedBoard'] | null
-  >(null);
+  const [solvedBoard, setSolvedBoard] = useState<CellValue[][] | null>(null);
 
   useEffect(() => {
     const loadInitGame = async () => {
@@ -19,7 +17,6 @@ export const useInitGame = (id: string): UseInitGameResult => {
         const initGame = await BoardService.loadInit();
 
         if (initGame && initGame.id === id) {
-          setCages(initGame.cages);
           setSolvedBoard(initGame.solvedBoard);
         }
       } catch (err) {
@@ -31,7 +28,6 @@ export const useInitGame = (id: string): UseInitGameResult => {
   }, [id]);
 
   return {
-    cages,
     solvedBoard,
   };
 };

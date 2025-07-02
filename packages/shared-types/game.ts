@@ -13,7 +13,7 @@ export type LevelWeight = Record<Level, number>;
 export type GameInfo = {
   id: string;
   initialBoard: CellValue[][];
-  solvedBoard: number[][];
+  solvedBoard: CellValue[][];
 };
 
 export type GenericInitGame<TLevel, TExtra = {}> = GameInfo & {
@@ -47,3 +47,10 @@ export type SavedHintCount = {
   savedHintCount: number;
   savedTotalHintCountUsed: number;
 };
+
+// ---------------- Killer Sudoku ----------------
+export type CageInfo = {
+  cells: [number, number][];
+  sum: number;
+};
+// ---------------- Killer Sudoku ----------------

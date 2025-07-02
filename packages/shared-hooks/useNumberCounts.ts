@@ -1,7 +1,7 @@
 // useNumberCounts.ts
 
-import { useMemo } from 'react';
-import { AppSettings, CellValue } from '../types';
+import {AppSettings, CellValue} from '@sudoku/shared-types';
+import {useMemo} from 'react';
 
 export function useNumberCounts(
   board: CellValue[][],

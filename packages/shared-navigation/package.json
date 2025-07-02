@@ -1,0 +1,14 @@
+{
+  "name": "@sudoku/shared-navigation",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "private": true,
+  "dependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "peerDependencies": {
+    "@expo/vector-icons": "*",
+    "react-native-vector-icons": "*"
+  }
+}

@@ -1,13 +1,13 @@
 // LanguageSwitcher.tsx
 
+import {useTheme} from '@/context/ThemeContext';
+import i18n, {autoDetectLanguage} from '@/i18n/i18n';
+import {LANGUAGES} from '@/utils/constants';
 import {useFocusEffect} from '@react-navigation/native';
 import {appStorage} from '@sudoku/shared-storages';
 import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useTheme} from '../context/ThemeContext';
-import {LANGUAGES} from '../utils/constants';
-import i18n, {autoDetectLanguage} from './i18n';
 
 export default function LanguageSwitcher() {
   const {theme} = useTheme();

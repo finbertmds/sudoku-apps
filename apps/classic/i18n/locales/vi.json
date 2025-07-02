@@ -1,4 +1,7 @@
 {
+  "thisScreenDoesNotExist": "Màn hình này không tồn tại.",
+  "goToHomeScreen": "Quay về trang chính!",
+
   "appName": "Sudoku",
   "author": "FinbertNgo",
   "language": "Ngôn ngữ",

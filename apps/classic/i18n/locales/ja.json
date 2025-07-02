@@ -1,4 +1,7 @@
 {
+  "thisScreenDoesNotExist": "この画面は存在しません。",
+  "goToHomeScreen": "ホーム画面に戻る！",
+
   "appName": "数独",
   "author": "FinbertNgo",
   "language": "言語",

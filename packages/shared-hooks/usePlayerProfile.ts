@@ -1,8 +1,8 @@
-// src/hooks/usePlayerProfile.ts
+// usePlayerProfile.ts
 
-import { useEffect, useState } from 'react';
-import { PlayerService } from '../services';
-import { PlayerProfile } from '../types';
+import {PlayerService} from '@sudoku/shared-services';
+import {PlayerProfile} from '@sudoku/shared-types';
+import {useEffect, useState} from 'react';
 
 export const usePlayerProfile = () => {
   const [player, setPlayer] = useState<PlayerProfile | null>(null);

@@ -1,4 +1,7 @@
 {
+  "thisScreenDoesNotExist": "This screen does not exist.",
+  "goToHomeScreen": "Go to home screen!",
+
   "appName": "Sudoku",
   "author": "FinbertNgo",
   "language": "Language",

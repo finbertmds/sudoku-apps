@@ -1,4 +1,4 @@
-import { RouteProp } from '@react-navigation/native';
+import {RouteProp} from '@react-navigation/native';
 
 export type RootStackParamList = {
   HomeTabs: undefined;
@@ -85,4 +85,11 @@ export type UnsplashImageData = {
   url: string | null;
   photographerName: string | null;
   photographerLink: string | null;
+};
+
+export type TutorialImages = {
+  [key: string]: {
+    light: any;
+    dark: any;
+  };
 };

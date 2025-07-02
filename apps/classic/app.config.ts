@@ -74,6 +74,7 @@ export default ({config}: ConfigContext): ExpoConfig => ({
     typedRoutes: true,
   },
   extra: {
+    IS_EXPO_APP: true,
     UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY,
     AD_APP_ID_IOS: process.env.AD_APP_ID_IOS,
     AD_UNIT_BANNER_IOS: process.env.AD_UNIT_BANNER_IOS,

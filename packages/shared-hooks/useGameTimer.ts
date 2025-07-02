@@ -1,9 +1,8 @@
 // useGameTimer.ts
 
-import { useEffect, useRef } from 'react';
-import { BoardService } from '../services/BoardService';
-import { MAX_TIMEPLAYED } from '../utils/constants';
-import { useAppPause } from './useAppPause';
+import {BoardService} from '@sudoku/shared-services';
+import {useEffect, useRef} from 'react';
+import {useAppPause} from './useAppPause';
 
 interface TimePlayedOptions {
   maxTimePlayed?: number;
@@ -11,15 +10,15 @@ interface TimePlayedOptions {
 }
 
 export function useGameTimer(isRunning: boolean, options?: TimePlayedOptions) {
-  const maxTimePlayed = options?.maxTimePlayed ?? MAX_TIMEPLAYED;
+  const maxTimePlayed = options?.maxTimePlayed;
   const onLimitReached = options?.onLimitReached;
 
   const secondsRef = useRef<number>(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Load last played time from storage once
   useEffect(() => {
-    BoardService.loadSavedTimePlayed().then(value => {
+    BoardService.loadSavedTimePlayed().then((value) => {
       if (value != null) {
         try {
           const saved = parseInt(value.toString(), 10);
@@ -50,7 +49,7 @@ export function useGameTimer(isRunning: boolean, options?: TimePlayedOptions) {
     }
     intervalRef.current = setInterval(() => {
       secondsRef.current += 1;
-      if (secondsRef.current >= maxTimePlayed) {
+      if (maxTimePlayed && secondsRef.current >= maxTimePlayed) {
         stopTimer();
         onLimitReached?.();
       }
@@ -73,7 +72,7 @@ export function useGameTimer(isRunning: boolean, options?: TimePlayedOptions) {
     () => {
       stopTimer();
     },
-    () => { },
+    () => {},
   );
 
   return {
