@@ -3,10 +3,7 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": ["./*"],
-      "@sudoku/shared-hooks": ["../../packages/shared-hooks"],
-      "@sudoku/shared-types": ["../../packages/shared-types"],
-      "@sudoku/shared-utils": ["../../packages/shared-utils"]
+      "@/*": ["./*"]
     },
     "moduleSuffixes": [".native", ".web", ""]
   },
