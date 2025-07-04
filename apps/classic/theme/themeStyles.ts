@@ -1,3 +1,5 @@
+// theme/themeStyles.ts
+
 export const lightTheme = {
   primary: '#6750A4',
   onPrimary: '#FFFFFF',

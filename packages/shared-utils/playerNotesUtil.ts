@@ -1,8 +1,18 @@
-import { PlayerHighlight, PlayerStatsThresholds, RankedPlayer } from '@sudoku/shared-types';
-import { TFunction } from 'i18next';
+// playerNotesUtil.ts
 
-export const getPlayerNotes = (stat: RankedPlayer, t: TFunction, playerStatsThresholds: PlayerStatsThresholds): string => {
-  const { totalGames, completedGames, winRate, score, totalWeightedWins } = stat;
+import {
+  PlayerHighlight,
+  PlayerStatsThresholds,
+  RankedPlayer,
+} from '@sudoku/shared-types';
+import {TFunction} from 'i18next';
+
+export const getPlayerNotes = (
+  stat: RankedPlayer,
+  t: TFunction,
+  playerStatsThresholds: PlayerStatsThresholds,
+): string => {
+  const {totalGames, completedGames, winRate, score, totalWeightedWins} = stat;
 
   if (totalGames === 0) {
     return t('playerNotes_noGames');
@@ -59,7 +69,7 @@ export const generateOverallRankingNotes = (
   const topWinRate = [...statsList].sort((a, b) => b.winRate - a.winRate)[0];
 
   const topFast = [...statsList]
-    .filter(s => s.completedGames > 0 && s.speedScore !== undefined)
+    .filter((s) => s.completedGames > 0 && s.speedScore !== undefined)
     .sort((a, b) => a.speedScore! - b.speedScore!)[0];
 
   const topGames = [...statsList].sort(

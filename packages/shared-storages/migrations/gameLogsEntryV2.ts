@@ -1,12 +1,13 @@
-import {PlayerService} from '../../services/PlayerService';
-import {StatsService} from '../../services/StatsService';
-import {GameLogEntryV2, TimeRange} from '../../types/stats';
-import {DEFAULT_PLAYER_ID} from '../../utils/constants';
+// gameLogsEntryV2.ts
+
+import {PlayerService, StatsService} from '@sudoku/shared-services';
+import {GameLogEntryV2, TimeRange} from '@sudoku/shared-types';
+import {ALL_AFFECTED_RANGES, DEFAULT_PLAYER_ID} from '@sudoku/shared-utils';
 import {statsStorage} from '../statsStorage';
 
-export async function migrateGameLogsEntryV2() {
+export async function migrateGameLogsEntryV2(language: string) {
   console.log('[MIGRATION] Migrating game logs entry v2...');
-  await PlayerService.createDefaultPlayerIfNeeded();
+  await PlayerService.createDefaultPlayerIfNeeded(language);
   const rawLogs = statsStorage.getGameLogsV2();
   const migrated = rawLogs.map((entry) => {
     if (
@@ -24,7 +25,7 @@ export async function migrateGameLogsEntryV2() {
   statsStorage.saveGameLogsV2(migrated);
 
   // update last stats cache update user id
-  const affectedRanges: TimeRange[] = ['today', 'week', 'month', 'year', 'all'];
+  const affectedRanges: TimeRange[] = ALL_AFFECTED_RANGES;
 
   const allLogs = await StatsService.getLogs();
   await StatsService.updateStatsWithAllCache(

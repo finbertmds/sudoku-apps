@@ -2,22 +2,14 @@
 
 import {useTheme} from '@sudoku/shared-themes';
 import {GameStats, Level} from '@sudoku/shared-types';
-import {formatTime, getLevelColor} from '@sudoku/shared-utils';
+import {DeviceUtil, formatTime, getLevelColor} from '@sudoku/shared-utils';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  Dimensions,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import DeviceInfo from 'react-native-device-info';
+import {Dimensions, ScrollView, StyleSheet, Text, View} from 'react-native';
 import LoadingContainer from '../commons/LoadingContainer';
 
 let SCREEN_WIDTH = Dimensions.get('window').width;
-if (DeviceInfo.isTablet() || Platform.OS === 'web') {
+if (DeviceUtil.isTablet()) {
   SCREEN_WIDTH = Math.min(SCREEN_WIDTH, Dimensions.get('window').height);
 }
 

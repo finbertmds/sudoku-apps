@@ -1,8 +1,8 @@
-// src/events/handlers/onUpdateStatistics.ts
+// handlers/onUpdateStatistics.ts
 
-import {StatsService} from '../../services';
-import {playerProfileStorage} from '../../storage';
-import {StatisticsUpdatedCoreEvent} from '../types';
+import {StatisticsUpdatedCoreEvent} from '@/types';
+import {StatsService} from '@sudoku/shared-services';
+import {playerProfileStorage} from '@sudoku/shared-storages';
 
 export const handleUpdateStatistics = async (
   payload: StatisticsUpdatedCoreEvent,

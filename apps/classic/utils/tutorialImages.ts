@@ -1,3 +1,5 @@
+// utils/tutorialImages.ts
+
 import {ColorSchemeName} from 'react-native';
 
 export const tutorialImages = {

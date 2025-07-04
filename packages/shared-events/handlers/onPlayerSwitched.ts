@@ -1,7 +1,8 @@
-// src/events/handlers/onPlayerSwitched.ts
+// handlers/onPlayerSwitched.ts
 
-import {BoardService, StatsService} from '../../services';
-import {TimeRange} from '../../types';
+import {BoardService, StatsService} from '@sudoku/shared-services';
+import {TimeRange} from '@sudoku/shared-types';
+import {ALL_AFFECTED_RANGES} from '@sudoku/shared-utils';
 
 export const handleSwitchPlayer = async (playerId: string) => {
   const savedGame = await BoardService.loadSaved();
@@ -22,7 +23,7 @@ export const handleSwitchPlayer = async (playerId: string) => {
 
   await BoardService.clear();
 
-  const affectedRanges: TimeRange[] = ['today', 'week', 'month', 'year', 'all'];
+  const affectedRanges: TimeRange[] = ALL_AFFECTED_RANGES;
 
   const allLogsByPlayerId = await StatsService.getLogsByPlayerId(playerId);
   await StatsService.updateStatsWithAllCache(

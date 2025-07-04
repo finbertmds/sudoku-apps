@@ -1,8 +1,9 @@
+// playerUtil.ts
+
+import {getRandomColorKey} from '@/colorUtil';
+import {DEFAULT_PLAYER_ID} from '@/constants';
+import {PlayerProfile} from '@sudoku/shared-types';
 import uuid from 'react-native-uuid';
-import {getLanguage} from '../i18n/i18n';
-import {PlayerProfile} from '../types/player';
-import {getRandomColorKey} from './colorUtil';
-import {DEFAULT_PLAYER_ID} from './constants';
 
 const generatePlayerId = () => {
   let id = uuid.v4().toString();
@@ -20,9 +21,10 @@ export const createNewPlayer = (name: string): PlayerProfile => ({
   totalGames: 0,
 });
 
-export const createDefaultPlayer = (totalGames: number): PlayerProfile => {
-  let language = getLanguage();
-
+export const createDefaultPlayer = (
+  totalGames: number,
+  language: string,
+): PlayerProfile => {
   let defaultPlayerName;
   switch (language) {
     case 'ja':

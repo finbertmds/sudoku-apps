@@ -1,7 +1,9 @@
-import {playerProfileStorage, statsStorage} from '..';
-import {StatsService} from '../../services';
-import {GameLogEntryV2, TimeRange} from '../../types';
-import {PlayerProfile} from '../../types/player';
+// rankingMock.ts
+
+import {StatsService} from '@sudoku/shared-services';
+import {playerProfileStorage, statsStorage} from '@sudoku/shared-storages';
+import {GameLogEntryV2, PlayerProfile, TimeRange} from '@sudoku/shared-types';
+import {ALL_AFFECTED_RANGES} from '@sudoku/shared-utils';
 
 const mockPlayers: PlayerProfile[] = [
   {
@@ -152,7 +154,7 @@ const saveMockRanking = async () => {
   // save mock game logs
   console.log('mock game logs', mockGameLogs);
   statsStorage.saveGameLogsV2(mockGameLogs);
-  const affectedRanges: TimeRange[] = ['today', 'week', 'month', 'year', 'all'];
+  const affectedRanges: TimeRange[] = ALL_AFFECTED_RANGES;
 
   const allLogs = statsStorage.getGameLogsV2();
 

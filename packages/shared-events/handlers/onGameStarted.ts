@@ -1,7 +1,9 @@
-import {CORE_EVENTS} from '..';
-import {BoardService, StatsService} from '../../services';
-import eventBus from '../eventBus';
-import {StatisticsUpdatedCoreEvent} from '../types';
+// handlers/onGameStarted.ts
+
+import {CORE_EVENTS} from '@/coreEvents';
+import eventBus from '@/eventBus';
+import {StatisticsUpdatedCoreEvent} from '@/types';
+import {BoardService, StatsService} from '@sudoku/shared-services';
 
 export const handleGameStarted = async () => {
   const initGame = await BoardService.loadInit();

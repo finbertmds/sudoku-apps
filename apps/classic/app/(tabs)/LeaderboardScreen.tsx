@@ -1,1 +1,3 @@
-export {default} from '../LeaderboardScreen';
+// app/(tabs)/LeaderboardScreen.tsx
+
+export {default} from '@/app/LeaderboardScreen';

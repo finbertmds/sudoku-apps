@@ -1,11 +1,10 @@
-export * from './boardUtil';
-export * from './colorUtil';
-export * from './constants';
-export * from './dateUtil';
-export * from './getDailyBackground';
-export * from './getDailyQuote';
-export * from './leaderboardUtil';
-export * from './playerNotesUtil';
-export * from './playerUtil';
-export * from './statsUtil';
+// shared-components/index.tsx
 
+export * from './Board';
+export * from './commons';
+export * from './GameHistory';
+export {default as HowToPlay} from './HowToPlay';
+export * from './Leaderboard';
+export * from './Main';
+export * from './Player';
+export * from './Statistics';

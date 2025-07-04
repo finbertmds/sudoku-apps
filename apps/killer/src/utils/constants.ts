@@ -1,5 +1,5 @@
-import { Level } from '@sudoku/shared-types';
-import { RequestOptions } from 'react-native-google-mobile-ads';
+import {AppSettings, Level} from '@sudoku/shared-types';
+import {RequestOptions} from 'react-native-google-mobile-ads';
 
 export const SCREENS = {
   HOME_TABS: 'HomeTabs',
@@ -75,14 +75,14 @@ export const PLAYER_STATS_THRESHOLDS = {
 export const SHOW_UNSPLASH_IMAGE_INFO = false;
 export const IS_UI_TESTING = false;
 
-export const MAX_TIMEPLAYED = 3 * 60 * 60; // in seconds
+export const MAX_TIME_PLAYED = 3 * 60 * 60; // in seconds
 export const MAX_MISTAKES = 5;
 export const MAX_HINTS = 5;
 
 export const LANGUAGES = [
-  { code: 'en', label: 'English' },
-  { code: 'vi', label: 'Tiếng Việt' },
-  { code: 'ja', label: '日本語' },
+  {code: 'en', label: 'English'},
+  {code: 'vi', label: 'Tiếng Việt'},
+  {code: 'ja', label: '日本語'},
 ];
 
 export const CELLS_TO_REMOVE_RANGE: Record<Level, number[]> = {
@@ -90,4 +90,20 @@ export const CELLS_TO_REMOVE_RANGE: Record<Level, number[]> = {
   medium: [40, 46],
   hard: [50, 54],
   expert: [60, 64],
+};
+
+export const DEFAULT_SETTINGS: AppSettings = {
+  // sounds: true,
+  // autoLock: false,
+  timer: true,
+  // score: true,
+  // statisticsMsg: true,
+  // numberFirst: false,
+  mistakeLimit: true,
+  autoCheckMistake: true,
+  highlightDuplicates: true,
+  highlightAreas: true,
+  highlightIdenticalNumbers: true,
+  hideUsedNumbers: true,
+  autoRemoveNotes: true,
 };

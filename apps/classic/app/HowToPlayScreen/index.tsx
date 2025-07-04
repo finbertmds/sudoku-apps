@@ -1,11 +1,13 @@
+// HowToPlayScreen/index.tsx
+
+import {TUTORIAL_IMAGES} from '@/utils/constants';
+import {Header, HowToPlay} from '@sudoku/shared-components';
+import {useSafeGoBack} from '@sudoku/shared-hooks';
+import {useTheme} from '@sudoku/shared-themes';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Header from '../../components/commons/Header';
-import HowToPlay from '../../components/HowToPlay';
-import {useTheme} from '../../context/ThemeContext';
-import {useSafeGoBack} from '../../hooks/useSafeGoBack';
 
 const HowToPlayScreen = () => {
   const goBack = useSafeGoBack();
@@ -22,7 +24,7 @@ const HowToPlayScreen = () => {
         showSettings={false}
         showTheme={false}
       />
-      <HowToPlay onClose={() => goBack()} />
+      <HowToPlay tutorialImages={TUTORIAL_IMAGES} onClose={() => goBack()} />
     </SafeAreaView>
   );
 };

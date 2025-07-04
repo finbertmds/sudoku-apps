@@ -1,4 +1,6 @@
-import {AppSettings} from '@sudoku/shared-types';
+// constants.ts
+
+import {TimeRange} from '@sudoku/shared-types';
 
 export const BOARD_SIZE = 9;
 export const CELL_SIZE = 40;
@@ -34,22 +36,6 @@ export const STORAGE_KEY_CURRENT_PLAYER_ID = 'currentPlayerId';
 export const CHART_WIDTH = 60;
 export const CHART2_WIDTH = 70;
 
-export const DEFAULT_SETTINGS: AppSettings = {
-  // sounds: true,
-  // autoLock: false,
-  timer: true,
-  // score: true,
-  // statisticsMsg: true,
-  // numberFirst: false,
-  mistakeLimit: true,
-  autoCheckMistake: true,
-  highlightDuplicates: true,
-  highlightAreas: true,
-  highlightIdenticalNumbers: true,
-  hideUsedNumbers: true,
-  autoRemoveNotes: true,
-};
-
 export const DAILY_STATS_DATE_FORMAT = 'yyyy-MM-dd';
 
 // Unsplash
@@ -78,3 +64,18 @@ export const UNSPLASH_URL = 'https://unsplash.com/';
 export const DEFAULT_PLAYER_ID = '00000000-0000-4000-8000-000000000000'; // hoặc uuidv4() cố định
 
 export const MAX_PLAYER_RANKING_COUNT = 3;
+
+export const ALL_AFFECTED_RANGES: TimeRange[] = [
+  'today',
+  'week',
+  'month',
+  'year',
+  'all',
+];
+
+export const AD_TYPE = {
+  BANNER: 'banner',
+  INTERSTITIAL: 'interstitial',
+  REWARDED: 'rewarded',
+  REWARDED_INTERSTITIAL: 'rewardedInterstitial',
+} as const;

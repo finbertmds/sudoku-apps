@@ -5,7 +5,7 @@ import VersionCheck from 'react-native-version-check';
 import {appConfig} from '../appConfig';
 
 const parseVersion = (version: string): [number, number, number] => {
-  const [major, minor, patch] = version.split('.').map(v => parseInt(v, 10));
+  const [major, minor, patch] = version.split('.').map((v) => parseInt(v, 10));
   return [major || 0, minor || 0, patch || 0];
 };
 

@@ -1,4 +1,6 @@
-import {Level} from './game';
+// stats.ts
+
+import {Level} from '@/game';
 
 /**
  * @deprecated

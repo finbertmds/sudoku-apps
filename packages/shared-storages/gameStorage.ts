@@ -1,14 +1,14 @@
-import { InitGame, SavedGame } from '@sudoku/shared-types';
+import {storage} from '@/storage';
+import {InitGame, SavedGame} from '@sudoku/shared-types';
 import {
   STORAGE_KEY_INIT_GAME,
   STORAGE_KEY_SAVED_GAME,
 } from '@sudoku/shared-utils';
-import { storage } from '.';
 
 const saveInitGame = (game: InitGame) => {
   try {
     storage.set(STORAGE_KEY_INIT_GAME, JSON.stringify(game));
-  } catch (_) { }
+  } catch (_) {}
 };
 
 const getInitGame = (): InitGame | null => {
@@ -23,13 +23,13 @@ const getInitGame = (): InitGame | null => {
 const clearInitGame = () => {
   try {
     storage.delete(STORAGE_KEY_INIT_GAME);
-  } catch (_) { }
+  } catch (_) {}
 };
 
 const saveSavedGame = (game: SavedGame) => {
   try {
     storage.set(STORAGE_KEY_SAVED_GAME, JSON.stringify(game));
-  } catch (_) { }
+  } catch (_) {}
 };
 
 const getSavedGame = (): SavedGame | null => {
@@ -44,14 +44,14 @@ const getSavedGame = (): SavedGame | null => {
 const clearSavedGameData = () => {
   try {
     storage.delete(STORAGE_KEY_SAVED_GAME);
-  } catch (_) { }
+  } catch (_) {}
 };
 
 const clearGameData = () => {
   try {
     clearInitGame();
     clearSavedGameData();
-  } catch (_) { }
+  } catch (_) {}
 };
 
 export const gameStorage = {

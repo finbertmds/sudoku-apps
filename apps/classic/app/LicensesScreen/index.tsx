@@ -1,10 +1,12 @@
+// LicensesScreen/index.tsx
+
+import {Header} from '@sudoku/shared-components';
+import {useTheme} from '@sudoku/shared-themes';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Platform, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {WebView} from 'react-native-webview';
-import Header from '../../components/commons/Header';
-import {useTheme} from '../../context/ThemeContext';
 
 const LicensesScreen = () => {
   const {theme} = useTheme();
@@ -13,7 +15,7 @@ const LicensesScreen = () => {
   const licensesSource =
     Platform.OS === 'android'
       ? {uri: 'file:///android_asset/licenses.html'}
-      : require('../../assets/htmls/licenses.html');
+      : require('@/assets/htmls/licenses.html');
 
   // access to file assets/licenses.html
   const webSource = '/assets/assets/htmls/licenses.html';

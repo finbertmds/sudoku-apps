@@ -6,7 +6,7 @@ import GamePieChart from '@/Statistics/GamePieChart';
 import GameStackedBarChart from '@/Statistics/GameStackedBarChart';
 import TimeLineChart from '@/Statistics/TimeLineChart';
 import {useTheme} from '@sudoku/shared-themes';
-import {GameLogEntryV2, TimeFilter} from '@sudoku/shared-types';
+import {GameLogEntryV2, Level, TimeFilter} from '@sudoku/shared-types';
 import {
   convertToPieData,
   convertToStackedData,
@@ -20,9 +20,10 @@ import {ScrollView} from 'react-native';
 type ChartsStatsProps = {
   logs: GameLogEntryV2[];
   filter: TimeFilter;
+  levels: Level[];
 };
 
-const ChartsStats = ({logs, filter}: ChartsStatsProps) => {
+const ChartsStats = ({logs, filter, levels}: ChartsStatsProps) => {
   const {mode, theme} = useTheme();
   const {t} = useTranslation();
   const dailyStats = useMemo(
@@ -30,11 +31,11 @@ const ChartsStats = ({logs, filter}: ChartsStatsProps) => {
     [logs, filter],
   );
   const levelCounts = useMemo(
-    () => convertToPieData(logs, mode, t, filter),
+    () => convertToPieData(logs, mode, t, filter, levels),
     [logs, mode, t, filter],
   );
   const stackedData = useMemo(
-    () => convertToStackedData(logs, mode, t, filter),
+    () => convertToStackedData(logs, mode, t, filter, levels),
     [logs, mode, t, filter],
   );
   const chartConfig = useMemo(() => getChartConfig(mode), [mode]);

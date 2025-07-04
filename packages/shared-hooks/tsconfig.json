@@ -6,6 +6,7 @@
       "@sudoku/shared-services": ["../../packages/shared-services"],
       "@sudoku/shared-types": ["../../packages/shared-types"],
       "@sudoku/shared-utils": ["../../packages/shared-utils"]
-    }
+    },
+    "lib": ["esnext", "dom"]
   }
 }

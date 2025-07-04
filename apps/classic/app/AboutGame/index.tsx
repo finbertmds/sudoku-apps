@@ -1,5 +1,12 @@
+// app/AboutGame/index.tsx
+
+import {appConfig} from '@/utils/appUtil';
+import {SCREENS} from '@/utils/constants';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Header} from '@sudoku/shared-components';
+import {ThemeType, useTheme} from '@sudoku/shared-themes';
+import {RootStackParamList} from '@sudoku/shared-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -10,11 +17,6 @@ import {
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {appConfig} from '../../appConfig';
-import Header from '../../components/commons/Header';
-import {ThemeType, useTheme} from '../../context/ThemeContext';
-import {RootStackParamList} from '../../types';
-import {SCREENS} from '../../utils/constants';
 
 export default function AboutGame() {
   const {theme} = useTheme();

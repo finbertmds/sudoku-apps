@@ -1,7 +1,14 @@
-import {useAlert} from '@/hooks/useAlert';
+// OptionsScreen/index.tsx
+
+import {appConfig} from '@/utils/appUtil';
+import {SCREENS} from '@/utils/constants';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Header} from '@sudoku/shared-components';
+import {useAlert} from '@sudoku/shared-hooks';
+import {useTheme} from '@sudoku/shared-themes';
+import {OptionMenuItem, RootStackParamList} from '@sudoku/shared-types';
 import {router} from 'expo-router';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
@@ -14,11 +21,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {appConfig} from '../../appConfig';
-import Header from '../../components/commons/Header';
-import {useTheme} from '../../context/ThemeContext';
-import {OptionMenuItem, RootStackParamList} from '../../types';
-import {SCREENS} from '../../utils/constants';
 
 const OptionsScreen = () => {
   const {theme} = useTheme();

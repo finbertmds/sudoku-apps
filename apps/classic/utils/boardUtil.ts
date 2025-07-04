@@ -1,4 +1,5 @@
-// boardUtil.ts
+// utils/boardUtil.ts
+
 import {InitGame, Level} from '@sudoku/shared-types';
 import {stringToGrid} from '@sudoku/shared-utils';
 import {getSudoku} from 'sudoku-gen';
@@ -12,7 +13,7 @@ export const generateBoard = (level: Level, id: string) => {
     initialBoard: stringToGrid(board.puzzle),
     solvedBoard: stringToGrid(board.solution),
     savedLevel: level,
-    savedScore: 0,
+    // savedScore: 0,
   } as InitGame;
 
   return initGame;

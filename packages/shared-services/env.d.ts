@@ -1,3 +1,4 @@
+// env.d.ts
 export interface AppEnv {
   UNSPLASH_ACCESS_KEY: string;
   AD_UNIT_BANNER_IOS: string;

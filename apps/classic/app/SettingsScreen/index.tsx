@@ -1,4 +1,14 @@
-import {useSafeGoBack} from '@/hooks/useSafeGoBack';
+// SettingsScreen/index.tsx
+
+import LanguageSwitcher from '@/i18n/LanguageSwitcher';
+import {DEFAULT_SETTINGS, MAX_MISTAKES} from '@/utils/constants';
+import {ConfirmDialog, Header} from '@sudoku/shared-components';
+import {CORE_EVENTS} from '@sudoku/shared-events';
+import eventBus from '@sudoku/shared-events/eventBus';
+import {useSafeGoBack} from '@sudoku/shared-hooks';
+import {SettingsService} from '@sudoku/shared-services';
+import {useTheme} from '@sudoku/shared-themes';
+import {AppSettings, SettingsParamProps} from '@sudoku/shared-types';
 import {useLocalSearchParams} from 'expo-router';
 import React, {useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -11,15 +21,6 @@ import {
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import ConfirmDialog from '../../components/commons/ConfirmDialog';
-import Header from '../../components/commons/Header';
-import {useTheme} from '../../context/ThemeContext';
-import {CORE_EVENTS} from '../../events';
-import eventBus from '../../events/eventBus';
-import LanguageSwitcher from '../../i18n/LanguageSwitcher';
-import {SettingsService} from '../../services/SettingsService';
-import {AppSettings, SettingsParamProps} from '../../types';
-import {DEFAULT_SETTINGS, MAX_MISTAKES} from '../../utils/constants';
 
 const SettingsScreen = () => {
   const {theme} = useTheme();

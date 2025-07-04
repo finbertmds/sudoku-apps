@@ -1,6 +1,6 @@
 // storage.ts
+import {AppStorage} from '@/storage.interface';
 import {Platform} from 'react-native';
-import {AppStorage} from './storage.interface';
 
 const impl: () => AppStorage = Platform.select({
   web: () => require('./localStorage').localStorageImpl,

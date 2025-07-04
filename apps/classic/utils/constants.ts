@@ -1,4 +1,6 @@
-import {Level, TutorialImages} from '@sudoku/shared-types';
+// utils/constants.ts
+
+import {AppSettings, Level, TutorialImages} from '@sudoku/shared-types';
 
 export const SCREENS = {
   HOME_TABS: '(tabs)',
@@ -14,7 +16,7 @@ export const SCREENS = {
 
 export const UNSPLASH_UTM = '?utm_source=sudoku-classic&utm_medium=referral';
 
-export const LEVELS = ['easy', 'medium', 'hard', 'expert'] as const;
+export const LEVELS = ['easy', 'medium', 'hard', 'expert'] as Level[];
 export const LEVEL_PRIORITY: Level[] = LEVELS.slice().reverse();
 export const LEVEL_WEIGHT: Record<string, number> = {
   expert: 5,
@@ -39,7 +41,7 @@ export const PLAYER_STATS_THRESHOLDS = {
 export const SHOW_UNSPLASH_IMAGE_INFO = false;
 export const IS_UI_TESTING = false;
 
-export const MAX_TIMEPLAYED = 3 * 60 * 60; // in seconds
+export const MAX_TIME_PLAYED = 3 * 60 * 60; // in seconds
 export const MAX_MISTAKES = 5;
 export const MAX_HINTS = 5;
 
@@ -73,4 +75,20 @@ export const TUTORIAL_IMAGES: TutorialImages = {
     light: require('../assets/tutorial/tutorial4.png'),
     dark: require('../assets/tutorial/tutorial4_dark.png'),
   },
+};
+
+export const DEFAULT_SETTINGS: AppSettings = {
+  // sounds: true,
+  // autoLock: false,
+  timer: true,
+  // score: true,
+  // statisticsMsg: true,
+  // numberFirst: false,
+  mistakeLimit: true,
+  autoCheckMistake: true,
+  highlightDuplicates: true,
+  highlightAreas: true,
+  highlightIdenticalNumbers: true,
+  hideUsedNumbers: true,
+  autoRemoveNotes: true,
 };

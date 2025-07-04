@@ -1,18 +1,24 @@
 // src/services/LeaderboardService.ts
 
-import { LevelPriority, LevelWeight, RankedPlayer } from '@sudoku/shared-types';
+import {
+  LevelPriority,
+  LevelWeight,
+  PlayerStatsThresholds,
+  RankedPlayer,
+} from '@sudoku/shared-types';
 import {
   getAllPlayerHighlights,
   getAllStats,
   getRankedPlayers,
 } from '@sudoku/shared-utils';
-import { TFunction } from 'i18next';
+import {TFunction} from 'i18next';
 
 const getAllPlayerStats = async (
+  t: TFunction,
   levelPriority: LevelPriority,
   levelWeight: LevelWeight,
   maxTimePlayed: number,
-  t: TFunction,
+  playerStatsThresholds: PlayerStatsThresholds,
 ): Promise<RankedPlayer[]> => {
   const playerStats = await getAllStats(
     levelPriority,
@@ -27,6 +33,7 @@ const getAllPlayerStats = async (
   const rankedPlayerHighlights = await getAllPlayerHighlights(
     rankedPlayerStats,
     t,
+    playerStatsThresholds,
   );
   return rankedPlayerHighlights;
 };

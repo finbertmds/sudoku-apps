@@ -3,10 +3,10 @@
 import {MaterialCommunityIcons} from '@sudoku/shared-icons';
 import {useTheme} from '@sudoku/shared-themes';
 import {ActionButtonProps} from '@sudoku/shared-types';
+import {DeviceUtil} from '@sudoku/shared-utils';
 import React, {useCallback} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import DeviceInfo from 'react-native-device-info';
 
 type ActionButtonsProps = {
   noteMode: boolean;
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row' as const,
     justifyContent: 'space-around' as const,
     width: '100%' as const,
-    marginBottom: DeviceInfo.isTablet() ? 0 : 20,
+    marginBottom: DeviceUtil.isTablet() ? 0 : 20,
   },
   actionButton: {
     alignItems: 'center' as const,

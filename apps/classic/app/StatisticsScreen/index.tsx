@@ -1,8 +1,28 @@
-// StatisticsScreen.tsx
+// StatisticsScreen/index.tsx
 
+import {SCREENS} from '@/utils/constants';
 import {Ionicons} from '@expo/vector-icons';
 import {useFocusEffect} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  ChartsStats,
+  GameHistory,
+  Header,
+  LevelStats,
+  TimeFilterDropdown,
+} from '@sudoku/shared-components';
+import {useAppPause, useEnsureStatsCache} from '@sudoku/shared-hooks';
+import {PlayerService, StatsService} from '@sudoku/shared-services';
+import {useTheme} from '@sudoku/shared-themes';
+import {
+  GameLogEntryV2,
+  GameStats,
+  Level,
+  RootStackParamList,
+  StatsTab,
+  TimeFilter,
+} from '@sudoku/shared-types';
+import {DEFAULT_PLAYER_ID} from '@sudoku/shared-utils/constants';
 import {useNavigation} from 'expo-router';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -14,24 +34,6 @@ import {
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Header from '../../components/commons/Header';
-import ChartsStats from '../../components/Statistics/ChartsStats';
-import GameHistory from '../../components/Statistics/GameHistory';
-import LevelStats from '../../components/Statistics/LevelStats';
-import TimeFilterDropdown from '../../components/Statistics/TimeFilterDropdown';
-import {useTheme} from '../../context/ThemeContext';
-import {useAppPause} from '../../hooks/useAppPause';
-import {useEnsureStatsCache} from '../../hooks/useEnsureStatsCache';
-import {PlayerService, StatsService} from '../../services';
-import {
-  GameLogEntryV2,
-  GameStats,
-  Level,
-  RootStackParamList,
-  StatsTab,
-  TimeFilter,
-} from '../../types';
-import {DEFAULT_PLAYER_ID, SCREENS} from '../../utils/constants';
 
 const StatisticsScreen = () => {
   const navigation =
@@ -104,8 +106,8 @@ const StatisticsScreen = () => {
   }
 
   const renderTabContent: Record<string, React.ReactNode> = {
-    level: <LevelStats stats={stats} />,
-    chart: <ChartsStats logs={logs} filter={filter} />,
+    level: <LevelStats stats={stats} levels={[]} />,
+    chart: <ChartsStats logs={logs} filter={filter} levels={[]} />,
     history: <GameHistory logs={logs} filter={filter} />,
   };
 

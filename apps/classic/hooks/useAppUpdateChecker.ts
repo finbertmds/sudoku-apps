@@ -1,5 +1,6 @@
-// src/hooks/useAppUpdateChecker.ts
-import {appConfig} from '@/appConfig';
+// hooks/useAppUpdateChecker.ts
+
+import {appConfig} from '@/utils/appUtil';
 import {useEffect, useState} from 'react';
 import {Platform} from 'react-native';
 import VersionCheck from 'react-native-version-check';

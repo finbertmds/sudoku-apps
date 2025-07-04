@@ -1,3 +1,5 @@
+// game.ts
+
 export type Cell = {
   row: number;
   col: number;
@@ -47,6 +49,8 @@ export type SavedHintCount = {
   savedHintCount: number;
   savedTotalHintCountUsed: number;
 };
+
+export type GenerateBoardFn = (level: Level, id: string) => InitGame;
 
 // ---------------- Killer Sudoku ----------------
 export type CageInfo = {

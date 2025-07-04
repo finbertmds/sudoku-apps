@@ -1,6 +1,8 @@
-import {CORE_EVENTS} from '..';
-import {PlayerService} from '../../services/PlayerService';
-import eventBus from '../eventBus';
+// handlers/onPlayerDefaultUpdated.ts
+
+import {CORE_EVENTS} from '@/coreEvents';
+import eventBus from '@/eventBus';
+import {PlayerService} from '@sudoku/shared-services';
 
 export const handleDefaultPlayerUpdated = async (playerId: string) => {
   await PlayerService.migrateDataFromDefaultPlayerToNewPlayer(playerId);

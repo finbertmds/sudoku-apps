@@ -1,3 +1,5 @@
+// componentUtil.ts
+
 import {TutorialImages} from '@sudoku/shared-types';
 import {ColorSchemeName} from 'react-native';
 

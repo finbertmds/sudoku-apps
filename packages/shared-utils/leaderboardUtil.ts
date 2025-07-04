@@ -1,6 +1,7 @@
-// src/utils/leaderboardUtil.ts
+// leaderboardUtil.ts
 
-import { PlayerService, StatsService } from '@sudoku/shared-services';
+import {generateOverallRankingNotes, getPlayerNotes} from '@/playerNotesUtil';
+import {PlayerService, StatsService} from '@sudoku/shared-services';
 import {
   GameLogEntryV2,
   Level,
@@ -9,12 +10,16 @@ import {
   LevelWeight,
   PlayerProfile,
   PlayerStats,
+  PlayerStatsThresholds,
   RankedPlayer,
 } from '@sudoku/shared-types';
-import { TFunction } from 'i18next';
-import { generateOverallRankingNotes, getPlayerNotes } from './playerNotesUtil';
+import {TFunction} from 'i18next';
 
-export const calculatePlayerScore = (levelPriority: LevelPriority, levelWeight: LevelWeight, stat: PlayerStats): RankedPlayer => {
+export const calculatePlayerScore = (
+  levelPriority: LevelPriority,
+  levelWeight: LevelWeight,
+  stat: PlayerStats,
+): RankedPlayer => {
   let totalWeightedWins = 0;
   let winScore = 0;
   let avgTimePenalty = 0;
@@ -44,8 +49,11 @@ export const calculatePlayerScore = (levelPriority: LevelPriority, levelWeight: 
   };
 };
 
-const getSpeedScore = (levelWeight: LevelWeight, logs: GameLogEntryV2[]): number | undefined => {
-  const completed = logs.filter(l => l.completed);
+const getSpeedScore = (
+  levelWeight: LevelWeight,
+  logs: GameLogEntryV2[],
+): number | undefined => {
+  const completed = logs.filter((l) => l.completed);
   if (completed.length === 0) {
     return undefined;
   }
@@ -58,22 +66,30 @@ const getSpeedScore = (levelWeight: LevelWeight, logs: GameLogEntryV2[]): number
   return totalNormalizedTime / completed.length;
 };
 
-export const getRankedPlayers = (levelPriority: LevelPriority, levelWeight: LevelWeight, allStats: PlayerStats[]): RankedPlayer[] => {
+export const getRankedPlayers = (
+  levelPriority: LevelPriority,
+  levelWeight: LevelWeight,
+  allStats: PlayerStats[],
+): RankedPlayer[] => {
   return allStats
-    .map(stat => calculatePlayerScore(levelPriority, levelWeight, stat))
+    .map((stat) => calculatePlayerScore(levelPriority, levelWeight, stat))
     .sort((a, b) => b.score - a.score);
 };
 
-export const getAllStats = async (levelPriority: LevelPriority, levelWeight: LevelWeight, maxTimePlayed: number): Promise<PlayerStats[]> => {
+export const getAllStats = async (
+  levelPriority: LevelPriority,
+  levelWeight: LevelWeight,
+  maxTimePlayed: number,
+): Promise<PlayerStats[]> => {
   try {
     const players: PlayerProfile[] = await PlayerService.getAllPlayers();
     const logs: GameLogEntryV2[] = await StatsService.getLogsDone();
 
-    return players.map(player => {
+    return players.map((player) => {
       const playerLogs = logs.filter(
-        log => log.playerId === player.id && log.durationSeconds > 0,
+        (log) => log.playerId === player.id && log.durationSeconds > 0,
       );
-      const completed = playerLogs.filter(log => log.completed);
+      const completed = playerLogs.filter((log) => log.completed);
 
       if (completed.length === 0) {
         return {
@@ -96,8 +112,8 @@ export const getAllStats = async (levelPriority: LevelPriority, levelWeight: Lev
       // byLevel stats
       const byLevel: PlayerStats['byLevel'] = {};
       for (const level of levelPriority) {
-        const levelLogs = playerLogs.filter(log => log.level === level);
-        const levelCompleted = levelLogs.filter(log => log.completed);
+        const levelLogs = playerLogs.filter((log) => log.level === level);
+        const levelCompleted = levelLogs.filter((log) => log.completed);
         const totalLevelTime = levelCompleted.reduce(
           (sum, log) => sum + log.durationSeconds,
           0,
@@ -109,7 +125,7 @@ export const getAllStats = async (levelPriority: LevelPriority, levelWeight: Lev
             wins: levelCompleted.length,
             fastestTime:
               levelCompleted.length > 0
-                ? Math.min(...levelCompleted.map(log => log.durationSeconds))
+                ? Math.min(...levelCompleted.map((log) => log.durationSeconds))
                 : maxTimePlayed,
             avgTime:
               levelCompleted.length > 0
@@ -140,14 +156,15 @@ export const getAllStats = async (levelPriority: LevelPriority, levelWeight: Lev
 export const getAllPlayerHighlights = async (
   stats: RankedPlayer[],
   t: TFunction,
+  playerStatsThresholds: PlayerStatsThresholds,
 ): Promise<RankedPlayer[]> => {
   const highlights = generateOverallRankingNotes(stats, t);
 
-  return stats.map(stat => {
-    const notes = getPlayerNotes(stat, t);
+  return stats.map((stat) => {
+    const notes = getPlayerNotes(stat, t, playerStatsThresholds);
     stat.notes = notes;
 
-    const highlight = highlights.find(h => h.id === stat.player.id);
+    const highlight = highlights.find((h) => h.id === stat.player.id);
     stat.highlights = highlight?.highlights;
     return stat;
   });
@@ -158,12 +175,12 @@ export function getLevelStatsForLevel(
   players: PlayerProfile[],
   level: Level,
 ): LevelStatEntry[] {
-  const levelLogs = logs.filter(log => log.level === level && log.completed);
+  const levelLogs = logs.filter((log) => log.level === level && log.completed);
 
   const statsMap = new Map<string, LevelStatEntry>();
 
   for (const log of levelLogs) {
-    const player = players.find(p => p.id === log.playerId);
+    const player = players.find((p) => p.id === log.playerId);
     if (!player) {
       continue;
     }

@@ -1,3 +1,5 @@
+// _layout.tsx
+
 import {autoDetectLanguage} from '@/i18n/i18n';
 import {darkTheme, lightTheme} from '@/theme/themeStyles';
 import {SCREENS} from '@/utils/constants';

@@ -1,7 +1,29 @@
-// src/screens/MainScreen/index.tsx
-import {useAlert} from '@/hooks/useAlert';
+// MainScreen/index.tsx
+
+import {useAppUpdateChecker} from '@/hooks/useAppUpdateChecker';
+import {
+  IS_UI_TESTING,
+  LEVELS,
+  SCREENS,
+  SHOW_UNSPLASH_IMAGE_INFO,
+  UNSPLASH_UTM,
+} from '@/utils/constants';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Header, NewGameMenu, QuoteBox} from '@sudoku/shared-components';
+import {CORE_EVENTS, InitGameCoreEvent} from '@sudoku/shared-events';
+import eventBus from '@sudoku/shared-events/eventBus';
+import {
+  useAlert,
+  useAppPause,
+  useDailyBackground,
+  useDailyQuote,
+  usePlayerProfile,
+} from '@sudoku/shared-hooks';
+import {BoardService, PlayerService} from '@sudoku/shared-services';
+import {useTheme} from '@sudoku/shared-themes';
+import {Level, RootStackParamList} from '@sudoku/shared-types';
+import {UNSPLASH_URL} from '@sudoku/shared-utils';
 import * as Device from 'expo-device';
 import {router} from 'expo-router';
 import React, {useCallback, useEffect, useState} from 'react';
@@ -17,28 +39,6 @@ import {
 } from 'react-native';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import uuid from 'react-native-uuid';
-import Header from '../../components/commons/Header';
-import NewGameMenu from '../../components/Main/NewGameMenu';
-import QuoteBox from '../../components/Main/QuoteBox';
-import {useTheme} from '../../context/ThemeContext';
-import {CORE_EVENTS} from '../../events';
-import eventBus from '../../events/eventBus';
-import {InitGameCoreEvent} from '../../events/types';
-import {useAppPause} from '../../hooks/useAppPause';
-import {useAppUpdateChecker} from '../../hooks/useAppUpdateChecker';
-import {useDailyBackground} from '../../hooks/useDailyBackground';
-import {useDailyQuote} from '../../hooks/useDailyQuote';
-import {usePlayerProfile} from '../../hooks/usePlayerProfile';
-import {BoardService} from '../../services/BoardService';
-import {PlayerService} from '../../services/PlayerService';
-import {Level, RootStackParamList} from '../../types/index';
-import {
-  IS_UI_TESTING,
-  SCREENS,
-  SHOW_UNSPLASH_IMAGE_INFO,
-  UNSPLASH_URL,
-  UNSPLASH_UTM,
-} from '../../utils/constants';
 
 const MainScreen = () => {
   const {mode, theme} = useTheme();
@@ -225,7 +225,7 @@ const MainScreen = () => {
             </TouchableOpacity>
           )}
 
-          <NewGameMenu handleNewGame={handleNewGame} />
+          <NewGameMenu handleNewGame={handleNewGame} levels={LEVELS} />
 
           {__DEV__ && !IS_UI_TESTING && (
             <TouchableOpacity

@@ -1,6 +1,6 @@
 // QuoteService.ts
-import { appStorage } from '@sudoku/shared-storage';
-import { DailyQuotes } from '@sudoku/shared-types';
+import {appStorage} from '@sudoku/shared-storages';
+import {DailyQuotes} from '@sudoku/shared-types';
 import axios from 'axios';
 
 export const QuoteService = {

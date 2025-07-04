@@ -1,11 +1,12 @@
-import {autoDetectLanguage} from '../../i18n/i18n';
+// handlers/onClearStorage.ts
+
 import {
   BackgroundService,
   BoardService,
   PlayerService,
   SettingsService,
   StatsService,
-} from '../../services';
+} from '@sudoku/shared-services';
 
 export const handleClearStorage = async () => {
   await BoardService.clear();
@@ -17,5 +18,6 @@ export const handleClearStorage = async () => {
   }
   await PlayerService.createDefaultPlayerIfNeeded();
 
-  autoDetectLanguage();
+  // TODO: auto detect language
+  // autoDetectLanguage();
 };

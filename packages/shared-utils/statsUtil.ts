@@ -1,16 +1,18 @@
-import {format, parseISO} from 'date-fns';
-import {TFunction} from 'i18next';
-import {ColorSchemeName} from 'react-native';
+// statsUtil.ts
+
+import {getLevelColor, levelColors} from '@/colorUtil';
+import {DAILY_STATS_DATE_FORMAT} from '@/constants';
+import {formatShortChartDate, isInTimeRange} from '@/dateUtil';
 import {
   DailyStats,
   GameLogEntryV2,
   GameStats,
   Level,
   TimeRange,
-} from '../types';
-import {getLevelColor, levelColors} from './colorUtil';
-import {DAILY_STATS_DATE_FORMAT, LEVELS} from './constants';
-import {formatShortChartDate, isInTimeRange} from './dateUtil';
+} from '@sudoku/shared-types';
+import {format, parseISO} from 'date-fns';
+import {TFunction} from 'i18next';
+import {ColorSchemeName} from 'react-native';
 
 export function createEmptyStats(): GameStats {
   return {
@@ -22,9 +24,12 @@ export function createEmptyStats(): GameStats {
   };
 }
 
-function createLevelMap<T>(defaultValue: () => T): Record<Level, T> {
+function createLevelMap<T>(
+  levels: Level[],
+  defaultValue: () => T,
+): Record<Level, T> {
   return Object.fromEntries(
-    LEVELS.map(level => [level, defaultValue()]),
+    levels.map((level) => [level, defaultValue()]),
   ) as Record<Level, T>;
 }
 
@@ -32,13 +37,14 @@ export function getStatsFromLogs(
   logs: GameLogEntryV2[],
   filter: TimeRange,
   userId: string,
+  levels: Level[],
 ): Record<Level, GameStats> {
-  const statsByLevel: Record<Level, GameStats> = createLevelMap(() =>
+  const statsByLevel: Record<Level, GameStats> = createLevelMap(levels, () =>
     createEmptyStats(),
   );
 
   const filtered = logs.filter(
-    log => isInTimeRange(log.endTime, filter) && log.playerId === userId,
+    (log) => isInTimeRange(log.endTime, filter) && log.playerId === userId,
   );
   for (const log of filtered) {
     const level = log.level;
@@ -81,9 +87,9 @@ export function getDailyStatsFromLogs(
 
   const map = new Map<string, {games: number; totalTimeSeconds: number}>();
   const filtered = logs.filter(
-    log => log.completed && isInTimeRange(log.endTime, filter),
+    (log) => log.completed && isInTimeRange(log.endTime, filter),
   );
-  filtered.forEach(log => {
+  filtered.forEach((log) => {
     const date = format(parseISO(log.endTime), DAILY_STATS_DATE_FORMAT);
     const durationSeconds = log.durationSeconds;
 
@@ -112,17 +118,18 @@ export function convertToPieData(
   scheme: ColorSchemeName = 'light',
   t: TFunction,
   filter: TimeRange,
+  levels: Level[],
 ) {
   if (logs.length === 0) {
     return [];
   }
 
-  const levelMap: Record<Level, number> = createLevelMap(() => 0);
+  const levelMap: Record<Level, number> = createLevelMap(levels, () => 0);
 
   const filtered = logs.filter(
-    log => log.completed && isInTimeRange(log.endTime, filter),
+    (log) => log.completed && isInTimeRange(log.endTime, filter),
   );
-  filtered.forEach(log => {
+  filtered.forEach((log) => {
     levelMap[log.level]++;
   });
 
@@ -134,7 +141,7 @@ export function convertToPieData(
       legendFontColor: scheme === 'dark' ? '#fff' : '#333',
       legendFontSize: 12,
     }))
-    .filter(item => item.count > 0);
+    .filter((item) => item.count > 0);
 }
 
 export function convertToStackedData(
@@ -142,6 +149,7 @@ export function convertToStackedData(
   scheme: ColorSchemeName = 'light',
   t: TFunction,
   filter: TimeRange,
+  levels: Level[],
 ) {
   if (logs.length === 0) {
     return null;
@@ -149,14 +157,14 @@ export function convertToStackedData(
 
   const dateMap = new Map<string, Record<Level, number>>();
   const filtered = logs.filter(
-    log => log.completed && isInTimeRange(log.endTime, filter),
+    (log) => log.completed && isInTimeRange(log.endTime, filter),
   );
-  filtered.forEach(log => {
+  filtered.forEach((log) => {
     const date = format(parseISO(log.endTime), DAILY_STATS_DATE_FORMAT);
     if (!dateMap.has(date)) {
       dateMap.set(
         date,
-        createLevelMap(() => 0),
+        createLevelMap(levels, () => 0),
       );
     }
     dateMap.get(date)![log.level]++;
@@ -168,9 +176,9 @@ export function convertToStackedData(
 
   return {
     labels: sorted.map(([date]) => formatShortChartDate(date)),
-    legend: LEVELS.map(level => t(`level.${level}`)),
-    data: sorted.map(([, counts]) => LEVELS.map(l => counts[l])),
-    barColors: LEVELS.map(level => levelColors[level][scheme!]),
+    legend: levels.map((level) => t(`level.${level}`)),
+    data: sorted.map(([, counts]) => levels.map((l) => counts[l])),
+    barColors: levels.map((level) => levelColors[level][scheme!]),
   };
 }
 
@@ -183,8 +191,8 @@ export function getGameHistory(
   }
 
   const filtered = logs
-    .filter(log => log.durationSeconds > 0)
-    .filter(log => isInTimeRange(log.endTime, filter))
+    .filter((log) => log.durationSeconds > 0)
+    .filter((log) => isInTimeRange(log.endTime, filter))
     .sort(
       (a, b) =>
         new Date(b.startTime).getTime() - new Date(a.startTime).getTime(),

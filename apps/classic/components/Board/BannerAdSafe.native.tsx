@@ -1,5 +1,6 @@
 // BannerAdSafe.tsx
-import {useTheme} from '@/context/ThemeContext';
+import {AD_REQUEST_OPTIONS} from '@sudoku/shared-hooks/useRewardedAdSafe.native';
+import {useTheme} from '@sudoku/shared-themes';
 import {useRef} from 'react';
 import {Platform, StyleSheet, View} from 'react-native';
 import {
@@ -8,7 +9,6 @@ import {
   useForeground,
 } from 'react-native-google-mobile-ads';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {AD_REQUEST_OPTIONS} from '../../hooks/useRewardedAdSafe.native';
 import {getAdUnit} from '../../utils/getAdUnit';
 
 export const BannerAdSafe = () => {

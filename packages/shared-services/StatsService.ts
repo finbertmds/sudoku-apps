@@ -1,15 +1,20 @@
 // GameStatsManager.ts
 
-import { playerProfileStorage, statsStorage } from '@sudoku/shared-storage';
+import {playerProfileStorage, statsStorage} from '@sudoku/shared-storages';
 import {
-  GameEndedCoreEvent, GameLogEntryV2,
+  GameEndedCoreEvent,
+  GameLogEntryV2,
   GameStats,
   GameStatsCache,
   InitGame,
   Level,
-  TimeRange
+  TimeRange,
 } from '@sudoku/shared-types';
-import { getStatsFromLogs, getTodayDateString, isInTimeRange } from '@sudoku/shared-utils';
+import {
+  getStatsFromLogs,
+  getTodayDateString,
+  isInTimeRange,
+} from '@sudoku/shared-utils';
 import uuid from 'react-native-uuid';
 
 export const StatsService = {
@@ -40,7 +45,7 @@ export const StatsService = {
       }
 
       const computedStats = getStatsFromLogs(logs, filter, userId);
-      const updatedCache = { ...cache, [filter]: computedStats };
+      const updatedCache = {...cache, [filter]: computedStats};
 
       statsStorage.saveStatsCache(updatedCache);
 
@@ -59,7 +64,7 @@ export const StatsService = {
     try {
       const cache: GameStatsCache = statsStorage.getStatsCache();
 
-      const updatedCache: GameStatsCache = { ...cache };
+      const updatedCache: GameStatsCache = {...cache};
 
       for (const range of affectedRanges) {
         const updatedStats = getStatsFromLogs(logs, range, userId);
@@ -106,7 +111,7 @@ export const StatsService = {
       });
       rangesToUpdate.add('all'); // luôn luôn cập nhật all
 
-      const updatedCache = { ...cache };
+      const updatedCache = {...cache};
 
       for (const range of rangesToUpdate) {
         updatedCache[range] = getStatsFromLogs(logs, range, userId);

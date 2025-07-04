@@ -1,1 +1,3 @@
-export {default} from '../SkWebViewScreen/index';
+// AboutGame/SkWebViewScreen.tsx
+
+export {default} from '@/app/SkWebViewScreen';

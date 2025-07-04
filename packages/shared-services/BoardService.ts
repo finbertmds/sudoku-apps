@@ -1,6 +1,11 @@
-import { gameStorage } from '@sudoku/shared-storage';
-import { InitGame, SavedGame, SavedHintCount, SavedMistake } from '@sudoku/shared-types';
-import { ConstantEnv } from './env';
+import {ConstantEnv} from '@/env';
+import {gameStorage} from '@sudoku/shared-storages';
+import {
+  InitGame,
+  SavedGame,
+  SavedHintCount,
+  SavedMistake,
+} from '@sudoku/shared-types';
 
 export const BoardService = {
   maxHints: 0,

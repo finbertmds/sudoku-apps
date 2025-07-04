@@ -1,4 +1,4 @@
-// getLevelColor.ts
+// colorUtil.ts
 
 import {Level} from '@sudoku/shared-types';
 import {ColorSchemeName} from 'react-native';

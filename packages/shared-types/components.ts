@@ -1,4 +1,7 @@
+// components.ts
+
 import {RouteProp} from '@react-navigation/native';
+import {AD_TYPE} from '@sudoku/shared-utils';
 
 export type RootStackParamList = {
   HomeTabs: undefined;
@@ -40,7 +43,7 @@ export type SkWebViewType = 'licenses' | 'privacy' | 'terms';
 export type OptionMenuItem = {
   icon: string;
   label: string;
-  screen?: keyof RootStackParamList;
+  screen?: string;
   onPress?: () => void;
 };
 
@@ -93,3 +96,5 @@ export type TutorialImages = {
     dark: any;
   };
 };
+
+export type AdType = (typeof AD_TYPE)[keyof typeof AD_TYPE];

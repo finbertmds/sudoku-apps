@@ -1,1 +1,3 @@
-export {default} from '../StatisticsScreen';
+// app/(tabs)/StatisticsScreen.tsx
+
+export {default} from '@/app/StatisticsScreen';

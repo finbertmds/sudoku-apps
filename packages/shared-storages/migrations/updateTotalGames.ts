@@ -1,7 +1,6 @@
-// src/storage/migrations/updateTotalGames.ts
+// updateTotalGames.ts
 
-import {playerProfileStorage} from '../playerProfileStorage';
-import {statsStorage} from '../statsStorage';
+import {playerProfileStorage, statsStorage} from '@sudoku/shared-storages';
 
 export async function updateTotalGames() {
   console.log('[MIGRATION] Updating total games...');

@@ -1,18 +1,18 @@
-import {storage} from '.';
+import {storage} from '@/storage';
 import {
   DailyStats,
   GameLogEntry,
   GameLogEntryV2,
   GameStatsCache,
-} from '../types';
+} from '@sudoku/shared-types';
 import {
   STORAGE_KEY_DAILY_STATS,
   STORAGE_KEY_GAME_LOGS,
   STORAGE_KEY_GAME_STATS_CACHE,
   STORAGE_KEY_LAST_STATS_CACHE_UPDATE,
   STORAGE_KEY_LAST_STATS_CACHE_UPDATE_USER_ID,
-} from '../utils/constants';
-import {getTodayDateString} from '../utils/dateUtil';
+  getTodayDateString,
+} from '@sudoku/shared-utils';
 
 /**
  * @deprecated

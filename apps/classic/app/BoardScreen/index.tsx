@@ -1,60 +1,68 @@
-import {useAlert} from '@/hooks/useAlert';
-import {useSafeGoBack} from '@/hooks/useSafeGoBack';
+// BoardScreen/index.tsx
+
+import {BannerAdSafe} from '@/components/Board/BannerAdSafe';
+import {ClassicLevel} from '@/types';
+import {env} from '@/utils/appUtil';
+import {
+  DEFAULT_SETTINGS,
+  MAX_HINTS,
+  MAX_MISTAKES,
+  MAX_TIME_PLAYED,
+  TUTORIAL_IMAGES,
+} from '@/utils/constants';
 import {useFocusEffect} from '@react-navigation/native';
-import {router, useLocalSearchParams} from 'expo-router';
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {ActivityIndicator, Platform, StyleSheet, View} from 'react-native';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
-import ActionButtons from '../../components/Board/ActionButtons';
-import {BannerAdSafe} from '../../components/Board/BannerAdSafe';
-import Grid from '../../components/Board/Grid';
-import InfoPanel from '../../components/Board/InfoPanel';
-import NumberPad from '../../components/Board/NumberPad';
-import PauseModal from '../../components/Board/PauseModal';
-import ConfirmDialog from '../../components/commons/ConfirmDialog';
-import Header from '../../components/commons/Header';
-import HowToPlay from '../../components/HowToPlay';
-import {useTheme} from '../../context/ThemeContext';
-import {CORE_EVENTS} from '../../events';
-import eventBus from '../../events/eventBus';
-import {GameEndedCoreEvent} from '../../events/types';
-import {useAppPause} from '../../hooks/useAppPause';
-import {useHintCounter} from '../../hooks/useHintCounter';
-import {useInterstitialAdSafe} from '../../hooks/useInterstitialAdSafe';
-import {useMistakeCounter} from '../../hooks/useMistakeCounter';
-import {BoardService} from '../../services/BoardService';
-import {SettingsService} from '../../services/SettingsService';
+import {
+  ActionButtons,
+  ConfirmDialog,
+  Grid,
+  Header,
+  HowToPlay,
+  InfoPanel,
+  NumberPad,
+  PauseModal,
+} from '@sudoku/shared-components';
+import {CORE_EVENTS} from '@sudoku/shared-events';
+import eventBus from '@sudoku/shared-events/eventBus';
+import {GameEndedCoreEvent} from '@sudoku/shared-events/types';
+import {
+  useAlert,
+  useAppPause,
+  useHintCounter,
+  useInterstitialAdSafe,
+  useMistakeCounter,
+  useSafeGoBack,
+} from '@sudoku/shared-hooks';
+import {BoardService, SettingsService} from '@sudoku/shared-services';
+import {useTheme} from '@sudoku/shared-themes';
 import {
   AppSettings,
   BoardParamProps,
   Cell,
   CellValue,
   SavedGame,
-} from '../../types';
+} from '@sudoku/shared-types';
 import {
+  AD_TYPE,
   checkBoardIsSolved,
   createEmptyGrid,
   createEmptyGridNotes,
   createEmptyGridNumber,
   deepCloneBoard,
   deepCloneNotes,
+  getAdUnit,
   removeNoteFromPeers,
-} from '../../utils/boardUtil';
-import {DEFAULT_SETTINGS, MAX_HINTS, MAX_MISTAKES} from '../../utils/constants';
-import {getAdUnit} from '../../utils/getAdUnit';
+} from '@sudoku/shared-utils';
+import {router, useLocalSearchParams} from 'expo-router';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {ActivityIndicator, Platform, StyleSheet, View} from 'react-native';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const BoardScreen = () => {
   const {theme} = useTheme();
   const {t} = useTranslation();
   const rawParams = useLocalSearchParams();
-  const {id, level, type} = useMemo(() => {
-    return {
-      id: rawParams.id,
-      level: rawParams.level,
-      type: rawParams.type,
-    } as BoardParamProps;
-  }, [rawParams]);
+  const {id, level, type} = rawParams as BoardParamProps;
 
   const goBack = useSafeGoBack();
   const {alert} = useAlert();
@@ -163,12 +171,13 @@ const BoardScreen = () => {
 
   // Hiển thị rewarded ad và xử lý khi đóng ad
   // ===========================================================
+  const adUnit = getAdUnit(AD_TYPE.INTERSTITIAL, env);
   const {
     isLoaded: isLoadedRewarded,
     isClosed: isClosedRewarded,
     load: loadRewarded,
     show: showRewarded,
-  } = useInterstitialAdSafe(getAdUnit('interstitial'));
+  } = useInterstitialAdSafe(adUnit);
   useEffect(() => {
     loadRewarded();
   }, [loadRewarded]);
@@ -623,7 +632,10 @@ const BoardScreen = () => {
           showSettings={false}
           showTheme={false}
         />
-        <HowToPlay onClose={handleAfterCheckHasPlayed} />
+        <HowToPlay
+          tutorialImages={TUTORIAL_IMAGES}
+          onClose={handleAfterCheckHasPlayed}
+        />
       </SafeAreaView>
     );
   }
@@ -651,7 +663,6 @@ const BoardScreen = () => {
           ]}>
           <InfoPanel
             isPlaying={isPlaying}
-            score={score}
             level={level}
             mistakes={mistakes}
             secondsRef={secondsRef}
@@ -659,6 +670,8 @@ const BoardScreen = () => {
             settings={settings}
             onPause={handlePause}
             onLimitTimeReached={handleLimitTimeReached}
+            maxMistakes={MAX_MISTAKES}
+            maxTimePlayed={MAX_TIME_PLAYED}
           />
           <Grid
             board={board}
@@ -667,6 +680,8 @@ const BoardScreen = () => {
             selectedCell={selectedCell}
             settings={settings}
             onPress={handleCellPress}
+            showCage={false}
+            cages={[]}
           />
           <ActionButtons
             noteMode={noteMode}
@@ -687,7 +702,8 @@ const BoardScreen = () => {
       </SafeAreaView>
       {showPauseModal && (
         <PauseModal
-          level={level}
+          maxMistakes={MAX_MISTAKES}
+          level={level as ClassicLevel}
           mistake={mistakes}
           time={secondsRef.current}
           settings={settings}

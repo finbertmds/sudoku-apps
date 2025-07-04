@@ -8,13 +8,13 @@ import {
   ANIMATION_TYPE,
   BOARD_SIZE,
   CELL_SIZE,
+  DeviceUtil,
   getFontSizesFromCellSize,
   isColFilled,
   isRowFilled,
 } from '@sudoku/shared-utils';
 import React, {useCallback, useEffect, useRef} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import DeviceInfo from 'react-native-device-info';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
   boardContainer: {
     width: '100%' as const,
     alignItems: 'center' as const,
-    marginTop: DeviceInfo.isTablet() ? 20 : 0,
+    marginTop: DeviceUtil.isTablet() ? 20 : 0,
     marginBottom: 20,
   },
   grid: {

@@ -1,4 +1,6 @@
-import { PlayerProfile } from './player';
+// leaderboard.ts
+
+import {PlayerProfile} from '@/player';
 
 export interface PlayerStats {
   player: PlayerProfile;

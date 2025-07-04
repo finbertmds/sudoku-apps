@@ -1,4 +1,5 @@
-// types/player.ts
+// player.ts
+
 export type PlayerProfile = {
   id: string; // UUID v4
   name: string; // Tên hiển thị

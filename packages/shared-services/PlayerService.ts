@@ -1,16 +1,16 @@
-import { playerProfileStorage, statsStorage } from '@sudoku/shared-storage';
-import { GameLogEntryV2, PlayerProfile } from '@sudoku/shared-types';
-import { createDefaultPlayer, DEFAULT_PLAYER_ID } from '@sudoku/shared-utils';
-import { StatsService } from './StatsService';
+import {StatsService} from '@/StatsService';
+import {playerProfileStorage, statsStorage} from '@sudoku/shared-storages';
+import {GameLogEntryV2, PlayerProfile} from '@sudoku/shared-types';
+import {createDefaultPlayer, DEFAULT_PLAYER_ID} from '@sudoku/shared-utils';
 
 export const PlayerService = {
-  async createDefaultPlayerIfNeeded(): Promise<void> {
+  async createDefaultPlayerIfNeeded(language: string = 'en'): Promise<void> {
     const players = playerProfileStorage.getAllPlayers();
     if (players.length === 0) {
       const rawLogs = statsStorage.getGameLogsV2();
       // count total games from raw logs which completed
-      const totalGames = rawLogs.filter(log => log.completed).length;
-      const player = createDefaultPlayer(totalGames);
+      const totalGames = rawLogs.filter((log) => log.completed).length;
+      const player = createDefaultPlayer(totalGames, language);
       playerProfileStorage.savePlayers([player]);
       playerProfileStorage.setCurrentPlayerId(player.id);
     }
@@ -20,7 +20,7 @@ export const PlayerService = {
     newPlayerId: string,
   ): Promise<void> {
     const rawLogs = statsStorage.getGameLogsV2();
-    const migrated = rawLogs.map(entry => {
+    const migrated = rawLogs.map((entry) => {
       if (entry.playerId === DEFAULT_PLAYER_ID) {
         return {
           ...entry,
@@ -42,7 +42,7 @@ export const PlayerService = {
     // delete default player
     const allPlayers = playerProfileStorage.getAllPlayers();
     const updated = allPlayers.filter(
-      _player => _player.id !== DEFAULT_PLAYER_ID,
+      (_player) => _player.id !== DEFAULT_PLAYER_ID,
     );
     playerProfileStorage.savePlayers(updated);
 
@@ -60,7 +60,7 @@ export const PlayerService = {
   async deletePlayer(playerId: string): Promise<void> {
     await this.deletePlayerGameLogs(playerId);
     const allPlayers = playerProfileStorage.getAllPlayers();
-    const updated = allPlayers.filter(p => p.id !== playerId);
+    const updated = allPlayers.filter((p) => p.id !== playerId);
     playerProfileStorage.savePlayers(updated);
   },
 
@@ -85,7 +85,7 @@ export const PlayerService = {
       return false;
     }
     const allPlayers = playerProfileStorage.getAllPlayers();
-    return allPlayers.length > 1 && allPlayers.some(p => p.id === playerId);
+    return allPlayers.length > 1 && allPlayers.some((p) => p.id === playerId);
   },
 
   async getAllPlayers(): Promise<PlayerProfile[]> {
@@ -120,8 +120,8 @@ export const PlayerService = {
 
   async updatePlayerName(playerId: string, name: string): Promise<void> {
     const all = await this.getAllPlayers();
-    const updated = all.map(_player =>
-      _player.id === playerId ? { ..._player, name } : _player,
+    const updated = all.map((_player) =>
+      _player.id === playerId ? {..._player, name} : _player,
     );
     await this.savePlayers(updated);
   },

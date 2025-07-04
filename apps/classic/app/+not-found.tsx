@@ -1,4 +1,6 @@
-import {useTheme} from '@/context/ThemeContext';
+// +not-found.tsx
+
+import {useTheme} from '@sudoku/shared-themes';
 import {Link, Stack} from 'expo-router';
 import React from 'react';
 import {useTranslation} from 'react-i18next';

@@ -1,7 +1,9 @@
-import {StatsService} from '../../services';
-import {GameLogEntry, GameLogEntryV2, TimeRange} from '../../types';
-import {DEFAULT_PLAYER_ID} from '../../utils/constants';
-import {statsStorage} from '../statsStorage';
+// statsMock.ts
+
+import {StatsService} from '@sudoku/shared-services';
+import {statsStorage} from '@sudoku/shared-storages';
+import {GameLogEntry, GameLogEntryV2, TimeRange} from '@sudoku/shared-types';
+import {ALL_AFFECTED_RANGES, DEFAULT_PLAYER_ID} from '@sudoku/shared-utils';
 
 const gameLog = [
   {
@@ -139,7 +141,7 @@ const saveMockGameLogsV2 = async () => {
 };
 
 const updateStats = async () => {
-  const affectedRanges: TimeRange[] = ['today', 'week', 'month', 'year', 'all'];
+  const affectedRanges: TimeRange[] = ALL_AFFECTED_RANGES;
 
   const allLogs = await StatsService.getLogs();
   await StatsService.updateStatsWithAllCache(

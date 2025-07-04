@@ -1,13 +1,13 @@
 // Board/InfoPanel.tsx
 
-import {useGameTimer} from '@sudoku/shared-hooks';
+import {useAlert, useGameTimer} from '@sudoku/shared-hooks';
 import {MaterialCommunityIcons} from '@sudoku/shared-icons';
 import {useTheme} from '@sudoku/shared-themes';
 import {AppSettings} from '@sudoku/shared-types';
 import {DeviceUtil, formatTime} from '@sudoku/shared-utils';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 type InfoPanelProps = {
   maxMistakes: number;
@@ -36,11 +36,14 @@ const InfoPanel = ({
 }: InfoPanelProps) => {
   const {theme} = useTheme();
   const {t} = useTranslation();
+
+  const {alert} = useAlert();
+
   const {getSeconds, stopTimer} = useGameTimer(isPlaying, {
     maxTimePlayed,
     onLimitReached: async () => {
       stopTimer();
-      Alert.alert(
+      alert(
         t('timeWarning'),
         t('playedLimit', {limit: formatTime(maxTimePlayed)}),
         [
