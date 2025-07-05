@@ -21,13 +21,13 @@ export const BackgroundService = {
   },
 
   async load(): Promise<DailyBackgrounds | null> {
-    const cached = appStorage.getBackgrounds();
+    const cached = await appStorage.getBackgrounds();
     return cached;
   },
 
   async save(data: DailyBackgrounds) {
     try {
-      appStorage.setBackgrounds(data);
+      await appStorage.setBackgrounds(data);
     } catch (err) {
       console.error('Failed to save background', err);
     }
@@ -35,7 +35,7 @@ export const BackgroundService = {
 
   async clear(): Promise<void> {
     try {
-      appStorage.clearBackgrounds();
+      await appStorage.clearBackgrounds();
     } catch (err) {
       console.error('Failed to clear background', err);
     }

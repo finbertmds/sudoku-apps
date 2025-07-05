@@ -31,9 +31,9 @@ export const StatsService = {
   },
 
   async shouldUpdateStatsCache(): Promise<boolean> {
-    const lastUpdateStr = statsStorage.getLastStatsCacheUpdate();
-    const lastUpdateUserId = statsStorage.getLastStatsCacheUpdateUserId();
-    const currentPlayerId = playerProfileStorage.getCurrentPlayerId();
+    const lastUpdateStr = await statsStorage.getLastStatsCacheUpdate();
+    const lastUpdateUserId = await statsStorage.getLastStatsCacheUpdateUserId();
+    const currentPlayerId = await playerProfileStorage.getCurrentPlayerId();
 
     if (lastUpdateUserId !== currentPlayerId) {
       return true;
@@ -50,7 +50,7 @@ export const StatsService = {
     userId: string,
   ): Promise<Record<Level, GameStats>> {
     try {
-      const cache: GameStatsCache = statsStorage.getStatsCache();
+      const cache: GameStatsCache = await statsStorage.getStatsCache();
 
       if (cache[filter]) {
         return cache[filter]!;
@@ -59,7 +59,7 @@ export const StatsService = {
       const computedStats = getStatsFromLogs(logs, filter, userId, this.levels);
       const updatedCache = {...cache, [filter]: computedStats};
 
-      statsStorage.saveStatsCache(updatedCache);
+      await statsStorage.saveStatsCache(updatedCache);
 
       return computedStats;
     } catch (error) {
@@ -74,7 +74,7 @@ export const StatsService = {
     userId: string,
   ): Promise<void> {
     try {
-      const cache: GameStatsCache = statsStorage.getStatsCache();
+      const cache: GameStatsCache = await statsStorage.getStatsCache();
 
       const updatedCache: GameStatsCache = {...cache};
 
@@ -83,16 +83,16 @@ export const StatsService = {
         updatedCache[range] = updatedStats;
       }
 
-      statsStorage.saveStatsCache(updatedCache);
+      await statsStorage.saveStatsCache(updatedCache);
     } catch (error) {
       console.warn('Failed to update stats cache:', error);
     }
   },
 
   async updateStatsDone(): Promise<void> {
-    statsStorage.setLastStatsCacheUpdate();
-    statsStorage.setLastStatsCacheUpdateUserId(
-      playerProfileStorage.getCurrentPlayerId(),
+    await statsStorage.setLastStatsCacheUpdate();
+    await statsStorage.setLastStatsCacheUpdateUserId(
+      await playerProfileStorage.getCurrentPlayerId(),
     );
   },
 
@@ -102,7 +102,7 @@ export const StatsService = {
     userId: string,
   ): Promise<void> {
     try {
-      const cache: GameStatsCache = statsStorage.getStatsCache();
+      const cache: GameStatsCache = await statsStorage.getStatsCache();
 
       // Xác định các khoảng thời gian cần cập nhật lại
       const rangesToUpdate = new Set<TimeRange>();
@@ -134,7 +134,7 @@ export const StatsService = {
         );
       }
 
-      statsStorage.saveStatsCache(updatedCache);
+      await statsStorage.saveStatsCache(updatedCache);
     } catch (error) {
       console.warn('Failed to update stats with cache:', error);
     }
@@ -240,7 +240,7 @@ export const StatsService = {
       durationSeconds: 0,
       mistakes: 0,
       hintCount: 0,
-      playerId: playerProfileStorage.getCurrentPlayerId(),
+      playerId: await playerProfileStorage.getCurrentPlayerId(),
     };
 
     await this.saveLog(newEntry, false);
@@ -264,7 +264,7 @@ export const StatsService = {
     } else {
       newEntry = {
         id: uuid.v4().toString(),
-        playerId: playerProfileStorage.getCurrentPlayerId(),
+        playerId: await playerProfileStorage.getCurrentPlayerId(),
         level: payload.level,
         completed: payload.completed,
         startTime: new Date().toISOString(),
@@ -280,7 +280,7 @@ export const StatsService = {
 
   async resetStatistics() {
     try {
-      statsStorage.clearStatsData();
+      await statsStorage.clearStatsData();
     } catch (error) {
       console.error('Error clearing all data:', error);
     }

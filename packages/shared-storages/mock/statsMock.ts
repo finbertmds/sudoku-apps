@@ -114,21 +114,21 @@ const gameLogV2: GameLogEntryV2[] = gameLog.map((log) => ({
 }));
 
 const saveGameLogs = async () => {
-  const oldLogs = statsStorage.getGameLogs();
+  const oldLogs = await statsStorage.getGameLogs();
   if (oldLogs.length > 0) {
     return;
   }
   console.log('mock game logs', gameLog);
-  statsStorage.saveGameLogs(gameLog);
+  await statsStorage.saveGameLogs(gameLog);
 };
 
 const saveGameLogsV2 = async () => {
-  const oldLogs = statsStorage.getGameLogsV2();
+  const oldLogs = await statsStorage.getGameLogsV2();
   if (oldLogs.length > 0) {
     return;
   }
   console.log('mock game logs', gameLog);
-  statsStorage.saveGameLogsV2(gameLogV2);
+  await statsStorage.saveGameLogsV2(gameLogV2);
 };
 
 const saveMockGameLogs = async () => {

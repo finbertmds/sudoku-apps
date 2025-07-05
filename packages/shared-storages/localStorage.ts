@@ -3,15 +3,15 @@
 import {AppStorage} from '@sudoku/shared-storages';
 
 export const localStorageImpl: AppStorage = {
-  getString: (key: string): string | null => {
+  getString: async (key: string): Promise<string | null> => {
     return localStorage.getItem(key) ?? null;
   },
-  getBoolean: (key: string): boolean | null => {
+  getBoolean: async (key: string): Promise<boolean | null> => {
     const value = localStorage.getItem(key);
     if (value === null) return null;
     return value === 'true';
   },
-  getNumber: (key: string): number | null => {
+  getNumber: async (key: string): Promise<number | null> => {
     const value = localStorage.getItem(key);
     if (value === null) return null;
     try {
@@ -20,13 +20,13 @@ export const localStorageImpl: AppStorage = {
     } catch (_) {}
     return null;
   },
-  set: (key: string, value: boolean | string | number | ArrayBuffer) => {
+  set: async (key: string, value: boolean | string | number | ArrayBuffer) => {
     localStorage.setItem(key, value as string);
   },
-  delete: (key: string) => {
+  delete: async (key: string) => {
     localStorage.removeItem(key);
   },
-  clearAll: () => {
+  clearAll: async () => {
     localStorage.clear();
   },
 };

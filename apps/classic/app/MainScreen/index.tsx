@@ -8,7 +8,12 @@ import {
   SHOW_UNSPLASH_IMAGE_INFO,
   UNSPLASH_UTM,
 } from '@/utils/constants';
-import {Header, NewGameMenu, QuoteBox} from '@sudoku/shared-components';
+import {
+  Header,
+  NewGameMenu,
+  QuoteBox,
+  UnsplashImageInfo,
+} from '@sudoku/shared-components';
 import {CORE_EVENTS, InitGameCoreEvent} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
 import {
@@ -23,7 +28,6 @@ import {useAppUpdateChecker} from '@sudoku/shared-hooks/useAppUpdateChecker';
 import {BoardService, PlayerService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {Level} from '@sudoku/shared-types';
-import {UNSPLASH_URL} from '@sudoku/shared-utils';
 import * as Device from 'expo-device';
 import {router, useFocusEffect} from 'expo-router';
 import React, {useCallback, useEffect, useState} from 'react';
@@ -155,29 +159,11 @@ const MainScreen = () => {
             resizeMode="cover"
             blurRadius={2}>
             {SHOW_UNSPLASH_IMAGE_INFO && (
-              <View style={styles.attributionContainer}>
-                <Text style={[styles.attributionText, {color: theme.text}]}>
-                  Photo by{' '}
-                  <Text
-                    style={[styles.linkText, {color: theme.secondary}]}
-                    onPress={() =>
-                      Linking.openURL(
-                        (background.photographerLink ?? UNSPLASH_URL) +
-                          UNSPLASH_UTM,
-                      )
-                    }>
-                    {background.photographerName}
-                  </Text>{' '}
-                  on{' '}
-                  <Text
-                    style={[styles.linkText, {color: theme.secondary}]}
-                    onPress={() =>
-                      Linking.openURL(UNSPLASH_URL + UNSPLASH_UTM)
-                    }>
-                    Unsplash
-                  </Text>
-                </Text>
-              </View>
+              <UnsplashImageInfo
+                unsplashUtm={UNSPLASH_UTM}
+                photographerName={background.photographerName ?? ''}
+                photographerLink={background.photographerLink ?? ''}
+              />
             )}
           </ImageBackground>
         )}

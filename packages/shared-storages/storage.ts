@@ -5,11 +5,19 @@ import {DeviceUtil} from '@sudoku/shared-utils';
 import {Platform} from 'react-native';
 
 const impl: () => AppStorage = Platform.select({
-  web: () => require('./localStorage').localStorageImpl,
-  default: () =>
-    DeviceUtil.isMMKVAvailable()
-      ? require('./mmkvStorage').mmkvStorage
-      : require('./localStorage').localStorageImpl,
+  web: () => {
+    console.log('Using localStorage implementation');
+    return require('./localStorage').localStorageImpl;
+  },
+  default: () => {
+    if (DeviceUtil.isMMKVAvailable()) {
+      console.log('Using MMKV storage implementation');
+      return require('./mmkvStorage').mmkvStorage;
+    } else {
+      console.log('Using AsyncStorage implementation');
+      return require('./asyncStorage').asyncStorageImpl;
+    }
+  },
 });
 
 export const storage = impl();

@@ -1,6 +1,6 @@
 // deviceUtil.ts
 
-import Constants from 'expo-constants';
+import Constants, {ExecutionEnvironment} from 'expo-constants';
 import {NativeModules, Platform} from 'react-native';
 
 let isTabletFn = () => false;
@@ -26,12 +26,25 @@ if (Platform.OS === 'web') {
 
 const isWeb = Platform.OS === 'web';
 
+const isExpoGo =
+  Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+
 const isMMKVAvailable = () => {
+  let isAvailable = false;
   try {
-    return !!NativeModules.MMKVStorage;
+    if (Platform.OS === 'web') {
+      isAvailable = false;
+    } else {
+      if (isExpoGo) {
+        isAvailable = false;
+      } else {
+        isAvailable = typeof NativeModules.MMKVStorage !== 'undefined';
+      }
+    }
   } catch (_) {
-    return false;
+    isAvailable = false;
   }
+  return isAvailable;
 };
 
 export const DeviceUtil = {

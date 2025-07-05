@@ -28,7 +28,7 @@ export const SettingsService = {
 
   async save(settings: AppSettings): Promise<void> {
     try {
-      appStorage.setSettings(settings);
+      await appStorage.setSettings(settings);
     } catch (err) {
       console.error('Failed to save settings', err);
     }
@@ -36,7 +36,7 @@ export const SettingsService = {
 
   async load(): Promise<AppSettings> {
     try {
-      const settings = appStorage.getSettings();
+      const settings = await appStorage.getSettings();
       if (settings) {
         return settings;
       }
@@ -54,9 +54,9 @@ export const SettingsService = {
 
   async clear(): Promise<void> {
     try {
-      appStorage.clearAll();
+      await appStorage.clearAll();
       if (__DEV__) {
-        appStorage.clearAllForDev();
+        await appStorage.clearAllForDev();
       }
     } catch (err) {
       console.error('Failed to clear settings', err);
@@ -64,10 +64,10 @@ export const SettingsService = {
   },
 
   async getHasPlayed(): Promise<boolean> {
-    return appStorage.getHasPlayed();
+    return await appStorage.getHasPlayed();
   },
 
   async setHasPlayed(value: boolean): Promise<void> {
-    appStorage.setHasPlayed(value);
+    await appStorage.setHasPlayed(value);
   },
 };

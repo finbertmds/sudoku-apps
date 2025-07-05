@@ -26,6 +26,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const LeaderboardScreen = () => {
   const {t} = useTranslation();
@@ -125,7 +126,9 @@ const LeaderboardScreen = () => {
   };
 
   return (
-    <View style={[styles.container, {backgroundColor: theme.background}]}>
+    <SafeAreaView
+      edges={['top']}
+      style={[styles.container, {backgroundColor: theme.background}]}>
       <Header
         title={t('leaderboard')}
         showBack={false}
@@ -178,7 +181,7 @@ const LeaderboardScreen = () => {
       <View style={styles.content}>
         {isLoading ? <LoadingContainer /> : renderTabContent[activeTab]}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

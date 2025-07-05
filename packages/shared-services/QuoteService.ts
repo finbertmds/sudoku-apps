@@ -6,13 +6,13 @@ import axios from 'axios';
 
 export const QuoteService = {
   async load(): Promise<DailyQuotes | null> {
-    const cached = appStorage.getQuotes();
+    const cached = await appStorage.getQuotes();
     return cached;
   },
 
   async save(data: DailyQuotes) {
     try {
-      appStorage.setQuotes(data);
+      await appStorage.setQuotes(data);
     } catch (err) {
       console.error('Failed to save quote', err);
     }
@@ -20,7 +20,7 @@ export const QuoteService = {
 
   async clear(): Promise<void> {
     try {
-      appStorage.clearQuotes();
+      await appStorage.clearQuotes();
     } catch (err) {
       console.error('Failed to clear quote', err);
     }

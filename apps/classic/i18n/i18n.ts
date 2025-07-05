@@ -3,7 +3,7 @@
 import {LANGUAGES} from '@/utils/constants';
 import {appStorage} from '@sudoku/shared-storages';
 import * as Localization from 'expo-localization';
-import i18n from 'i18next';
+import i18n, {changeLanguage} from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import en from './locales/en.json';
 import ja from './locales/ja.json';
@@ -23,6 +23,7 @@ const getBestLanguage = () => {
   return matched?.code || fallback.languageTag;
 };
 
+// eslint-disable-next-line import/no-named-as-default-member
 i18n.use(initReactI18next).init({
   resources,
   lng: getBestLanguage(),
@@ -39,34 +40,34 @@ i18n.use(initReactI18next).init({
 export const autoDetectLanguage = async () => {
   try {
     const systemLang = getBestLanguage();
-    const oldLanguage = appStorage.getLangKeyDefault();
+    const oldLanguage = await appStorage.getLangKeyDefault();
 
     if (systemLang !== oldLanguage) {
-      i18n.changeLanguage(systemLang);
-      appStorage.saveLangKeyDefault(systemLang);
-      appStorage.saveLangKeyPreferred(systemLang);
+      changeLanguage(systemLang);
+      await appStorage.saveLangKeyDefault(systemLang);
+      await appStorage.saveLangKeyPreferred(systemLang);
       return systemLang;
     }
 
-    const preferedLanguage = appStorage.getLangKeyPreferred();
+    const preferedLanguage = await appStorage.getLangKeyPreferred();
     if (preferedLanguage) {
-      i18n.changeLanguage(preferedLanguage);
+      changeLanguage(preferedLanguage);
     }
 
     return preferedLanguage;
   } catch (_) {}
 };
 
-export const getLanguage = () => {
+export const getLanguage = async () => {
   try {
     const systemLang = getBestLanguage();
-    const oldLanguage = appStorage.getLangKeyDefault();
+    const oldLanguage = await appStorage.getLangKeyDefault();
 
     if (systemLang !== oldLanguage) {
       return systemLang;
     }
 
-    const preferedLanguage = appStorage.getLangKeyPreferred();
+    const preferedLanguage = await appStorage.getLangKeyPreferred();
     return preferedLanguage || systemLang || fallback.languageTag;
   } catch (_) {}
 };
