@@ -133,7 +133,7 @@ const LeaderboardScreen = () => {
         title={t('leaderboard')}
         showBack={false}
         showSettings={true}
-        optionsScreen={SCREENS.SETTINGS}
+        optionsScreen={SCREENS.OPTIONS}
         showTheme={true}
         showSwitchPlayer={false}
         showCustom={false}

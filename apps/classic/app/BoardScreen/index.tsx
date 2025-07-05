@@ -7,7 +7,6 @@ import {
   MAX_HINTS,
   MAX_MISTAKES,
   MAX_TIME_PLAYED,
-  SCREENS,
   TUTORIAL_IMAGES,
 } from '@/utils/constants';
 import {useFocusEffect} from '@react-navigation/native';
@@ -651,7 +650,6 @@ const BoardScreen = () => {
           title={t('appName')}
           showBack={true}
           showSettings={true}
-          optionsScreen={SCREENS.SETTINGS}
           showTheme={true}
           onBack={handleBackPress}
           onSettings={handleGoToSettings}

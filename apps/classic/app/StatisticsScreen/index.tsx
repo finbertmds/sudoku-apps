@@ -119,7 +119,7 @@ const StatisticsScreen = () => {
         title={t('statistics')}
         showBack={false}
         showSettings={true}
-        optionsScreen={SCREENS.SETTINGS}
+        optionsScreen={SCREENS.OPTIONS}
         showTheme={true}
         showSwitchPlayer={true}
         onSwitchPlayer={() => {

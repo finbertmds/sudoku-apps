@@ -10,7 +10,7 @@ import {SettingsService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {AppSettings, SettingsParamProps} from '@sudoku/shared-types';
 import {useLocalSearchParams} from 'expo-router';
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   ScrollView,
@@ -26,15 +26,8 @@ const SettingsScreen = () => {
   const {theme} = useTheme();
   const {t} = useTranslation();
   const rawParams = useLocalSearchParams();
+  const {showAdvancedSettings} = rawParams as SettingsParamProps;
 
-  const {showAdvancedSettings} = useMemo(() => {
-    return {
-      showAdvancedSettings:
-        typeof rawParams.showAdvancedSettings === 'string'
-          ? rawParams.showAdvancedSettings === '1'
-          : false,
-    } as SettingsParamProps;
-  }, [rawParams]);
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
@@ -144,7 +137,7 @@ const SettingsScreen = () => {
           </View>
         ))}
 
-        {showAdvancedSettings && (
+        {showAdvancedSettings === '1' && (
           <TouchableOpacity
             style={[
               styles.deleteButton,

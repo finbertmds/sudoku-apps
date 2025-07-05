@@ -30,7 +30,7 @@ export type BoardParamProps = {
 };
 
 export type SettingsParamProps = {
-  showAdvancedSettings?: boolean;
+  showAdvancedSettings?: string;
 };
 
 export type SkWebViewParamProps = {
