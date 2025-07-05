@@ -9,7 +9,6 @@ import {
   MAX_TIME_PLAYED,
   TUTORIAL_IMAGES,
 } from '@/utils/constants';
-import {useFocusEffect} from '@react-navigation/native';
 import {
   ActionButtons,
   ConfirmDialog,
@@ -20,7 +19,7 @@ import {
   NumberPad,
   PauseModal,
 } from '@sudoku/shared-components';
-import {BannerAdSafe} from '@sudoku/shared-components/commons/BannerAdSafe';
+import {BannerAdSafe} from '@sudoku/shared-components/commons/BannerAdSafe.web';
 import {CORE_EVENTS} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
 import {GameEndedCoreEvent} from '@sudoku/shared-events/types';
@@ -29,9 +28,10 @@ import {
   useAppPause,
   useHintCounter,
   useMistakeCounter,
+  useSafeAreaInsetsSafe,
   useSafeGoBack,
 } from '@sudoku/shared-hooks';
-import {useInterstitialAdSafe} from '@sudoku/shared-hooks/useInterstitialAdSafe';
+import {useInterstitialAdSafe} from '@sudoku/shared-hooks/useInterstitialAdSafe.web';
 import {BoardService, SettingsService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {
@@ -49,15 +49,15 @@ import {
   createEmptyGridNumber,
   deepCloneBoard,
   deepCloneNotes,
-  getAdUnit,
   getTutorialImageList,
   removeNoteFromPeers,
 } from '@sudoku/shared-utils';
-import {router, useLocalSearchParams} from 'expo-router';
+import {getAdUnit} from '@sudoku/shared-utils/getAdUnit.web';
+import {router, useFocusEffect, useLocalSearchParams} from 'expo-router';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ActivityIndicator, Platform, StyleSheet, View} from 'react-native';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const BoardScreen = () => {
   const {mode, theme} = useTheme();
@@ -567,7 +567,7 @@ const BoardScreen = () => {
     }, []),
   );
 
-  const insets = useSafeAreaInsets();
+  const insets = useSafeAreaInsetsSafe();
   const bannerHeight = 70;
 
   useEffect(() => {

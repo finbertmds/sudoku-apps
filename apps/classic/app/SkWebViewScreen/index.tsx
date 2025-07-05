@@ -1,11 +1,8 @@
 // SkWebViewScreen/index.tsx
 
-import {useRoute} from '@react-navigation/native';
 import {WebViewBase} from '@sudoku/shared-components';
-import {
-  SkWebViewParamProps,
-  SkWebViewScreenRouteProp,
-} from '@sudoku/shared-types';
+import {SkWebViewParamProps} from '@sudoku/shared-types';
+import {useLocalSearchParams} from 'expo-router';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Platform} from 'react-native';
@@ -13,8 +10,9 @@ import {Platform} from 'react-native';
 export default function SkWebViewScreen() {
   const {t} = useTranslation();
 
-  const route = useRoute<SkWebViewScreenRouteProp>();
-  const {title, type, needPadding} = route.params as SkWebViewParamProps;
+  const rawParams = useLocalSearchParams();
+  const {title, type, needPadding} =
+    rawParams as unknown as SkWebViewParamProps;
 
   const licensesSource =
     Platform.OS === 'android'

@@ -1,6 +1,7 @@
 // commons/BannerAdSafe.native.tsx
 
-import {AD_REQUEST_OPTIONS} from '@sudoku/shared-hooks/useRewardedAdSafe.native';
+import {useSafeAreaInsetsSafe} from '@sudoku/shared-hooks';
+import {AD_REQUEST_OPTIONS} from '@sudoku/shared-hooks/useInterstitialAdSafe.native';
 import {useTheme} from '@sudoku/shared-themes';
 import {AppEnv} from '@sudoku/shared-types';
 import {getAdUnit} from '@sudoku/shared-utils/getAdUnit';
@@ -11,7 +12,6 @@ import {
   BannerAdSize,
   useForeground,
 } from 'react-native-google-mobile-ads';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type BannerAdSafeProps = {
   env?: AppEnv;
@@ -19,7 +19,7 @@ type BannerAdSafeProps = {
 
 export const BannerAdSafe = ({env}: BannerAdSafeProps) => {
   const {theme} = useTheme();
-  const insets = useSafeAreaInsets();
+  const insets = useSafeAreaInsetsSafe();
   const bannerRef = useRef<BannerAd>(null);
   const bannerId = getAdUnit('banner', env);
 

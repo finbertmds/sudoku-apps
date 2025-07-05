@@ -3,8 +3,7 @@
 import {Header} from '@sudoku/shared-components/commons/Header';
 import {useTheme} from '@sudoku/shared-themes';
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {StyleSheet, View} from 'react-native';
 import {WebView} from 'react-native-webview';
 
 type WebViewBaseProps = {
@@ -42,9 +41,7 @@ const WebViewBaseComponent = ({
     `;
 
   return (
-    <SafeAreaView
-      edges={['top', 'bottom']}
-      style={[styles.container, {backgroundColor: theme.background}]}>
+    <View style={[styles.container, {backgroundColor: theme.background}]}>
       <Header
         title={title}
         showBack={true}
@@ -58,7 +55,7 @@ const WebViewBaseComponent = ({
         onMessage={(_) => {}}
         style={needPadding ? styles.content : {}}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

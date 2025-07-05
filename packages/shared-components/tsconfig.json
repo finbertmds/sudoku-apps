@@ -1,11 +1,10 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json",
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "paths": {
       "@sudoku/shared-events": ["../../packages/shared-events"],
       "@sudoku/shared-hooks": ["../../packages/shared-hooks"],
       "@sudoku/shared-icons": ["../../packages/shared-icons"],
-      "@sudoku/shared-navigation": ["../../packages/shared-navigation"],
       "@sudoku/shared-services": ["../../packages/shared-services"],
       "@sudoku/shared-themes": ["../../packages/shared-themes"],
       "@sudoku/shared-types": ["../../packages/shared-types"],

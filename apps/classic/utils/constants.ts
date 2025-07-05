@@ -10,12 +10,12 @@ import {
 export const SCREENS = {
   HOME_TABS: '(tabs)',
   BOARD: 'BoardScreen',
-  OPTIONS: 'OptionsScreen/index',
-  SETTINGS: 'SettingsScreen/index',
-  HOW_TO_PLAY: 'HowToPlayScreen/index',
-  ABOUT_GAME: 'AboutGame/index',
-  PLAYERS: 'PlayerScreen/index',
-  SK_WEBVIEW: 'AboutGame/SkWebViewScreen/index',
+  OPTIONS: 'OptionsScreen',
+  SETTINGS: 'SettingsScreen',
+  HOW_TO_PLAY: 'HowToPlayScreen',
+  ABOUT_GAME: 'AboutGame',
+  PLAYERS: 'PlayerScreen',
+  SK_WEBVIEW: 'AboutGame/SkWebViewScreen',
   NOT_FOUND: '+not-found',
 } as const;
 

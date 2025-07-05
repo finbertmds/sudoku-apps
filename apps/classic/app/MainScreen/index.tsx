@@ -8,8 +8,6 @@ import {
   SHOW_UNSPLASH_IMAGE_INFO,
   UNSPLASH_UTM,
 } from '@/utils/constants';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Header, NewGameMenu, QuoteBox} from '@sudoku/shared-components';
 import {CORE_EVENTS, InitGameCoreEvent} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
@@ -19,14 +17,15 @@ import {
   useDailyBackground,
   useDailyQuote,
   usePlayerProfile,
+  useSafeAreaInsetsSafe,
 } from '@sudoku/shared-hooks';
 import {useAppUpdateChecker} from '@sudoku/shared-hooks/useAppUpdateChecker';
 import {BoardService, PlayerService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
-import {Level, RootStackParamList} from '@sudoku/shared-types';
+import {Level} from '@sudoku/shared-types';
 import {UNSPLASH_URL} from '@sudoku/shared-utils';
 import * as Device from 'expo-device';
-import {router} from 'expo-router';
+import {router, useFocusEffect} from 'expo-router';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -38,14 +37,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import uuid from 'react-native-uuid';
 
 const MainScreen = () => {
   const {mode, theme} = useTheme();
   const {t} = useTranslation();
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [hasSavedGame, setHasSavedGame] = useState(false);
   const {background, loadBackgrounds} = useDailyBackground(mode);
   const {quote, loadQuote} = useDailyQuote();
@@ -78,7 +75,7 @@ const MainScreen = () => {
     const id = uuid.v4().toString();
     eventBus.emit(CORE_EVENTS.initGame, {level, id} as InitGameCoreEvent);
     router.push({
-      pathname: SCREENS.BOARD as any,
+      pathname: 'BoardScreen' as any,
       params: {id, level, type: 'init'},
     });
   };
@@ -87,7 +84,7 @@ const MainScreen = () => {
     const savedGame = await BoardService.loadSaved();
     if (savedGame) {
       router.push({
-        pathname: SCREENS.BOARD as any,
+        pathname: 'BoardScreen' as any,
         params: {
           id: savedGame.savedId,
           level: savedGame.savedLevel,
@@ -102,7 +99,7 @@ const MainScreen = () => {
     BoardService.clear().then(checkSavedGame);
     PlayerService.clear().then(reloadPlayer);
   };
-  const insets = useSafeAreaInsets();
+  const insets = useSafeAreaInsetsSafe();
 
   useEffect(() => {
     if (needUpdate && !showUpdateAlert) {
@@ -188,11 +185,13 @@ const MainScreen = () => {
           title={t('appName')}
           showBack={false}
           showSettings={true}
-          optionsScreen={SCREENS.OPTIONS}
+          optionsScreen={SCREENS.OPTIONS as any}
           showTheme={true}
           showSwitchPlayer={true}
           onSwitchPlayer={() => {
-            navigation.navigate(SCREENS.PLAYERS as any);
+            router.push({
+              pathname: 'PlayerScreen' as any,
+            });
           }}
         />
         {quote && <QuoteBox q={quote.q} a={quote.a} />}

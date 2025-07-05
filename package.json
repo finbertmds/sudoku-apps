@@ -2,7 +2,7 @@
   "name": "sudoku-apps",
   "private": true,
   "workspaces": [
-    "apps/*",
+    "apps/classic",
     "packages/*"
   ],
   "scripts": {
@@ -19,6 +19,7 @@
     "prettier": "^3.6.2"
   },
   "dependencies": {
+    "@expo/config-plugins": "^10.1.1",
     "expo-yarn-workspaces": "^2.3.2"
   }
 }

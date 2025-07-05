@@ -6,7 +6,7 @@ import {useTheme} from '@sudoku/shared-themes';
 import {GameLogEntryV2, TimeFilter} from '@sudoku/shared-types';
 import {getGameHistory} from '@sudoku/shared-utils';
 import React, {useMemo} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 
 type GameHistoryProps = {
   logs: GameLogEntryV2[];
@@ -22,8 +22,7 @@ const GameHistoryComponent = ({logs, filter}: GameHistoryProps) => {
   );
 
   return (
-    <SafeAreaView
-      style={[styles.container, {backgroundColor: theme.background}]}>
+    <View style={[styles.container, {backgroundColor: theme.background}]}>
       {sortedLogs.length === 0 ? (
         <EmptyContainer />
       ) : (
@@ -35,7 +34,7 @@ const GameHistoryComponent = ({logs, filter}: GameHistoryProps) => {
           ))}
         </ScrollView>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

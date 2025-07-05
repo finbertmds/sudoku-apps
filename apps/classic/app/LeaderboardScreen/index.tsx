@@ -7,7 +7,6 @@ import {
   PLAYER_STATS_THRESHOLDS,
   SCREENS,
 } from '@/utils/constants';
-import {useFocusEffect} from '@react-navigation/native';
 import {
   Header,
   LoadingContainer,
@@ -17,6 +16,7 @@ import {useAppPause} from '@sudoku/shared-hooks';
 import {LeaderboardService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {LeaderboardTab, PlayerStats} from '@sudoku/shared-types';
+import {useFocusEffect} from 'expo-router';
 import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -26,7 +26,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 
 const LeaderboardScreen = () => {
   const {t} = useTranslation();
@@ -126,9 +125,7 @@ const LeaderboardScreen = () => {
   };
 
   return (
-    <SafeAreaView
-      edges={['top']}
-      style={[styles.container, {backgroundColor: theme.background}]}>
+    <View style={[styles.container, {backgroundColor: theme.background}]}>
       <Header
         title={t('leaderboard')}
         showBack={false}
@@ -181,7 +178,7 @@ const LeaderboardScreen = () => {
       <View style={styles.content}>
         {isLoading ? <LoadingContainer /> : renderTabContent[activeTab]}
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

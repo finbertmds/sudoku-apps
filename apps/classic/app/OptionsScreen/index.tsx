@@ -3,12 +3,10 @@
 import {appConfig} from '@/utils/appUtil';
 import {SCREENS} from '@/utils/constants';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Header} from '@sudoku/shared-components';
 import {useAlert} from '@sudoku/shared-hooks';
 import {useTheme} from '@sudoku/shared-themes';
-import {OptionMenuItem, RootStackParamList} from '@sudoku/shared-types';
+import {OptionMenuItem} from '@sudoku/shared-types';
 import {router} from 'expo-router';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
@@ -24,8 +22,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 
 const OptionsScreen = () => {
   const {theme} = useTheme();
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const {t} = useTranslation();
   const {alert} = useAlert();
 
@@ -112,7 +108,7 @@ const OptionsScreen = () => {
           styles.contentContainer,
           {backgroundColor: theme.backgroundSecondary},
         ]}>
-        {menuItems.map(({icon, label, screen, onPress}) => (
+        {menuItems.map(({icon, label, screen, onPress}: OptionMenuItem) => (
           <TouchableOpacity
             key={label}
             style={[
@@ -121,7 +117,9 @@ const OptionsScreen = () => {
             ]}
             onPress={() =>
               screen
-                ? navigation.navigate(screen as any)
+                ? router.push({
+                    pathname: screen as any,
+                  })
                 : onPress
                   ? onPress()
                   : () => {}

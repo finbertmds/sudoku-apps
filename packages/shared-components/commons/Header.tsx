@@ -1,10 +1,8 @@
 // commons/Header.tsx
 
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MaterialCommunityIcons} from '@sudoku/shared-icons';
 import {useTheme} from '@sudoku/shared-themes';
-import {RootStackParamList} from '@sudoku/shared-types';
+import {useRouter} from 'expo-router';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
@@ -38,15 +36,14 @@ const HeaderComponent = ({
   onSwitchPlayer = undefined,
 }: HeaderProps) => {
   const {theme, toggleTheme, mode} = useTheme();
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const router = useRouter();
 
   const defaultOnSettings = () => {
-    navigation.navigate(optionsScreen as any);
+    router.push(optionsScreen as any);
   };
 
   const defaultOnBack = () => {
-    navigation.goBack();
+    router.back();
   };
 
   const getLeftSideCount = () => {

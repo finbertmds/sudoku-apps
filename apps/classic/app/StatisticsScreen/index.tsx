@@ -2,8 +2,6 @@
 
 import {LEVELS, SCREENS} from '@/utils/constants';
 import {Ionicons} from '@expo/vector-icons';
-import {useFocusEffect} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {
   ChartsStats,
   GameHistory,
@@ -18,12 +16,11 @@ import {
   GameLogEntryV2,
   GameStats,
   Level,
-  RootStackParamList,
   StatsTab,
   TimeFilter,
 } from '@sudoku/shared-types';
 import {DEFAULT_PLAYER_ID} from '@sudoku/shared-utils/constants';
-import {useNavigation} from 'expo-router';
+import {useFocusEffect, useRouter} from 'expo-router';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -36,8 +33,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const StatisticsScreen = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const router = useRouter();
   const {theme} = useTheme();
   const {t} = useTranslation();
   const [stats, setStats] = useState<Record<Level, GameStats> | null>(null);
@@ -123,7 +119,9 @@ const StatisticsScreen = () => {
         showTheme={true}
         showSwitchPlayer={true}
         onSwitchPlayer={() => {
-          navigation.navigate(SCREENS.PLAYERS as any);
+          router.push({
+            pathname: '/PlayerScreen' as any,
+          });
         }}
         showCustom={true}
         customIconCount={1}
