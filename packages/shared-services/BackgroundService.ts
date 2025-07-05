@@ -1,9 +1,18 @@
-// SettingsService.ts
-import {AppEnv} from '@/env';
+// BackgroundService.ts
+
 import {appStorage} from '@sudoku/shared-storages';
-import {DailyBackgrounds, UnsplashImageData} from '@sudoku/shared-types';
+import {
+  AppEnv,
+  DailyBackgrounds,
+  UnsplashImageData,
+} from '@sudoku/shared-types';
 import axios from 'axios';
 
+/**
+ * Call init() first.
+ *
+ * @param env - AppEnv
+ */
 export const BackgroundService = {
   unsplashAccessKey: '',
 

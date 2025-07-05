@@ -1,6 +1,5 @@
 // leaderboardUtil.ts
 
-import {generateOverallRankingNotes, getPlayerNotes} from '@/playerNotesUtil';
 import {PlayerService, StatsService} from '@sudoku/shared-services';
 import {
   GameLogEntryV2,
@@ -13,6 +12,10 @@ import {
   PlayerStatsThresholds,
   RankedPlayer,
 } from '@sudoku/shared-types';
+import {
+  generateOverallRankingNotes,
+  getPlayerNotes,
+} from '@sudoku/shared-utils';
 import {TFunction} from 'i18next';
 
 export const calculatePlayerScore = (

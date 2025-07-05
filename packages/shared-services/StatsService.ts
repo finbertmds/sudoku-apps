@@ -2,6 +2,7 @@
 
 import {playerProfileStorage, statsStorage} from '@sudoku/shared-storages';
 import {
+  ConstantEnv,
   GameEndedCoreEvent,
   GameLogEntryV2,
   GameStats,
@@ -17,7 +18,18 @@ import {
 } from '@sudoku/shared-utils';
 import uuid from 'react-native-uuid';
 
+/**
+ * Call init() before using any other methods
+ *
+ * @param env - ConstantEnv
+ */
 export const StatsService = {
+  levels: [] as Level[],
+
+  init(env: ConstantEnv) {
+    this.levels = env.LEVELS;
+  },
+
   async shouldUpdateStatsCache(): Promise<boolean> {
     const lastUpdateStr = statsStorage.getLastStatsCacheUpdate();
     const lastUpdateUserId = statsStorage.getLastStatsCacheUpdateUserId();
@@ -44,7 +56,7 @@ export const StatsService = {
         return cache[filter]!;
       }
 
-      const computedStats = getStatsFromLogs(logs, filter, userId);
+      const computedStats = getStatsFromLogs(logs, filter, userId, this.levels);
       const updatedCache = {...cache, [filter]: computedStats};
 
       statsStorage.saveStatsCache(updatedCache);
@@ -52,7 +64,7 @@ export const StatsService = {
       return computedStats;
     } catch (error) {
       console.warn('Failed to get stats with cache:', error);
-      return getStatsFromLogs(logs, filter, userId); // fallback
+      return getStatsFromLogs(logs, filter, userId, this.levels); // fallback
     }
   },
 
@@ -67,7 +79,7 @@ export const StatsService = {
       const updatedCache: GameStatsCache = {...cache};
 
       for (const range of affectedRanges) {
-        const updatedStats = getStatsFromLogs(logs, range, userId);
+        const updatedStats = getStatsFromLogs(logs, range, userId, this.levels);
         updatedCache[range] = updatedStats;
       }
 
@@ -114,7 +126,12 @@ export const StatsService = {
       const updatedCache = {...cache};
 
       for (const range of rangesToUpdate) {
-        updatedCache[range] = getStatsFromLogs(logs, range, userId);
+        updatedCache[range] = getStatsFromLogs(
+          logs,
+          range,
+          userId,
+          this.levels,
+        );
       }
 
       statsStorage.saveStatsCache(updatedCache);

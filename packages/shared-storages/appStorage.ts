@@ -1,4 +1,6 @@
-import {storage} from '@/storage';
+// appStorage.ts
+
+import {storage} from '@sudoku/shared-storages';
 import {AppSettings, DailyBackgrounds, DailyQuotes} from '@sudoku/shared-types';
 import {
   STORAGE_KEY_BACKGROUNDS,

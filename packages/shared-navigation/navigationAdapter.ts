@@ -1,4 +1,6 @@
-import type {NavigationImpl} from '@/types';
+// navigationAdapter.ts
+
+import type {NavigationImpl} from '@sudoku/shared-navigation/types';
 
 let navigationImpl: NavigationImpl | null = null;
 

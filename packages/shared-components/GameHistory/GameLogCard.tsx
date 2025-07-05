@@ -12,7 +12,7 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, Text, View} from 'react-native';
 
-const GameLogCard = ({log}: {log: GameLogEntryV2}) => {
+const GameLogCardComponent = ({log}: {log: GameLogEntryV2}) => {
   const {t} = useTranslation();
   const {mode, theme} = useTheme();
 
@@ -137,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GameLogCard;
+export const GameLogCard = GameLogCardComponent;

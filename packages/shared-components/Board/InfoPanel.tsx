@@ -22,7 +22,7 @@ type InfoPanelProps = {
   onLimitTimeReached: () => Promise<void>;
 };
 
-const InfoPanel = ({
+const InfoPanelComponent = ({
   maxMistakes,
   maxTimePlayed,
   isPlaying,
@@ -142,4 +142,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(InfoPanel);
+export const InfoPanel = React.memo(InfoPanelComponent);

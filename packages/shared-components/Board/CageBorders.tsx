@@ -16,7 +16,7 @@ type CageBordersProps = {
   cages: CageInfo[];
 };
 
-const CageBorders = ({cages}: CageBordersProps) => {
+const CageBordersComponent = ({cages}: CageBordersProps) => {
   const {theme} = useTheme();
 
   const renderCageBorders = () => {
@@ -290,4 +290,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(CageBorders);
+export const CageBorders = React.memo(CageBordersComponent);

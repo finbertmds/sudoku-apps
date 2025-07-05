@@ -1,6 +1,6 @@
 // Statistics/GamePieChart.tsx
 
-import EmptyContainer from '@/commons/EmptyContainer';
+import {EmptyContainer} from '@sudoku/shared-components/commons/EmptyContainer';
 import {useTheme} from '@sudoku/shared-themes';
 import {DailyStatsPieData} from '@sudoku/shared-types';
 import {useState} from 'react';
@@ -20,7 +20,10 @@ type GamePieChartProps = {
   chartConfig: AbstractChartConfig;
 };
 
-const GamePieChart = ({levelCounts, chartConfig}: GamePieChartProps) => {
+const GamePieChartComponent = ({
+  levelCounts,
+  chartConfig,
+}: GamePieChartProps) => {
   const {theme} = useTheme();
   const {t} = useTranslation();
   const {width: screenWidth} = useWindowDimensions();
@@ -70,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GamePieChart;
+export const GamePieChart = GamePieChartComponent;

@@ -1,10 +1,10 @@
 // LanguageSwitcher.tsx
 
-import {useTheme} from '@/context/ThemeContext';
 import i18n, {autoDetectLanguage} from '@/i18n/i18n';
 import {LANGUAGES} from '@/utils/constants';
 import {useFocusEffect} from '@react-navigation/native';
 import {appStorage} from '@sudoku/shared-storages';
+import {useTheme} from '@sudoku/shared-themes';
 import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';

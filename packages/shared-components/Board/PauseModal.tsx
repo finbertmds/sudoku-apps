@@ -17,7 +17,7 @@ type PauseModalProps = {
   onResume: () => void;
 };
 
-const PauseModal = ({
+const PauseModalComponent = ({
   maxMistakes,
   level,
   mistake,
@@ -126,4 +126,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(PauseModal);
+export const PauseModal = React.memo(PauseModalComponent);

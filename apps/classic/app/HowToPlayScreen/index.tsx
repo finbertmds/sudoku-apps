@@ -4,6 +4,7 @@ import {TUTORIAL_IMAGES} from '@/utils/constants';
 import {Header, HowToPlay} from '@sudoku/shared-components';
 import {useSafeGoBack} from '@sudoku/shared-hooks';
 import {useTheme} from '@sudoku/shared-themes';
+import {getTutorialImageList} from '@sudoku/shared-utils';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
@@ -12,7 +13,9 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 const HowToPlayScreen = () => {
   const goBack = useSafeGoBack();
   const {t} = useTranslation();
-  const {theme} = useTheme();
+  const {mode, theme} = useTheme();
+
+  const slides = getTutorialImageList(TUTORIAL_IMAGES, mode);
 
   return (
     <SafeAreaView
@@ -24,7 +27,7 @@ const HowToPlayScreen = () => {
         showSettings={false}
         showTheme={false}
       />
-      <HowToPlay tutorialImages={TUTORIAL_IMAGES} onClose={() => goBack()} />
+      <HowToPlay slides={slides} onClose={() => goBack()} />
     </SafeAreaView>
   );
 };

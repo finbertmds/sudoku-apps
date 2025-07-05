@@ -1,11 +1,11 @@
 //  commons/WebViewBase.tsx
 
+import {Header} from '@sudoku/shared-components/commons/Header';
 import {useTheme} from '@sudoku/shared-themes';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {WebView} from 'react-native-webview';
-import Header from './Header';
 
 type WebViewBaseProps = {
   title: string;
@@ -13,11 +13,11 @@ type WebViewBaseProps = {
   needPadding?: boolean;
 };
 
-export default function WebViewBase({
+const WebViewBaseComponent = ({
   title,
   source,
   needPadding = false,
-}: WebViewBaseProps) {
+}: WebViewBaseProps) => {
   const {theme, mode} = useTheme();
 
   const darkModeStyle = `
@@ -60,7 +60,7 @@ export default function WebViewBase({
       />
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -70,3 +70,5 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
 });
+
+export const WebViewBase = WebViewBaseComponent;

@@ -1,8 +1,7 @@
 // handlers/onGameStarted.ts
 
-import {CORE_EVENTS} from '@/coreEvents';
-import eventBus from '@/eventBus';
-import {StatisticsUpdatedCoreEvent} from '@/types';
+import {CORE_EVENTS, StatisticsUpdatedCoreEvent} from '@sudoku/shared-events';
+import eventBus from '@sudoku/shared-events/eventBus';
 import {BoardService, StatsService} from '@sudoku/shared-services';
 
 export const handleGameStarted = async () => {

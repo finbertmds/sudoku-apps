@@ -3,7 +3,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-const PerformanceRanking = () => {
+const PerformanceRankingComponent = () => {
   return (
     <View>
       <Text>PerformanceRanking</Text>
@@ -11,4 +11,4 @@ const PerformanceRanking = () => {
   );
 };
 
-export default PerformanceRanking;
+export const PerformanceRanking = PerformanceRankingComponent;

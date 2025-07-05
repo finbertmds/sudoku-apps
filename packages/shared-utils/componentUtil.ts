@@ -1,13 +1,17 @@
 // componentUtil.ts
 
-import {TutorialImages} from '@sudoku/shared-types';
+import {TutorialImageMap, TutorialSlideItem} from '@sudoku/shared-types';
 import {ColorSchemeName} from 'react-native';
 
-export const getTutorialImage = (
-  tutorialImages: TutorialImages,
-  slide: keyof TutorialImages,
+export const getTutorialImageList = (
+  tutorialImages: TutorialImageMap,
   mode: ColorSchemeName,
-) => {
+): TutorialSlideItem[] => {
   const fallbackMode = mode === 'dark' ? 'dark' : 'light';
-  return tutorialImages[slide]?.[fallbackMode];
+
+  return Object.entries(tutorialImages).map(([key, imageObj]) => ({
+    key,
+    image: imageObj[fallbackMode],
+    text: `howToPlay.${key}`,
+  }));
 };

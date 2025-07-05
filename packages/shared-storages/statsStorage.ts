@@ -1,4 +1,6 @@
-import {storage} from '@/storage';
+// statsStorage.ts
+
+import {storage} from '@sudoku/shared-storages';
 import {
   DailyStats,
   GameLogEntry,

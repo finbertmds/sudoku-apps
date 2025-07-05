@@ -1,7 +1,7 @@
 // Statistics/GameHistory.tsx
 
-import EmptyContainer from '@/commons/EmptyContainer';
-import GameLogCard from '@/GameHistory/GameLogCard';
+import {EmptyContainer} from '@sudoku/shared-components/commons/EmptyContainer';
+import {GameLogCard} from '@sudoku/shared-components/GameHistory/GameLogCard';
 import {useTheme} from '@sudoku/shared-themes';
 import {GameLogEntryV2, TimeFilter} from '@sudoku/shared-types';
 import {getGameHistory} from '@sudoku/shared-utils';
@@ -13,7 +13,7 @@ type GameHistoryProps = {
   filter: TimeFilter;
 };
 
-const GameHistory = ({logs, filter}: GameHistoryProps) => {
+const GameHistoryComponent = ({logs, filter}: GameHistoryProps) => {
   const {theme} = useTheme();
 
   const sortedLogs = useMemo(
@@ -49,4 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GameHistory;
+export const GameHistory = GameHistoryComponent;

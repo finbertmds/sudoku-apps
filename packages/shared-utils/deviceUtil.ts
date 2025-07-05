@@ -4,9 +4,8 @@ import {Platform} from 'react-native';
 
 let isTabletFn = () => false;
 
-// TODO: Web is always tablet
 if (Platform.OS === 'web') {
-  isTabletFn = () => true;
+  isTabletFn = () => false;
 } else {
   try {
     if (Platform.OS === 'ios' || Platform.OS === 'android') {
@@ -21,6 +20,9 @@ if (Platform.OS === 'web') {
   }
 }
 
+const isWeb = Platform.OS === 'web';
+
 export const DeviceUtil = {
   isTablet: isTabletFn,
+  isWeb,
 };

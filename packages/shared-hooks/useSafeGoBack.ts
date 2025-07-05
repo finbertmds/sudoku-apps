@@ -1,13 +1,11 @@
 // useSafeGoBack.ts
 
-import {router, useNavigation} from 'expo-router';
+import {router} from 'expo-router';
 
 export const useSafeGoBack = () => {
-  const navigation = useNavigation();
-
   const goBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
+    if (router.canGoBack()) {
+      router.back();
     } else {
       router.replace('/');
     }

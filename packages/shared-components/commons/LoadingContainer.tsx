@@ -4,7 +4,7 @@ import {useTheme} from '@sudoku/shared-themes';
 import React from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 
-const LoadingContainer = () => {
+const LoadingContainerComponent = () => {
   const {theme} = useTheme();
 
   return (
@@ -23,4 +23,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoadingContainer;
+export const LoadingContainer = LoadingContainerComponent;

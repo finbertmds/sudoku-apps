@@ -1,27 +1,21 @@
 // createExpoNavigationImpl.ts
 
-import type {NavigationProp} from '@react-navigation/native';
-import {router, useNavigation} from 'expo-router';
-import type {NavigationImpl} from './types';
+import type {NavigationImpl} from '@sudoku/shared-navigation/types';
+import {router} from 'expo-router';
 
 export const createExpoNavigationImpl = (): NavigationImpl => {
-  const navigation = useNavigation<NavigationProp<any>>();
-
   return {
-    push: (name, params) => navigation.navigate(name, params),
+    push: (name, params) => router.push(name, params),
     replace: (name, params) => router.replace({pathname: name, params}),
-    back: () => navigation.goBack(),
-    goBack: () => navigation.goBack(),
-    navigate: (name, params) => navigation.navigate(name, params),
+    back: () => router.back(),
+    goBack: () => router.back(),
+    navigate: (name, params) => router.navigate(name, params),
     reset: (name, params) => {
-      navigation.reset({
-        index: 0,
-        routes: [{name, params}],
-      });
+      router.replace({pathname: name, params});
     },
     setParams: (params) => {
-      navigation.setParams(params);
+      router.setParams(params);
     },
-    canGoBack: () => navigation.canGoBack?.() ?? false,
+    canGoBack: () => router.canGoBack?.() ?? false,
   };
 };

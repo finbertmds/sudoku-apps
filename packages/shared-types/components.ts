@@ -2,6 +2,7 @@
 
 import {RouteProp} from '@react-navigation/native';
 import {AD_TYPE} from '@sudoku/shared-utils';
+import {ImageSourcePropType} from 'react-native';
 
 export type RootStackParamList = {
   HomeTabs: undefined;
@@ -90,11 +91,17 @@ export type UnsplashImageData = {
   photographerLink: string | null;
 };
 
-export type TutorialImages = {
-  [key: string]: {
-    light: any;
-    dark: any;
-  };
+export type TutorialImage = {
+  light: ImageSourcePropType;
+  dark: ImageSourcePropType;
+};
+
+export type TutorialImageMap = Record<string, TutorialImage>;
+
+export type TutorialSlideItem = {
+  key: string;
+  image: ImageSourcePropType;
+  text: string;
 };
 
 export type AdType = (typeof AD_TYPE)[keyof typeof AD_TYPE];

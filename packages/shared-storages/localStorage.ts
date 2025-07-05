@@ -1,6 +1,6 @@
 // localStorage.ts
 
-import {AppStorage} from '@/storage.interface';
+import {AppStorage} from '@sudoku/shared-storages';
 
 export const localStorageImpl: AppStorage = {
   getString: (key: string): string | null => {

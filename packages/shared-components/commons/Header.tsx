@@ -3,7 +3,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MaterialCommunityIcons} from '@sudoku/shared-icons';
-import {SCREENS} from '@sudoku/shared-navigation';
 import {useTheme} from '@sudoku/shared-themes';
 import {RootStackParamList} from '@sudoku/shared-types';
 import React from 'react';
@@ -13,27 +12,29 @@ type HeaderProps = {
   title?: string;
   showBack?: boolean;
   showSettings?: boolean;
+  optionsScreen?: string;
   showTheme?: boolean;
   showCustom?: boolean;
   customIconCount?: number;
   custom?: React.ReactNode;
+  showSwitchPlayer?: boolean;
   onBack?: () => void;
   onSettings?: () => void;
-  showSwitchPlayer?: boolean;
   onSwitchPlayer?: () => void;
 };
 
-const Header = ({
+const HeaderComponent = ({
   title,
   showBack = false,
   showSettings = false,
+  optionsScreen = '',
   showTheme = true,
   showCustom = false,
   customIconCount = 0,
   custom = undefined,
+  showSwitchPlayer = false,
   onBack = undefined,
   onSettings = undefined,
-  showSwitchPlayer = false,
   onSwitchPlayer = undefined,
 }: HeaderProps) => {
   const {theme, toggleTheme, mode} = useTheme();
@@ -41,7 +42,7 @@ const Header = ({
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const defaultOnSettings = () => {
-    navigation.navigate(SCREENS.OPTIONS);
+    navigation.navigate(optionsScreen as any);
   };
 
   const defaultOnBack = () => {
@@ -132,7 +133,13 @@ const Header = ({
             <TouchableOpacity
               accessibilityLabel="SettingsButton"
               testID="SettingsButton"
-              onPress={onSettings ? onSettings : defaultOnSettings}
+              onPress={
+                onSettings
+                  ? onSettings
+                  : optionsScreen
+                    ? defaultOnSettings
+                    : undefined
+              }
               style={styles.iconButton}>
               <MaterialCommunityIcons
                 name="cog-outline"
@@ -185,4 +192,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(Header);
+export const Header = React.memo(HeaderComponent);

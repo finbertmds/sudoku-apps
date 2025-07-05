@@ -3,7 +3,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-const TimeRanking = () => {
+const TimeRankingComponent = () => {
   return (
     <View>
       <Text>TimeRanking</Text>
@@ -11,4 +11,4 @@ const TimeRanking = () => {
   );
 };
 
-export default TimeRanking;
+export const TimeRanking = TimeRankingComponent;

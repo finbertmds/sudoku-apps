@@ -8,9 +8,13 @@
   "scripts": {
     "dev:killer": "yarn workspace killer start",
     "dev:classic": "yarn workspace classic start",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "postinstall": "expo-yarn-workspaces postinstall"
   },
   "devDependencies": {
     "prettier": "^3.6.2"
+  },
+  "dependencies": {
+    "expo-yarn-workspaces": "^2.3.2"
   }
 }

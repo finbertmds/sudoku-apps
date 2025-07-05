@@ -21,7 +21,7 @@ type PlayerCardProps = {
   onEdit: (player: PlayerProfile) => void;
 };
 
-const PlayerCard = ({
+const PlayerCardComponent = ({
   player,
   isSelected,
   canDelete,
@@ -143,4 +143,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(PlayerCard);
+export const PlayerCard = React.memo(PlayerCardComponent);

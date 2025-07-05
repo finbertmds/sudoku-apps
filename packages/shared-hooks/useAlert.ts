@@ -1,3 +1,5 @@
+// useAlert.ts
+
 import {useTranslation} from 'react-i18next';
 import {Alert, AlertButton, AlertOptions, Platform} from 'react-native';
 

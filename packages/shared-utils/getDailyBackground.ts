@@ -1,8 +1,11 @@
 // getDailyBackground.ts
 
-import {UNSPLASH_KEYWORDS_DARK, UNSPLASH_KEYWORDS_LIGHT} from '@/constants';
 import {BackgroundService} from '@sudoku/shared-services';
 import {DailyBackgrounds} from '@sudoku/shared-types';
+import {
+  UNSPLASH_KEYWORDS_DARK,
+  UNSPLASH_KEYWORDS_LIGHT,
+} from '@sudoku/shared-utils';
 
 const getRandomKeyword = (list: string[]) =>
   list[Math.floor(Math.random() * list.length)];

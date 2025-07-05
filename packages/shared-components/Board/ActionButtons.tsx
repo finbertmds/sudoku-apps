@@ -18,7 +18,7 @@ type ActionButtonsProps = {
   onSolve: () => void;
 };
 
-const ActionButtons = ({
+const ActionButtonsComponent = ({
   noteMode,
   hintCount,
   onNote,
@@ -185,4 +185,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(ActionButtons);
+export const ActionButtons = React.memo(ActionButtonsComponent);

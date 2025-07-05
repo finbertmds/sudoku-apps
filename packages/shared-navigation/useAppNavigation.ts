@@ -1,4 +1,6 @@
-import {getNavigation} from './navigationAdapter';
+// useAppNavigation.ts
+
+import {getNavigation} from '@sudoku/shared-navigation/navigationAdapter';
 
 export const useAppNavigation = () => {
   const nav = getNavigation();

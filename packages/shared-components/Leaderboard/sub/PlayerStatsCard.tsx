@@ -13,7 +13,7 @@ type PlayerStatsCardProps = {
   rank: number;
 };
 
-const PlayerStatsCard = ({stat, rank}: PlayerStatsCardProps) => {
+const PlayerStatsCardComponent = ({stat, rank}: PlayerStatsCardProps) => {
   const {mode, theme} = useTheme();
   const {
     player,
@@ -197,4 +197,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PlayerStatsCard;
+export const PlayerStatsCard = PlayerStatsCardComponent;

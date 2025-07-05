@@ -13,7 +13,11 @@ type NumberPadProps = {
   onSelectNumber: (num: number) => void;
 };
 
-const NumberPad = ({board, settings, onSelectNumber}: NumberPadProps) => {
+const NumberPadComponent = ({
+  board,
+  settings,
+  onSelectNumber,
+}: NumberPadProps) => {
   const {theme} = useTheme();
   const counts = useNumberCounts(board, settings);
 
@@ -63,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(NumberPad);
+export const NumberPad = React.memo(NumberPadComponent);

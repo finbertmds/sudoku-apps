@@ -1,4 +1,5 @@
 // settings.ts
+
 export interface AppSettings {
   // sounds: boolean;
   // autoLock: boolean;

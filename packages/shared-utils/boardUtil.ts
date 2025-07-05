@@ -1,7 +1,7 @@
 // boardUtil.ts
 
-import {BOARD_SIZE} from '@/constants';
 import {CageInfo, CellValue, Level} from '@sudoku/shared-types';
+import {BOARD_SIZE} from '@sudoku/shared-utils';
 
 /**
  * Chuyển string thành mảng 2 chiều theo số cột nhất định (thường là 9 với Sudoku).

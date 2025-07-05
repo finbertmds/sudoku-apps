@@ -6,7 +6,7 @@ import {DeviceUtil, formatTime, getLevelColor} from '@sudoku/shared-utils';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Dimensions, ScrollView, StyleSheet, Text, View} from 'react-native';
-import LoadingContainer from '../commons/LoadingContainer';
+import {LoadingContainer} from '../commons/LoadingContainer';
 
 let SCREEN_WIDTH = Dimensions.get('window').width;
 if (DeviceUtil.isTablet()) {
@@ -18,7 +18,7 @@ type LevelStatsProps = {
   stats: Record<Level, GameStats> | null;
 };
 
-const LevelStats = ({levels, stats}: LevelStatsProps) => {
+const LevelStatsComponent = ({levels, stats}: LevelStatsProps) => {
   const {mode, theme} = useTheme();
   const {t} = useTranslation();
 
@@ -119,4 +119,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LevelStats;
+export const LevelStats = LevelStatsComponent;

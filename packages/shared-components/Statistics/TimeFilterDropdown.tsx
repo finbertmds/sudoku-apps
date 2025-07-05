@@ -19,7 +19,7 @@ type TimeFilterDropdownProps = {
   onSelect: (filter: TimeFilter) => void;
 };
 
-const TimeFilterDropdown = ({
+const TimeFilterDropdownComponent = ({
   selected,
   onSelect,
   onClose,
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TimeFilterDropdown;
+export const TimeFilterDropdown = TimeFilterDropdownComponent;

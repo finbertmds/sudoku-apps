@@ -1,8 +1,5 @@
 // statsUtil.ts
 
-import {getLevelColor, levelColors} from '@/colorUtil';
-import {DAILY_STATS_DATE_FORMAT} from '@/constants';
-import {formatShortChartDate, isInTimeRange} from '@/dateUtil';
 import {
   DailyStats,
   GameLogEntryV2,
@@ -10,6 +7,13 @@ import {
   Level,
   TimeRange,
 } from '@sudoku/shared-types';
+import {
+  DAILY_STATS_DATE_FORMAT,
+  formatShortChartDate,
+  getLevelColor,
+  isInTimeRange,
+  levelColors,
+} from '@sudoku/shared-utils';
 import {format, parseISO} from 'date-fns';
 import {TFunction} from 'i18next';
 import {ColorSchemeName} from 'react-native';

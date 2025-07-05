@@ -1,8 +1,7 @@
 // playerUtil.ts
 
-import {getRandomColorKey} from '@/colorUtil';
-import {DEFAULT_PLAYER_ID} from '@/constants';
 import {PlayerProfile} from '@sudoku/shared-types';
+import {DEFAULT_PLAYER_ID, getRandomColorKey} from '@sudoku/shared-utils';
 import uuid from 'react-native-uuid';
 
 const generatePlayerId = () => {

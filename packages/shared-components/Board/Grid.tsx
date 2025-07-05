@@ -1,6 +1,6 @@
 // Board/BaseGrid.tsx
 
-import CageBorders from '@/Board/CageBorders';
+import {CageBorders} from '@sudoku/shared-components/Board/CageBorders';
 import {useTheme} from '@sudoku/shared-themes';
 import {AppSettings, CageInfo, Cell, CellValue} from '@sudoku/shared-types';
 import {
@@ -33,7 +33,7 @@ type GridProps = {
   onPress: (cell: Cell | null) => void;
 };
 
-const Grid = ({
+const GridComponent = ({
   showCage,
   board,
   cages,
@@ -366,4 +366,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(Grid);
+export const Grid = React.memo(GridComponent);

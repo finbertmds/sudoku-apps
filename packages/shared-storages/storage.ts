@@ -1,5 +1,6 @@
 // storage.ts
-import {AppStorage} from '@/storage.interface';
+
+import {AppStorage} from '@sudoku/shared-storages';
 import {Platform} from 'react-native';
 
 const impl: () => AppStorage = Platform.select({

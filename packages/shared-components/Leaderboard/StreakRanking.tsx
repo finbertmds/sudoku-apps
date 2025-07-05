@@ -3,7 +3,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-const StreakRanking = () => {
+const StreakRankingComponent = () => {
   return (
     <View>
       <Text>StreakRanking</Text>
@@ -11,4 +11,4 @@ const StreakRanking = () => {
   );
 };
 
-export default StreakRanking;
+export const StreakRanking = StreakRankingComponent;

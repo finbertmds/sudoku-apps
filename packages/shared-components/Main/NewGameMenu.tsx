@@ -16,7 +16,7 @@ type NewGameMenuProps = {
   handleNewGame: (level: Level) => void;
 };
 
-const NewGameMenu = ({levels, handleNewGame}: NewGameMenuProps) => {
+const NewGameMenuComponent = ({levels, handleNewGame}: NewGameMenuProps) => {
   const {theme} = useTheme();
   const {t} = useTranslation();
   const [visible, setVisible] = useState(false);
@@ -115,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(NewGameMenu);
+export const NewGameMenu = React.memo(NewGameMenuComponent);

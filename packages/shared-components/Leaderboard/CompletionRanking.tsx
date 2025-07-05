@@ -3,7 +3,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-const CompletionRanking = () => {
+const CompletionRankingComponent = () => {
   return (
     <View>
       <Text>CompletionRanking</Text>
@@ -11,4 +11,4 @@ const CompletionRanking = () => {
   );
 };
 
-export default CompletionRanking;
+export const CompletionRanking = CompletionRankingComponent;

@@ -1,9 +1,9 @@
 // gameLogsEntryV2.ts
 
 import {PlayerService, StatsService} from '@sudoku/shared-services';
+import {statsStorage} from '@sudoku/shared-storages';
 import {GameLogEntryV2, TimeRange} from '@sudoku/shared-types';
 import {ALL_AFFECTED_RANGES, DEFAULT_PLAYER_ID} from '@sudoku/shared-utils';
-import {statsStorage} from '../statsStorage';
 
 export async function migrateGameLogsEntryV2(language: string) {
   console.log('[MIGRATION] Migrating game logs entry v2...');

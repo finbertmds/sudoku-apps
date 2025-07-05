@@ -1,5 +1,5 @@
 {
-  "name": "sudoku-classic",
+  "name": "classic",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {

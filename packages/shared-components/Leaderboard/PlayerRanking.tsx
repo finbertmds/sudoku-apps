@@ -3,14 +3,14 @@
 import {PlayerStats} from '@sudoku/shared-types';
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import EmptyContainer from '../commons/EmptyContainer';
-import PlayerStatsCard from './sub/PlayerStatsCard';
+import {EmptyContainer} from '../commons/EmptyContainer';
+import {PlayerStatsCard} from './sub/PlayerStatsCard';
 
 type PlayerRankingProps = {
   playerStats: PlayerStats[];
 };
 
-const PlayerRanking = ({playerStats}: PlayerRankingProps) => {
+const PlayerRankingComponent = ({playerStats}: PlayerRankingProps) => {
   return (
     <>
       {playerStats.length === 0 ? (
@@ -39,4 +39,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PlayerRanking;
+export const PlayerRanking = PlayerRankingComponent;

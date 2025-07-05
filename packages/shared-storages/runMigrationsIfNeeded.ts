@@ -1,12 +1,18 @@
-import {appStorage} from '@/appStorage';
-import {migrateGameLogsEntryV2} from '@/migrations/gameLogsEntryV2';
-import {updateTotalGames} from '@/migrations/updateTotalGames';
+// runMigrationsIfNeeded.ts
+
+import {appStorage} from '@sudoku/shared-storages';
+import {
+  migrateGameLogsEntryV2,
+  updateTotalGames,
+} from '@sudoku/shared-storages/migrations';
 
 export const CURRENT_MIGRATION_VERSION = 2;
 
 export async function runMigrationsIfNeeded(language: string = 'en') {
-  // statsMock.saveMockGameLogsV2();
-  // rankingMock.saveMockRanking();
+  if (__DEV__) {
+    // statsMock.saveMockGameLogsV2();
+    // rankingMock.saveMockRanking();
+  }
 
   const storedVersion = appStorage.getMigrationVersion() ?? 0;
 

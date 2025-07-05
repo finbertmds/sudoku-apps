@@ -1,4 +1,4 @@
-// src/services/LeaderboardService.ts
+// LeaderboardService.ts
 
 import {
   LevelPriority,

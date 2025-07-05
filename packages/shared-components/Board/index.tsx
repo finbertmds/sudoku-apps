@@ -1,8 +1,8 @@
 // Board/index.tsx
 
-export {default as ActionButtons} from './ActionButtons';
-export {default as CageBorders} from './CageBorders';
-export {default as Grid} from './Grid';
-export {default as InfoPanel} from './InfoPanel';
-export {default as NumberPad} from './NumberPad';
-export {default as PauseModal} from './PauseModal';
+export {ActionButtons} from './ActionButtons';
+export {CageBorders} from './CageBorders';
+export {Grid} from './Grid';
+export {InfoPanel} from './InfoPanel';
+export {NumberPad} from './NumberPad';
+export {PauseModal} from './PauseModal';

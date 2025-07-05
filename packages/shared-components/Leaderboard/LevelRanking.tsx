@@ -19,7 +19,7 @@ type LevelRankingProps = {
   players: PlayerProfile[];
 };
 
-const LevelRanking = ({levels, logs, players}: LevelRankingProps) => {
+const LevelRankingComponent = ({levels, logs, players}: LevelRankingProps) => {
   const [activeLevel, setActiveLevel] = useState<Level>(levels[0]);
   const {mode, theme} = useTheme();
 
@@ -118,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LevelRanking;
+export const LevelRanking = LevelRankingComponent;

@@ -1,10 +1,10 @@
 // Statistics/ChartsStats.tsx
 
-import EmptyContainer from '@/commons/EmptyContainer';
-import GameBarChart from '@/Statistics/GameBarChart';
-import GamePieChart from '@/Statistics/GamePieChart';
-import GameStackedBarChart from '@/Statistics/GameStackedBarChart';
-import TimeLineChart from '@/Statistics/TimeLineChart';
+import {EmptyContainer} from '@sudoku/shared-components/commons/EmptyContainer';
+import {GameBarChart} from '@sudoku/shared-components/Statistics/GameBarChart';
+import {GamePieChart} from '@sudoku/shared-components/Statistics/GamePieChart';
+import {GameStackedBarChart} from '@sudoku/shared-components/Statistics/GameStackedBarChart';
+import {TimeLineChart} from '@sudoku/shared-components/Statistics/TimeLineChart';
 import {useTheme} from '@sudoku/shared-themes';
 import {GameLogEntryV2, Level, TimeFilter} from '@sudoku/shared-types';
 import {
@@ -23,7 +23,7 @@ type ChartsStatsProps = {
   levels: Level[];
 };
 
-const ChartsStats = ({logs, filter, levels}: ChartsStatsProps) => {
+const ChartsStatsComponent = ({logs, filter, levels}: ChartsStatsProps) => {
   const {mode, theme} = useTheme();
   const {t} = useTranslation();
   const dailyStats = useMemo(
@@ -59,4 +59,4 @@ const ChartsStats = ({logs, filter, levels}: ChartsStatsProps) => {
   );
 };
 
-export default ChartsStats;
+export const ChartsStats = ChartsStatsComponent;

@@ -1,18 +1,20 @@
 // setupEventListeners.ts
 
-import {CORE_EVENTS} from '@/coreEvents';
-import eventBus from '@/eventBus';
-import {handleClearStorage} from '@/handlers/onClearStorage';
-import {handleGameEnded} from '@/handlers/onGameEnded';
-import {handleGameStarted} from '@/handlers/onGameStarted';
-import {handleInitGame} from '@/handlers/onInitGame';
-import {handleDefaultPlayerUpdated} from '@/handlers/onPlayerDefaultUpdated';
-import {handleSwitchPlayer} from '@/handlers/onPlayerSwitched';
-import {handleUpdateStatistics} from '@/handlers/onUpdateStatistics';
+import {CORE_EVENTS} from '@sudoku/shared-events';
+import eventBus from '@sudoku/shared-events/eventBus';
+import {
+  handleClearStorage,
+  handleDefaultPlayerUpdated,
+  handleGameEnded,
+  handleGameStarted,
+  handleInitGame,
+  handleSwitchPlayer,
+  handleUpdateStatistics,
+} from '@sudoku/shared-events/handlers';
 
 /**
  * Setup event listeners for the event bus.
- * Call setupInitGameHandler() first.
+ * Call setupInitGameHandler() before using any other methods
  *
  * @param options - The options for the event listeners.
  * @param options.generateBoard - The function to generate the board.

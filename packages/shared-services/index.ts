@@ -1,3 +1,5 @@
+// shared-services/index.ts
+
 export * from './BackgroundService';
 export * from './BoardService';
 export * from './LeaderboardService';

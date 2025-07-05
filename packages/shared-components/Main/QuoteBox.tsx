@@ -9,7 +9,7 @@ type QuoteProps = {
   a: string;
 };
 
-const QuoteBox = ({q, a}: QuoteProps) => {
+const QuoteBoxComponent = ({q, a}: QuoteProps) => {
   const {theme} = useTheme();
 
   return (
@@ -45,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default QuoteBox;
+export const QuoteBox = React.memo(QuoteBoxComponent);

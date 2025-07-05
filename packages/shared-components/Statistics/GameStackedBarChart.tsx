@@ -1,6 +1,6 @@
 // Statistics/GameStackedBarChart.tsx
 
-import EmptyContainer from '@/commons/EmptyContainer';
+import {EmptyContainer} from '@sudoku/shared-components/commons/EmptyContainer';
 import {useTheme} from '@sudoku/shared-themes';
 import {DailyStatsStackedData} from '@sudoku/shared-types';
 import {CHART2_WIDTH} from '@sudoku/shared-utils';
@@ -21,7 +21,7 @@ type GameStackedBarChartProps = {
   chartConfig: AbstractChartConfig;
 };
 
-const GameStackedBarChart = ({
+const GameStackedBarChartComponent = ({
   stackedData,
   chartConfig,
 }: GameStackedBarChartProps) => {
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GameStackedBarChart;
+export const GameStackedBarChart = GameStackedBarChartComponent;

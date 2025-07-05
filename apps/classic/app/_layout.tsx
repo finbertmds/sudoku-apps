@@ -2,19 +2,27 @@
 
 import {autoDetectLanguage} from '@/i18n/i18n';
 import {darkTheme, lightTheme} from '@/theme/themeStyles';
-import {SCREENS} from '@/utils/constants';
-import {setupEventListeners} from '@sudoku/shared-events';
+import {env} from '@/utils/appUtil';
+import {generateBoard} from '@/utils/boardUtil';
+import {constantEnv, SCREENS} from '@/utils/constants';
+import {setupEventListeners, setupInitGameHandler} from '@sudoku/shared-events';
 import {useAppPause} from '@sudoku/shared-hooks';
 import {
   createExpoNavigationImpl,
   setNavigationImpl,
 } from '@sudoku/shared-navigation';
+import {
+  BackgroundService,
+  BoardService,
+  SettingsService,
+  StatsService,
+} from '@sudoku/shared-services';
 import {runMigrationsIfNeeded} from '@sudoku/shared-storages';
 import {ThemeProvider} from '@sudoku/shared-themes';
 import {useFonts} from 'expo-font';
-import {Stack, useRouter} from 'expo-router';
+import {Stack, useFocusEffect, useRouter} from 'expo-router';
 import {StatusBar} from 'expo-status-bar';
-import {useEffect} from 'react';
+import {useCallback, useEffect} from 'react';
 import 'react-native-reanimated';
 
 export default function RootLayout() {
@@ -23,10 +31,30 @@ export default function RootLayout() {
     setNavigationImpl(createExpoNavigationImpl());
   }, [router]);
 
+  const initEnv = useCallback(() => {
+    BackgroundService.init(env);
+    BoardService.init(constantEnv);
+    SettingsService.init(constantEnv);
+    StatsService.init(constantEnv);
+  }, []);
+
   useEffect(() => {
+    initEnv();
+
+    setupInitGameHandler({
+      generateBoard: generateBoard,
+    });
     setupEventListeners();
     runMigrationsIfNeeded();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      initEnv();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
+  );
 
   useAppPause(
     () => {},

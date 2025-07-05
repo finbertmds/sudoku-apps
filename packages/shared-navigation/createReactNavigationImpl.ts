@@ -1,8 +1,8 @@
 // createReactNavigationImpl.ts
 
-import type {NavigationImpl} from '@/types';
 import type {NavigationContainerRef} from '@react-navigation/native';
 import {CommonActions} from '@react-navigation/native';
+import type {NavigationImpl} from '@sudoku/shared-navigation/types';
 
 export const createReactNavigationImpl = (
   navigationRef: React.RefObject<NavigationContainerRef<any> | null>,

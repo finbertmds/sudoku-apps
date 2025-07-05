@@ -1,9 +1,3 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"]
-    }
-  }
+  "extends": "@react-native/typescript-config/tsconfig.json"
 }

@@ -1,6 +1,6 @@
 // MainScreen/index.tsx
 
-import {useAppUpdateChecker} from '@/hooks/useAppUpdateChecker';
+import {env} from '@/utils/appUtil';
 import {
   IS_UI_TESTING,
   LEVELS,
@@ -20,6 +20,7 @@ import {
   useDailyQuote,
   usePlayerProfile,
 } from '@sudoku/shared-hooks';
+import {useAppUpdateChecker} from '@sudoku/shared-hooks/useAppUpdateChecker';
 import {BoardService, PlayerService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {Level, RootStackParamList} from '@sudoku/shared-types';
@@ -51,7 +52,7 @@ const MainScreen = () => {
   const {player, reloadPlayer} = usePlayerProfile();
   const [showUpdateAlert, setShowUpdateAlert] = useState(false);
   const {needUpdate, forceUpdate, storeUrl, checkVersion} =
-    useAppUpdateChecker();
+    useAppUpdateChecker(env);
 
   const {alert} = useAlert();
 
@@ -135,6 +136,7 @@ const MainScreen = () => {
         ]);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [forceUpdate, needUpdate, storeUrl, t, showUpdateAlert]);
 
   useAppPause(
@@ -186,6 +188,7 @@ const MainScreen = () => {
           title={t('appName')}
           showBack={false}
           showSettings={true}
+          optionsScreen={SCREENS.SETTINGS}
           showTheme={true}
           showSwitchPlayer={true}
           onSwitchPlayer={() => {

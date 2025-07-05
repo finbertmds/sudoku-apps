@@ -1,6 +1,6 @@
 // leaderboard.ts
 
-import {PlayerProfile} from '@/player';
+import {PlayerProfile} from '@sudoku/shared-types';
 
 export interface PlayerStats {
   player: PlayerProfile;

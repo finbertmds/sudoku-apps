@@ -1,6 +1,6 @@
 // StatisticsScreen/index.tsx
 
-import {SCREENS} from '@/utils/constants';
+import {LEVELS, SCREENS} from '@/utils/constants';
 import {Ionicons} from '@expo/vector-icons';
 import {useFocusEffect} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -106,8 +106,8 @@ const StatisticsScreen = () => {
   }
 
   const renderTabContent: Record<string, React.ReactNode> = {
-    level: <LevelStats stats={stats} levels={[]} />,
-    chart: <ChartsStats logs={logs} filter={filter} levels={[]} />,
+    level: <LevelStats stats={stats} levels={LEVELS} />,
+    chart: <ChartsStats logs={logs} filter={filter} levels={LEVELS} />,
     history: <GameHistory logs={logs} filter={filter} />,
   };
 
@@ -119,6 +119,7 @@ const StatisticsScreen = () => {
         title={t('statistics')}
         showBack={false}
         showSettings={true}
+        optionsScreen={SCREENS.SETTINGS}
         showTheme={true}
         showSwitchPlayer={true}
         onSwitchPlayer={() => {

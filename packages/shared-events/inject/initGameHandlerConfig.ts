@@ -13,7 +13,7 @@ export const setupInitGameHandler = (options: {
 export const getGenerateBoard: GenerateBoardFn = (level, id) => {
   if (!generateBoardFn) {
     throw new Error(
-      'generateBoard function not set. Call setupInitGameHandler() first.',
+      'generateBoard function not set. Call setupInitGameHandler() before using any other methods',
     );
   }
   return generateBoardFn(level, id);

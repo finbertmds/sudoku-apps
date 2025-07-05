@@ -2,8 +2,7 @@
 
 import {Ionicons} from '@sudoku/shared-icons';
 import {useTheme} from '@sudoku/shared-themes';
-import {TutorialImages} from '@sudoku/shared-types';
-import {getTutorialImage} from '@sudoku/shared-utils';
+import {TutorialSlideItem} from '@sudoku/shared-types';
 import React, {useMemo, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -17,15 +16,15 @@ import {
 } from 'react-native';
 
 type HowToPlayProps = {
-  tutorialImages: TutorialImages;
+  slides: TutorialSlideItem[];
   onClose: () => void;
 };
 
-const HowToPlay = ({tutorialImages, onClose}: HowToPlayProps) => {
+const HowToPlayComponent = ({slides, onClose}: HowToPlayProps) => {
   const {width} = useWindowDimensions();
   const flatListRef = useRef<FlatList>(null);
   const [index, setIndex] = useState(0);
-  const {mode, theme} = useTheme();
+  const {theme} = useTheme();
   const {t} = useTranslation();
 
   const viewabilityConfig = useMemo(
@@ -34,24 +33,6 @@ const HowToPlay = ({tutorialImages, onClose}: HowToPlayProps) => {
     }),
     [],
   );
-
-  const slides = [
-    {
-      key: 'slide1',
-      image: getTutorialImage(tutorialImages, 'slide1', mode),
-      text: 'howToPlay.slide1',
-    },
-    {
-      key: 'slide2',
-      image: getTutorialImage(tutorialImages, 'slide2', mode),
-      text: 'howToPlay.slide2',
-    },
-    {
-      key: 'slide3',
-      image: getTutorialImage(tutorialImages, 'slide3', mode),
-      text: 'howToPlay.slide3',
-    },
-  ];
 
   const onNext = () => {
     if (index < slides.length - 1) {
@@ -73,6 +54,10 @@ const HowToPlay = ({tutorialImages, onClose}: HowToPlayProps) => {
     }
   });
 
+  if (slides.length === 0) {
+    return null;
+  }
+
   return (
     <View
       style={[styles.container, {backgroundColor: theme.backgroundSecondary}]}>
@@ -86,7 +71,7 @@ const HowToPlay = ({tutorialImages, onClose}: HowToPlayProps) => {
         onViewableItemsChanged={onViewableItemsChanged.current}
         viewabilityConfig={viewabilityConfig}
         extraData={width}
-        renderItem={({item}) => (
+        renderItem={({item}: {item: TutorialSlideItem}) => (
           <View style={[styles.slide, {width: width}]}>
             <Image
               source={item.image}
@@ -98,6 +83,11 @@ const HowToPlay = ({tutorialImages, onClose}: HowToPlayProps) => {
             </Text>
           </View>
         )}
+        getItemLayout={(_, i) => ({
+          length: width,
+          offset: width * i,
+          index: i,
+        })}
       />
 
       <View style={styles.pagination}>
@@ -185,4 +175,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HowToPlay;
+export const HowToPlay = HowToPlayComponent;

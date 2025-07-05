@@ -1,8 +1,11 @@
 // handlers/onGameEnded.ts
 
-import {CORE_EVENTS} from '@/coreEvents';
-import eventBus from '@/eventBus';
-import {GameEndedCoreEvent, StatisticsUpdatedCoreEvent} from '@/types';
+import {
+  CORE_EVENTS,
+  GameEndedCoreEvent,
+  StatisticsUpdatedCoreEvent,
+} from '@sudoku/shared-events';
+import eventBus from '@sudoku/shared-events/eventBus';
 import {PlayerService, StatsService} from '@sudoku/shared-services';
 
 export const handleGameEnded = async (payload: GameEndedCoreEvent) => {

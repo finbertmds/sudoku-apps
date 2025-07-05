@@ -1,6 +1,6 @@
 // stats.ts
 
-import {Level} from '@/game';
+import {Level} from '@sudoku/shared-types';
 
 /**
  * @deprecated

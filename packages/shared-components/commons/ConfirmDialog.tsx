@@ -15,7 +15,7 @@ type ConfirmDialogProps = {
   onConfirm: () => void;
 };
 
-const ConfirmDialog = ({
+const ConfirmDialogComponent = ({
   title,
   message,
   cancelText,
@@ -122,4 +122,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ConfirmDialog;
+export const ConfirmDialog = ConfirmDialogComponent;

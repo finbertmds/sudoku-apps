@@ -1,9 +1,11 @@
 // handlers/onInitGame.ts
 
-import {CORE_EVENTS} from '@/coreEvents';
-import eventBus from '@/eventBus';
-import {getGenerateBoard} from '@/inject/initGameHandlerConfig';
-import {InitGameCoreEvent} from '@/types';
+import {
+  CORE_EVENTS,
+  getGenerateBoard,
+  InitGameCoreEvent,
+} from '@sudoku/shared-events';
+import eventBus from '@sudoku/shared-events/eventBus';
 import {BoardService} from '@sudoku/shared-services';
 
 export const handleInitGame = async (payload: InitGameCoreEvent) => {

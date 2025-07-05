@@ -22,7 +22,7 @@ type PlayerModalProps = {
   initialName?: string;
 };
 
-const PlayerModal = ({
+const PlayerModalComponent = ({
   onClose,
   onSubmit,
   mode,
@@ -134,4 +134,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(PlayerModal);
+export const PlayerModal = React.memo(PlayerModalComponent);

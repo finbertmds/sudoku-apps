@@ -1,12 +1,19 @@
-import {ConstantEnv} from '@/env';
+// BoardService.ts
+
 import {gameStorage} from '@sudoku/shared-storages';
 import {
+  ConstantEnv,
   InitGame,
   SavedGame,
   SavedHintCount,
   SavedMistake,
 } from '@sudoku/shared-types';
 
+/**
+ * Call init() before using any other methods
+ *
+ * @param env - ConstantEnv
+ */
 export const BoardService = {
   maxHints: 0,
 

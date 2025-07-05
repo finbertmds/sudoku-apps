@@ -1,4 +1,6 @@
-import {storage} from '@/storage';
+// gameStorage.ts
+
+import {storage} from '@sudoku/shared-storages';
 import {InitGame, SavedGame} from '@sudoku/shared-types';
 import {
   STORAGE_KEY_INIT_GAME,

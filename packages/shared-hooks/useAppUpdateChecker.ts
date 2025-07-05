@@ -1,6 +1,6 @@
-// hooks/useAppUpdateChecker.ts
+// useAppUpdateChecker.ts
 
-import {appConfig} from '@/utils/appUtil';
+import {AppEnv} from '@sudoku/shared-types';
 import {useEffect, useState} from 'react';
 import {Platform} from 'react-native';
 import VersionCheck from 'react-native-version-check';
@@ -17,7 +17,7 @@ const isForceUpdate = (current: string, latest: string): boolean => {
   return latestMajor > currMajor || latestMinor > currMinor;
 };
 
-export const useAppUpdateChecker = () => {
+export const useAppUpdateChecker = (env: AppEnv) => {
   const [needUpdate, setNeedUpdate] = useState(false);
   const [forceUpdate, setForceUpdate] = useState(false);
   const [storeUrl, setStoreUrl] = useState('');
@@ -29,9 +29,9 @@ export const useAppUpdateChecker = () => {
       }
       const _storeUrl =
         Platform.OS === 'ios'
-          ? await VersionCheck.getAppStoreUrl({appID: appConfig.iosAppId})
+          ? await VersionCheck.getAppStoreUrl({appID: env.iosAppId})
           : await VersionCheck.getPlayStoreUrl({
-              packageName: appConfig.androidPackageName,
+              packageName: env.androidPackageName,
             });
       setStoreUrl(_storeUrl);
 

@@ -1,6 +1,6 @@
 // handlers/onUpdateStatistics.ts
 
-import {StatisticsUpdatedCoreEvent} from '@/types';
+import {StatisticsUpdatedCoreEvent} from '@sudoku/shared-events';
 import {StatsService} from '@sudoku/shared-services';
 import {playerProfileStorage} from '@sudoku/shared-storages';
 

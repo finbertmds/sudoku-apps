@@ -1,4 +1,6 @@
-import {StatsService} from '@/StatsService';
+// PlayerService.ts
+
+import {StatsService} from '@sudoku/shared-services';
 import {playerProfileStorage, statsStorage} from '@sudoku/shared-storages';
 import {GameLogEntryV2, PlayerProfile} from '@sudoku/shared-types';
 import {createDefaultPlayer, DEFAULT_PLAYER_ID} from '@sudoku/shared-utils';

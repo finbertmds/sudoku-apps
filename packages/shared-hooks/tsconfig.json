@@ -2,10 +2,10 @@
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
     "paths": {
-      "@/*": ["./*"],
       "@sudoku/shared-services": ["../../packages/shared-services"],
       "@sudoku/shared-types": ["../../packages/shared-types"],
-      "@sudoku/shared-utils": ["../../packages/shared-utils"]
+      "@sudoku/shared-utils": ["../../packages/shared-utils"],
+      "@sudoku/shared-storages": ["../../packages/shared-storages"]
     },
     "lib": ["esnext", "dom"]
   }

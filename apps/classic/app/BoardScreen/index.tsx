@@ -1,6 +1,5 @@
 // BoardScreen/index.tsx
 
-import {BannerAdSafe} from '@/components/Board/BannerAdSafe';
 import {ClassicLevel} from '@/types';
 import {env} from '@/utils/appUtil';
 import {
@@ -8,6 +7,7 @@ import {
   MAX_HINTS,
   MAX_MISTAKES,
   MAX_TIME_PLAYED,
+  SCREENS,
   TUTORIAL_IMAGES,
 } from '@/utils/constants';
 import {useFocusEffect} from '@react-navigation/native';
@@ -21,6 +21,7 @@ import {
   NumberPad,
   PauseModal,
 } from '@sudoku/shared-components';
+import {BannerAdSafe} from '@sudoku/shared-components/commons/BannerAdSafe';
 import {CORE_EVENTS} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
 import {GameEndedCoreEvent} from '@sudoku/shared-events/types';
@@ -50,6 +51,7 @@ import {
   deepCloneBoard,
   deepCloneNotes,
   getAdUnit,
+  getTutorialImageList,
   removeNoteFromPeers,
 } from '@sudoku/shared-utils';
 import {router, useLocalSearchParams} from 'expo-router';
@@ -59,7 +61,7 @@ import {ActivityIndicator, Platform, StyleSheet, View} from 'react-native';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const BoardScreen = () => {
-  const {theme} = useTheme();
+  const {mode, theme} = useTheme();
   const {t} = useTranslation();
   const rawParams = useLocalSearchParams();
   const {id, level, type} = rawParams as BoardParamProps;
@@ -633,7 +635,7 @@ const BoardScreen = () => {
           showTheme={false}
         />
         <HowToPlay
-          tutorialImages={TUTORIAL_IMAGES}
+          slides={getTutorialImageList(TUTORIAL_IMAGES, mode)}
           onClose={handleAfterCheckHasPlayed}
         />
       </SafeAreaView>
@@ -649,6 +651,7 @@ const BoardScreen = () => {
           title={t('appName')}
           showBack={true}
           showSettings={true}
+          optionsScreen={SCREENS.SETTINGS}
           showTheme={true}
           onBack={handleBackPress}
           onSettings={handleGoToSettings}
@@ -698,7 +701,7 @@ const BoardScreen = () => {
             onSelectNumber={handleNumberPress}
           />
         </View>
-        <BannerAdSafe />
+        <BannerAdSafe env={env} />
       </SafeAreaView>
       {showPauseModal && (
         <PauseModal

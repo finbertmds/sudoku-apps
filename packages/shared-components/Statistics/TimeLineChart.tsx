@@ -1,6 +1,6 @@
 // Statistics/TimeLineChart.tsx
 
-import EmptyContainer from '@/commons/EmptyContainer';
+import {EmptyContainer} from '@sudoku/shared-components/commons/EmptyContainer';
 import {useTheme} from '@sudoku/shared-themes';
 import {DailyStats} from '@sudoku/shared-types';
 import {CHART_WIDTH, formatShortChartDate} from '@sudoku/shared-utils';
@@ -16,7 +16,10 @@ type TimeLineChartProps = {
   chartConfig: AbstractChartConfig;
 };
 
-const TimeLineChart = ({dailyStats, chartConfig}: TimeLineChartProps) => {
+const TimeLineChartComponent = ({
+  dailyStats,
+  chartConfig,
+}: TimeLineChartProps) => {
   const {theme} = useTheme();
   const {t} = useTranslation();
 
@@ -94,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TimeLineChart;
+export const TimeLineChart = TimeLineChartComponent;

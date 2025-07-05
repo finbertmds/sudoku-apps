@@ -2,5 +2,10 @@
   "name": "@sudoku/shared-utils",
   "version": "1.0.0",
   "main": "index.ts",
-  "private": true
+  "private": true,
+  "peerDependencies": {
+    "i18next": "*",
+    "react-native-uuid": "*",
+    "date-fns": "*"
+  }
 }

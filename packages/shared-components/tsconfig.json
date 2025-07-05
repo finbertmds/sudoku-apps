@@ -2,7 +2,6 @@
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
     "paths": {
-      "@/*": ["./*"],
       "@sudoku/shared-events": ["../../packages/shared-events"],
       "@sudoku/shared-hooks": ["../../packages/shared-hooks"],
       "@sudoku/shared-icons": ["../../packages/shared-icons"],

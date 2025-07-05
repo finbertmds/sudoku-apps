@@ -1,5 +1,6 @@
-// storage/playerProfileStorage.ts
-import {storage} from '@/storage';
+// playerProfileStorage.ts
+
+import {storage} from '@sudoku/shared-storages';
 import {PlayerProfile} from '@sudoku/shared-types';
 import {
   DEFAULT_PLAYER_ID,

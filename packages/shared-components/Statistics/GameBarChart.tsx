@@ -14,14 +14,17 @@ import {
 } from 'react-native';
 import {BarChart} from 'react-native-chart-kit';
 import {AbstractChartConfig} from 'react-native-chart-kit/dist/AbstractChart';
-import EmptyContainer from '../commons/EmptyContainer';
+import {EmptyContainer} from '../commons/EmptyContainer';
 
 type GameBarChartProps = {
   dailyStats: DailyStats[];
   chartConfig: AbstractChartConfig;
 };
 
-const GameBarChart = ({dailyStats, chartConfig}: GameBarChartProps) => {
+const GameBarChartComponent = ({
+  dailyStats,
+  chartConfig,
+}: GameBarChartProps) => {
   const {theme} = useTheme();
   const {t} = useTranslation();
   const {width: screenWidth} = useWindowDimensions();
@@ -81,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GameBarChart;
+export const GameBarChart = GameBarChartComponent;

@@ -5,6 +5,7 @@ import {
   LEVEL_WEIGHT,
   MAX_TIME_PLAYED,
   PLAYER_STATS_THRESHOLDS,
+  SCREENS,
 } from '@/utils/constants';
 import {useFocusEffect} from '@react-navigation/native';
 import {
@@ -132,6 +133,7 @@ const LeaderboardScreen = () => {
         title={t('leaderboard')}
         showBack={false}
         showSettings={true}
+        optionsScreen={SCREENS.SETTINGS}
         showTheme={true}
         showSwitchPlayer={false}
         showCustom={false}

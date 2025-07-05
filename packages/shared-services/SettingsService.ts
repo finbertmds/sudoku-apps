@@ -1,9 +1,20 @@
 // SettingsService.ts
-import {appStorage} from '@sudoku/shared-storages';
-import {AppSettings} from '@sudoku/shared-types';
-import {DEFAULT_SETTINGS} from '@sudoku/shared-utils';
 
+import {appStorage} from '@sudoku/shared-storages';
+import {AppSettings, ConstantEnv} from '@sudoku/shared-types';
+
+/**
+ * Call init() before using any other methods
+ *
+ * @param env - ConstantEnv
+ */
 export const SettingsService = {
+  defaultSettings: {} as AppSettings,
+
+  init(env: ConstantEnv) {
+    this.defaultSettings = env.DEFAULT_SETTINGS;
+  },
+
   normalizeSettings(settings: AppSettings): AppSettings {
     const normalized = {...settings};
 
@@ -32,7 +43,7 @@ export const SettingsService = {
     } catch (err) {
       console.error('Failed to load settings', err);
     }
-    return DEFAULT_SETTINGS;
+    return this.defaultSettings;
   },
 
   async update(partial: Partial<AppSettings>): Promise<void> {

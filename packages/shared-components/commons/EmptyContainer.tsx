@@ -9,7 +9,7 @@ type EmptyContainerProps = {
   text?: string;
 };
 
-const EmptyContainer = ({text}: EmptyContainerProps) => {
+const EmptyContainerComponent = ({text}: EmptyContainerProps) => {
   const {theme} = useTheme();
   const {t} = useTranslation();
 
@@ -56,4 +56,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EmptyContainer;
+export const EmptyContainer = EmptyContainerComponent;

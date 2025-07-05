@@ -1,4 +1,5 @@
-export * from './constants';
+// shared-navigation/index.ts
+
 export * from './createExpoNavigationImpl';
 export * from './createReactNavigationImpl';
 export * from './navigationAdapter';

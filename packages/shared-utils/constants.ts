@@ -15,23 +15,24 @@ export const ANIMATION_TYPE = {
 } as const;
 
 // Game Storage Keys
-export const STORAGE_KEY_INIT_GAME = 'initGame';
-export const STORAGE_KEY_SAVED_GAME = 'savedGame';
-export const STORAGE_KEY_GAME_STATS_CACHE = 'gameStatsCache';
-export const STORAGE_KEY_LAST_STATS_CACHE_UPDATE = 'lastStatsCacheUpdate';
+export const STORAGE_KEY_INIT_GAME = 'sudoku_initGame';
+export const STORAGE_KEY_SAVED_GAME = 'sudoku_savedGame';
+export const STORAGE_KEY_GAME_STATS_CACHE = 'sudoku_gameStatsCache';
+export const STORAGE_KEY_LAST_STATS_CACHE_UPDATE =
+  'sudoku_lastStatsCacheUpdate';
 export const STORAGE_KEY_LAST_STATS_CACHE_UPDATE_USER_ID =
-  'lastStatsCacheUpdateUserId';
-export const STORAGE_KEY_GAME_LOGS = 'gameLogs';
-export const STORAGE_KEY_DAILY_STATS = 'dailyStats';
-export const STORAGE_KEY_LANG_KEY_DEFAULT = 'defaultLanguage';
-export const STORAGE_KEY_LANG_KEY_PREFERRED = 'preferredLanguage';
-export const STORAGE_KEY_SETTINGS = 'settings';
-export const STORAGE_KEY_BACKGROUNDS = 'backgrounds';
-export const STORAGE_KEY_HAS_PLAYED = 'hasPlayed';
-export const STORAGE_KEY_QUOTES = 'quotes';
-export const STORAGE_KEY_MIGRATION_VERSION = 'migrationVersion';
-export const STORAGE_KEY_PLAYERS = 'players';
-export const STORAGE_KEY_CURRENT_PLAYER_ID = 'currentPlayerId';
+  'sudoku_lastStatsCacheUpdateUserId';
+export const STORAGE_KEY_GAME_LOGS = 'sudoku_gameLogs';
+export const STORAGE_KEY_DAILY_STATS = 'sudoku_dailyStats';
+export const STORAGE_KEY_LANG_KEY_DEFAULT = 'sudoku_defaultLanguage';
+export const STORAGE_KEY_LANG_KEY_PREFERRED = 'sudoku_preferredLanguage';
+export const STORAGE_KEY_SETTINGS = 'sudoku_settings';
+export const STORAGE_KEY_BACKGROUNDS = 'sudoku_backgrounds';
+export const STORAGE_KEY_HAS_PLAYED = 'sudoku_hasPlayed';
+export const STORAGE_KEY_QUOTES = 'sudoku_quotes';
+export const STORAGE_KEY_MIGRATION_VERSION = 'sudoku_migrationVersion';
+export const STORAGE_KEY_PLAYERS = 'sudoku_players';
+export const STORAGE_KEY_CURRENT_PLAYER_ID = 'sudoku_currentPlayerId';
 
 export const CHART_WIDTH = 60;
 export const CHART2_WIDTH = 70;

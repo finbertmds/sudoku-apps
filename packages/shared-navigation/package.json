@@ -3,12 +3,8 @@
   "version": "1.0.0",
   "main": "index.ts",
   "private": true,
-  "dependencies": {
-    "react": "*",
-    "react-native": "*"
-  },
+  "dependencies": {},
   "peerDependencies": {
-    "@expo/vector-icons": "*",
-    "react-native-vector-icons": "*"
+    "expo-router": "*"
   }
 }
