@@ -1,3 +1,5 @@
+// shared-hooks/index.ts
+
 export * from './useAlert';
 export * from './useAppPause';
 export * from './useDailyBackground';
@@ -6,9 +8,7 @@ export * from './useEnsureStatsCache';
 export * from './useGameTimer';
 export * from './useHintCounter';
 export * from './useInitGame';
-export * from './useInterstitialAdSafe';
 export * from './useMistakeCounter';
 export * from './useNumberCounts';
 export * from './usePlayerProfile';
-export * from './useRewardedAdSafe';
 export * from './useSafeGoBack';

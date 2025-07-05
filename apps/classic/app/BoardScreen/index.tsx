@@ -29,10 +29,10 @@ import {
   useAlert,
   useAppPause,
   useHintCounter,
-  useInterstitialAdSafe,
   useMistakeCounter,
   useSafeGoBack,
 } from '@sudoku/shared-hooks';
+import {useInterstitialAdSafe} from '@sudoku/shared-hooks/useInterstitialAdSafe';
 import {BoardService, SettingsService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {
