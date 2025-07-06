@@ -1,7 +1,6 @@
 {
-  "name": "killer-sudoku",
+  "name": "killer",
   "version": "1.0.1",
-  "private": true,
   "scripts": {
     "prebuild:android:force": "cd android && fastlane increment_vc && fastlane increment_vn_force",
     "prebuild:android": "cd android && fastlane increment_vc",
@@ -26,9 +25,9 @@
     "date-fns": "^4.1.0",
     "i18next": "^25.3.1",
     "killer-sudoku-generator": "^1.1.2",
-    "react": "19.1.0",
+    "react": "19.0.0",
     "react-i18next": "^15.6.0",
-    "react-native": "0.80.1",
+    "react-native": "0.79.5",
     "react-native-chart-kit": "^6.12.0",
     "react-native-device-info": "^14.0.4",
     "react-native-dotenv": "^3.4.11",
@@ -37,19 +36,18 @@
     "react-native-localize": "^3.4.2",
     "react-native-mmkv": "^3.3.0",
     "react-native-modal": "^14.0.0-rc.1",
-    "react-native-reanimated": "^3.18.0",
-    "react-native-safe-area-context": "^5.5.1",
-    "react-native-screens": "^4.11.1",
-    "react-native-svg": "^15.12.0",
+    "react-native-reanimated": "~3.17.4",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-screens": "~4.11.1",
+    "react-native-svg": "15.11.2",
     "react-native-uuid": "^2.0.3",
     "react-native-vector-icons": "^10.2.0",
     "react-native-version-check": "^3.5.0",
-    "react-native-webview": "^13.15.0"
+    "react-native-webview": "13.13.5"
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
-    "@babel/runtime": "^7.27.6",
     "@react-native-community/cli": "18.0.0",
     "@react-native-community/cli-platform-android": "18.0.0",
     "@react-native-community/cli-platform-ios": "18.0.0",
@@ -58,16 +56,17 @@
     "@react-native/metro-config": "0.80.1",
     "@react-native/typescript-config": "0.80.1",
     "@types/jest": "^30.0.0",
-    "@types/react": "^19.1.8",
+    "@types/react": "~19.0.10",
     "@types/react-native-vector-icons": "^6.4.18",
     "@types/react-native-version-check": "^3.4.8",
     "eslint": "^9.30.1",
     "eslint-plugin-react-native": "^5.0.0",
     "jest": "^30.0.4",
-    "prettier": "3.6.2",
-    "typescript": "5.8.3"
+    "prettier": "^3.6.2",
+    "typescript": "~5.8.3"
   },
   "engines": {
     "node": ">=18"
-  }
+  },
+  "private": true
 }

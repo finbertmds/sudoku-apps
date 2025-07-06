@@ -1,6 +1,6 @@
 // _layout.tsx
 
-import {autoDetectLanguage} from '@/i18n/i18n';
+import {autoDetectLanguage, getLanguage} from '@/i18n/i18n';
 import {darkTheme, lightTheme} from '@/theme/themeStyles';
 import {env} from '@/utils/appUtil';
 import {generateBoard} from '@/utils/boardUtil';
@@ -36,7 +36,8 @@ export default function RootLayout() {
       generateBoard: generateBoard,
     });
     setupEventListeners();
-    runMigrationsIfNeeded();
+
+    getLanguage().then((language) => runMigrationsIfNeeded(language));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -51,6 +52,7 @@ export default function RootLayout() {
     () => {},
     () => {
       setTimeout(() => {
+        initEnv();
         autoDetectLanguage();
       }, 200);
     },

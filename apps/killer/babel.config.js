@@ -9,5 +9,15 @@ module.exports = {
         path: '.env',
       },
     ],
+    [
+      'module-resolver',
+      {
+        root: ['./src'],
+        alias: {
+          '@': './src',
+        },
+        extensions: ['.ts', '.tsx', '.js', '.json'],
+      },
+    ],
   ],
 };

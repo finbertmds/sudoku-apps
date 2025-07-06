@@ -6,6 +6,7 @@
     "packages/*"
   ],
   "scripts": {
+    "clean-pj": "rm -rf node_modules yarn.lock && rm -rf apps/classic/node_modules apps/classic/.expo && rm -rf apps/killer/node_modules",
     "dev:killer": "yarn workspace killer start",
     "dev:killer:ios": "yarn workspace killer ios",
     "dev:killer:android": "yarn workspace killer android",
@@ -17,10 +18,12 @@
     "check:deps": "npx ts-node tools/compare-package-versions.cts"
   },
   "dependencies": {
+    "@babel/runtime": "^7.20.0",
     "@expo/config-plugins": "^10.1.1",
     "expo-yarn-workspaces": "^2.3.2"
   },
   "devDependencies": {
+    "babel-plugin-module-resolver": "^5.0.2",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2"
   }

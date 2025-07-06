@@ -3,6 +3,7 @@
 import LanguageSwitcher from '@/i18n/LanguageSwitcher';
 import {constantEnv} from '@/utils/constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {ConfirmDialog, Header} from '@sudoku/shared-components';
 import {CORE_EVENTS} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
@@ -10,6 +11,7 @@ import {SettingsService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {
   AppSettings,
+  RootStackParamList,
   SettingsParamProps,
   SettingsScreenRouteProp,
 } from '@sudoku/shared-types';
@@ -29,7 +31,8 @@ const SettingsScreen = () => {
   const {theme} = useTheme();
   const {t} = useTranslation();
   const route = useRoute<SettingsScreenRouteProp>();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const {showAdvancedSettings} = route.params as SettingsParamProps;
   const [settings, setSettings] = useState(constantEnv.DEFAULT_SETTINGS);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -138,7 +141,7 @@ const SettingsScreen = () => {
           </View>
         ))}
 
-        {showAdvancedSettings && (
+        {showAdvancedSettings === '1' && (
           <TouchableOpacity
             style={[
               styles.deleteButton,

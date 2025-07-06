@@ -16,7 +16,7 @@ import {useAppPause} from '@sudoku/shared-hooks';
 import {LeaderboardService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {LeaderboardTab, PlayerStats} from '@sudoku/shared-types';
-import {useFocusEffect} from 'expo-router';
+import {useFocusEffect, useRouter} from 'expo-router';
 import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -29,6 +29,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const LeaderboardScreen = () => {
+  const router = useRouter();
   const {t} = useTranslation();
   const {theme} = useTheme();
   const [isLoading, setIsLoading] = useState(false);
@@ -133,7 +134,9 @@ const LeaderboardScreen = () => {
         title={t('leaderboard')}
         showBack={false}
         showSettings={true}
-        optionsScreen={SCREENS.OPTIONS}
+        onSettings={() => {
+          router.push(SCREENS.OPTIONS as any);
+        }}
         showTheme={true}
         showSwitchPlayer={false}
         showCustom={false}

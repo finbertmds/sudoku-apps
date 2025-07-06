@@ -11,6 +11,7 @@ import {
   TimeFilterDropdown,
 } from '@sudoku/shared-components';
 import {useAppPause, useEnsureStatsCache} from '@sudoku/shared-hooks';
+import {Ionicons} from '@sudoku/shared-icons';
 import {PlayerService, StatsService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {
@@ -32,7 +33,6 @@ import {
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const StatisticsScreen = () => {
   const navigation =
@@ -118,6 +118,9 @@ const StatisticsScreen = () => {
         title={t('statistics')}
         showBack={false}
         showSettings={true}
+        onSettings={() => {
+          navigation.navigate(SCREENS.OPTIONS);
+        }}
         showTheme={true}
         showSwitchPlayer={true}
         onSwitchPlayer={() => {

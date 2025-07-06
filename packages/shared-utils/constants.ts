@@ -80,3 +80,5 @@ export const AD_TYPE = {
   REWARDED: 'rewarded',
   REWARDED_INTERSTITIAL: 'rewardedInterstitial',
 } as const;
+
+export const BANNER_HEIGHT = 70;

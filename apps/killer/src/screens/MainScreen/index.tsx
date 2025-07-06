@@ -181,6 +181,9 @@ const MainScreen = () => {
           title={t('appName')}
           showBack={false}
           showSettings={true}
+          onSettings={() => {
+            navigation.navigate(SCREENS.OPTIONS);
+          }}
           showTheme={true}
           showSwitchPlayer={true}
           onSwitchPlayer={() => {

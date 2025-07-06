@@ -5,8 +5,10 @@ import {
   LEVEL_PRIORITY,
   LEVEL_WEIGHT,
   PLAYER_STATS_THRESHOLDS,
+  SCREENS,
 } from '@/utils/constants';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {
   Header,
   LoadingContainer,
@@ -15,7 +17,11 @@ import {
 import {useAppPause} from '@sudoku/shared-hooks';
 import {LeaderboardService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
-import {LeaderboardTab, PlayerStats} from '@sudoku/shared-types';
+import {
+  LeaderboardTab,
+  PlayerStats,
+  RootStackParamList,
+} from '@sudoku/shared-types';
 import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -30,6 +36,8 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 const LeaderboardScreen = () => {
   const {t} = useTranslation();
   const {theme} = useTheme();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [isLoading, setIsLoading] = useState(false);
   const [playerStats, setPlayerStats] = useState<PlayerStats[]>([]);
   const [activeTab, setActiveTab] = useState<LeaderboardTab['key']>('player');
@@ -132,6 +140,9 @@ const LeaderboardScreen = () => {
         title={t('leaderboard')}
         showBack={false}
         showSettings={true}
+        onSettings={() => {
+          navigation.navigate(SCREENS.OPTIONS);
+        }}
         showTheme={true}
         showSwitchPlayer={false}
         showCustom={false}

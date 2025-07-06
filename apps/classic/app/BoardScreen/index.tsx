@@ -13,7 +13,7 @@ import {
   NumberPad,
   PauseModal,
 } from '@sudoku/shared-components';
-import {BannerAdSafe} from '@sudoku/shared-components/commons/BannerAdSafe.web';
+import {BannerAdSafeBase} from '@sudoku/shared-components/commons/BannerAdSafe.base';
 import {CORE_EVENTS} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
 import {GameEndedCoreEvent} from '@sudoku/shared-events/types';
@@ -25,7 +25,7 @@ import {
   useSafeAreaInsetsSafe,
   useSafeGoBack,
 } from '@sudoku/shared-hooks';
-import {useInterstitialAdSafe} from '@sudoku/shared-hooks/useInterstitialAdSafe.web';
+import {useInterstitialAdSafeBase} from '@sudoku/shared-hooks/useInterstitialAdSafe.base';
 import {BoardService, SettingsService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {
@@ -37,6 +37,7 @@ import {
 } from '@sudoku/shared-types';
 import {
   AD_TYPE,
+  BANNER_HEIGHT,
   checkBoardIsSolved,
   createEmptyGrid,
   createEmptyGridNotes,
@@ -46,7 +47,7 @@ import {
   getTutorialImageList,
   removeNoteFromPeers,
 } from '@sudoku/shared-utils';
-import {getAdUnit} from '@sudoku/shared-utils/getAdUnit.web';
+import {getAdUnitBase} from '@sudoku/shared-utils/getAdUnit.base';
 import {router, useFocusEffect, useLocalSearchParams} from 'expo-router';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -168,13 +169,13 @@ const BoardScreen = () => {
 
   // Hiển thị rewarded ad và xử lý khi đóng ad
   // ===========================================================
-  const adUnit = getAdUnit(AD_TYPE.INTERSTITIAL, env);
+  const adUnit = getAdUnitBase(AD_TYPE.INTERSTITIAL, env);
   const {
     isLoaded: isLoadedRewarded,
     isClosed: isClosedRewarded,
     load: loadRewarded,
     show: showRewarded,
-  } = useInterstitialAdSafe(adUnit);
+  } = useInterstitialAdSafeBase(adUnit);
   useEffect(() => {
     loadRewarded();
   }, [loadRewarded]);
@@ -564,7 +565,6 @@ const BoardScreen = () => {
   );
 
   const insets = useSafeAreaInsetsSafe();
-  const bannerHeight = 70;
 
   useEffect(() => {
     if (limitMistakeReached && !isLoadedRewarded && !isClosedRewarded) {
@@ -646,16 +646,16 @@ const BoardScreen = () => {
           title={t('appName')}
           showBack={true}
           showSettings={true}
+          onSettings={handleGoToSettings}
           showTheme={true}
           onBack={handleBackPress}
-          onSettings={handleGoToSettings}
         />
         <View
           style={[
             styles.contentContainerNoAd,
             {
               paddingTop: insets.top,
-              paddingBottom: insets.bottom + bannerHeight,
+              paddingBottom: insets.bottom + BANNER_HEIGHT,
             },
           ]}>
           <InfoPanel
@@ -695,7 +695,7 @@ const BoardScreen = () => {
             onSelectNumber={handleNumberPress}
           />
         </View>
-        <BannerAdSafe env={env} />
+        {Platform.OS !== 'web' && <BannerAdSafeBase env={env} />}
       </SafeAreaView>
       {showPauseModal && (
         <PauseModal

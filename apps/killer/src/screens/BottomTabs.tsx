@@ -5,10 +5,10 @@ import MainScreen from '@/screens/MainScreen';
 import StatisticsScreen from '@/screens/StatisticsScreen';
 import {SCREENS} from '@/utils/constants';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Ionicons} from '@sudoku/shared-icons';
 import {useTheme} from '@sudoku/shared-themes';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +37,9 @@ const BottomTabs = () => {
         },
         // eslint-disable-next-line react/no-unstable-nested-components
         tabBarIcon: ({color, size}) => {
-          return <Icon name={icons[route.name]} size={size} color={color} />;
+          return (
+            <Ionicons name={icons[route.name]} size={size} color={color} />
+          );
         },
         headerShown: false,
         tabBarActiveTintColor: theme.primary,

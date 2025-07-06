@@ -1,8 +1,8 @@
 // commons/Header.tsx
 
+import {useNavigation} from '@react-navigation/native';
 import {MaterialCommunityIcons} from '@sudoku/shared-icons';
 import {useTheme} from '@sudoku/shared-themes';
-import {useRouter} from 'expo-router';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
@@ -10,7 +10,6 @@ type HeaderProps = {
   title?: string;
   showBack?: boolean;
   showSettings?: boolean;
-  optionsScreen?: string;
   showTheme?: boolean;
   showCustom?: boolean;
   customIconCount?: number;
@@ -25,7 +24,6 @@ const HeaderComponent = ({
   title,
   showBack = false,
   showSettings = false,
-  optionsScreen = '',
   showTheme = true,
   showCustom = false,
   customIconCount = 0,
@@ -36,14 +34,10 @@ const HeaderComponent = ({
   onSwitchPlayer = undefined,
 }: HeaderProps) => {
   const {theme, toggleTheme, mode} = useTheme();
-  const router = useRouter();
-
-  const defaultOnSettings = () => {
-    router.push(optionsScreen as any);
-  };
+  const navigation = useNavigation();
 
   const defaultOnBack = () => {
-    router.back();
+    navigation.goBack();
   };
 
   const getLeftSideCount = () => {
@@ -130,13 +124,7 @@ const HeaderComponent = ({
             <TouchableOpacity
               accessibilityLabel="SettingsButton"
               testID="SettingsButton"
-              onPress={
-                onSettings
-                  ? onSettings
-                  : optionsScreen
-                    ? defaultOnSettings
-                    : undefined
-              }
+              onPress={onSettings ? onSettings : undefined}
               style={styles.iconButton}>
               <MaterialCommunityIcons
                 name="cog-outline"

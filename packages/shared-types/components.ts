@@ -1,6 +1,7 @@
 // components.ts
 
 import {RouteProp} from '@react-navigation/native';
+import {AppEnv} from '@sudoku/shared-types/apps';
 import {AD_TYPE} from '@sudoku/shared-utils';
 import {ImageSourcePropType} from 'react-native';
 
@@ -109,3 +110,9 @@ export type TutorialSlideItem = {
 };
 
 export type AdType = (typeof AD_TYPE)[keyof typeof AD_TYPE];
+
+export type GetAdUnit = (type: AdType, env: AppEnv | undefined) => string;
+
+export type NativeAdSafeProps = {
+  env: AppEnv;
+};

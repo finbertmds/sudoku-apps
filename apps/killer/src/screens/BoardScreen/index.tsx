@@ -18,6 +18,7 @@ import {
   NumberPad,
   PauseModal,
 } from '@sudoku/shared-components';
+import {BannerAdSafeBase} from '@sudoku/shared-components/commons/BannerAdSafe.base';
 import {CORE_EVENTS, GameEndedCoreEvent} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
 import {
@@ -25,10 +26,7 @@ import {
   useHintCounter,
   useMistakeCounter,
 } from '@sudoku/shared-hooks';
-import {
-  AD_REQUEST_OPTIONS,
-  useInterstitialAdSafe,
-} from '@sudoku/shared-hooks/useInterstitialAdSafe.native';
+import {useInterstitialAdSafeBase} from '@sudoku/shared-hooks/useInterstitialAdSafe.base';
 import {BoardService, SettingsService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {
@@ -41,7 +39,11 @@ import {
   RootStackParamList,
   SavedGame,
 } from '@sudoku/shared-types';
-import {getTutorialImageList} from '@sudoku/shared-utils';
+import {
+  AD_TYPE,
+  BANNER_HEIGHT,
+  getTutorialImageList,
+} from '@sudoku/shared-utils';
 import {
   checkBoardIsSolved,
   createEmptyGrid,
@@ -51,21 +53,10 @@ import {
   deepCloneNotes,
   removeNoteFromPeers,
 } from '@sudoku/shared-utils/boardUtil';
-import {getAdUnit} from '@sudoku/shared-utils/getAdUnit.native';
+import {getAdUnitBase} from '@sudoku/shared-utils/getAdUnit.base';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  ActivityIndicator,
-  Alert,
-  Platform,
-  StyleSheet,
-  View,
-} from 'react-native';
-import {
-  BannerAd,
-  BannerAdSize,
-  useForeground,
-} from 'react-native-google-mobile-ads';
+import {ActivityIndicator, Alert, StyleSheet, View} from 'react-native';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const BoardScreen = () => {
@@ -182,12 +173,13 @@ const BoardScreen = () => {
 
   // Hiển thị rewarded ad và xử lý khi đóng ad
   // ===========================================================
+  const adUnit = getAdUnitBase(AD_TYPE.INTERSTITIAL, env);
   const {
     isLoaded: isLoadedRewarded,
     isClosed: isClosedRewarded,
     load: loadRewarded,
     show: showRewarded,
-  } = useInterstitialAdSafe(getAdUnit('interstitial', env));
+  } = useInterstitialAdSafeBase(adUnit);
   useEffect(() => {
     loadRewarded();
   }, [loadRewarded]);
@@ -572,13 +564,7 @@ const BoardScreen = () => {
     }, []),
   );
 
-  const bannerRef = useRef<BannerAd>(null);
-  const bannerId = getAdUnit('banner', env);
-  useForeground(() => {
-    Platform.OS === 'ios' && bannerRef.current?.load();
-  });
   const insets = useSafeAreaInsets();
-  const bannerHeight = 70;
 
   useEffect(() => {
     if (limitMistakeReached && !isLoadedRewarded && !isClosedRewarded) {
@@ -660,16 +646,16 @@ const BoardScreen = () => {
           title={t('appName')}
           showBack={true}
           showSettings={true}
+          onSettings={handleGoToSettings}
           showTheme={true}
           onBack={handleBackPress}
-          onSettings={handleGoToSettings}
         />
         <View
           style={[
             styles.contentContainerNoAd,
             {
               paddingTop: insets.top,
-              paddingBottom: insets.bottom + bannerHeight,
+              paddingBottom: insets.bottom + BANNER_HEIGHT,
             },
           ]}>
           <InfoPanel
@@ -709,22 +695,7 @@ const BoardScreen = () => {
             onSelectNumber={handleNumberPress}
           />
         </View>
-        <View
-          style={[
-            styles.adContainer,
-            {
-              height: bannerHeight,
-              bottom: insets.bottom,
-              backgroundColor: theme.background,
-            },
-          ]}>
-          <BannerAd
-            ref={bannerRef}
-            unitId={bannerId}
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-            requestOptions={AD_REQUEST_OPTIONS}
-          />
-        </View>
+        <BannerAdSafeBase env={env} />
       </SafeAreaView>
       {showPauseModal && (
         <PauseModal

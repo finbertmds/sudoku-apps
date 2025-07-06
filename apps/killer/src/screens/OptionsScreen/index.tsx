@@ -5,6 +5,7 @@ import {SCREENS} from '@/utils/constants';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Header} from '@sudoku/shared-components';
+import {MaterialCommunityIcons} from '@sudoku/shared-icons';
 import {useTheme} from '@sudoku/shared-themes';
 import {OptionMenuItem, RootStackParamList} from '@sudoku/shared-types';
 import React from 'react';
@@ -20,7 +21,6 @@ import {
 } from 'react-native';
 import InAppReview from 'react-native-in-app-review';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const OptionsScreen = () => {
   const {theme} = useTheme();
@@ -131,7 +131,7 @@ const OptionsScreen = () => {
                   ? onPress()
                   : () => {}
             }>
-            <Icon
+            <MaterialCommunityIcons
               name={icon}
               size={24}
               color={theme.iconColor}

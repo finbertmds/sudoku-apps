@@ -115,7 +115,9 @@ const StatisticsScreen = () => {
         title={t('statistics')}
         showBack={false}
         showSettings={true}
-        optionsScreen={SCREENS.OPTIONS}
+        onSettings={() => {
+          router.push(SCREENS.OPTIONS as any);
+        }}
         showTheme={true}
         showSwitchPlayer={true}
         onSwitchPlayer={() => {

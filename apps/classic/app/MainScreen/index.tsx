@@ -171,7 +171,9 @@ const MainScreen = () => {
           title={t('appName')}
           showBack={false}
           showSettings={true}
-          optionsScreen={SCREENS.OPTIONS as any}
+          onSettings={() => {
+            router.push(SCREENS.OPTIONS as any);
+          }}
           showTheme={true}
           showSwitchPlayer={true}
           onSwitchPlayer={() => {

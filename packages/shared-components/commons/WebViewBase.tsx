@@ -94,15 +94,7 @@ const WebViewBaseComponent = ({
         showSettings={false}
         showTheme={false}
       />
-      {Platform.OS === 'web' ? (
-        <View style={{flex: 1}}>
-          <iframe
-            src={source}
-            ref={iframeRef}
-            style={{width: '100%', height: '100%', border: 'none'}}
-          />
-        </View>
-      ) : (
+      {Platform.OS !== 'web' ? (
         <WebView
           originWhitelist={['*']}
           source={source}
@@ -110,6 +102,14 @@ const WebViewBaseComponent = ({
           onMessage={(_) => {}}
           style={needPadding ? styles.content : {}}
         />
+      ) : (
+        <View style={{flex: 1}}>
+          <iframe
+            src={source}
+            ref={iframeRef}
+            style={{width: '100%', height: '100%', border: 'none'}}
+          />
+        </View>
       )}
     </SafeAreaView>
   );

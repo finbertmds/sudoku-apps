@@ -72,6 +72,7 @@ export const TUTORIAL_IMAGES: TutorialImageMap = {
 };
 
 export const constantEnv: ConstantEnv = {
+  LEVELS,
   MAX_MISTAKES: 5,
   MAX_HINTS: 5,
   MAX_TIME_PLAYED: 3 * 60 * 60, // in seconds
