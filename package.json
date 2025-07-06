@@ -2,7 +2,7 @@
   "name": "sudoku-apps",
   "private": true,
   "workspaces": [
-    "apps/classic",
+    "apps/*",
     "packages/*"
   ],
   "scripts": {
@@ -13,13 +13,15 @@
     "dev:classic:ios": "yarn workspace classic ios",
     "dev:classic:android": "yarn workspace classic android",
     "format": "prettier --write .",
-    "postinstall": "expo-yarn-workspaces postinstall"
-  },
-  "devDependencies": {
-    "prettier": "^3.6.2"
+    "postinstall": "expo-yarn-workspaces postinstall",
+    "check:deps": "npx ts-node tools/compare-package-versions.cts"
   },
   "dependencies": {
     "@expo/config-plugins": "^10.1.1",
     "expo-yarn-workspaces": "^2.3.2"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.2"
   }
 }
