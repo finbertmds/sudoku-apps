@@ -17,6 +17,9 @@ export default ({config}: ConfigContext): ExpoConfig => ({
     config: {
       googleMobileAdsAppId: process.env.AD_APP_ID_IOS,
     },
+    infoPlist: {
+      CFBundleLocalizations: ['en', 'vi', 'ja'],
+    },
   },
   android: {
     adaptiveIcon: {

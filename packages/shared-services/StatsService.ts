@@ -155,7 +155,7 @@ export const StatsService = {
 
   async getLogs(): Promise<GameLogEntryV2[]> {
     try {
-      return statsStorage.getGameLogsV2();
+      return await statsStorage.getGameLogsV2();
     } catch (error) {
       console.error('Error loading logs:', error);
     }
@@ -201,7 +201,7 @@ export const StatsService = {
         existing.unshift(log);
       }
 
-      statsStorage.saveGameLogsV2(existing);
+      await statsStorage.saveGameLogsV2(existing);
     } catch (error) {
       console.error('Error saving logs:', error);
     }
@@ -224,7 +224,7 @@ export const StatsService = {
         updated = [...sortedLogs, ...existing];
       }
 
-      statsStorage.saveGameLogsV2(updated);
+      await statsStorage.saveGameLogsV2(updated);
     } catch (error) {
       console.error('Error saving logs:', error);
     }

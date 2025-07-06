@@ -13,8 +13,8 @@ export const PlayerService = {
       // count total games from raw logs which completed
       const totalGames = rawLogs.filter((log) => log.completed).length;
       const player = createDefaultPlayer(totalGames, language);
-      playerProfileStorage.savePlayers([player]);
-      playerProfileStorage.setCurrentPlayerId(player.id);
+      await playerProfileStorage.savePlayers([player]);
+      await playerProfileStorage.setCurrentPlayerId(player.id);
     }
   },
 
@@ -31,7 +31,7 @@ export const PlayerService = {
       }
       return entry;
     });
-    statsStorage.saveGameLogsV2(migrated);
+    await statsStorage.saveGameLogsV2(migrated);
 
     // move total games from default player to new player
     const defaultPlayer =
@@ -39,7 +39,7 @@ export const PlayerService = {
     const newPlayer = await playerProfileStorage.getPlayerById(newPlayerId);
     if (defaultPlayer && newPlayer) {
       newPlayer.totalGames = defaultPlayer.totalGames;
-      playerProfileStorage.updatePlayer(newPlayer);
+      await playerProfileStorage.updatePlayer(newPlayer);
     }
 
     // delete default player
@@ -47,7 +47,7 @@ export const PlayerService = {
     const updated = allPlayers.filter(
       (_player) => _player.id !== DEFAULT_PLAYER_ID,
     );
-    playerProfileStorage.savePlayers(updated);
+    await playerProfileStorage.savePlayers(updated);
 
     // nếu đổi default player và đang chọn default player thì update stats cache
     if (newPlayerId === (await playerProfileStorage.getCurrentPlayerId())) {
@@ -57,21 +57,21 @@ export const PlayerService = {
   },
 
   async clear(): Promise<void> {
-    playerProfileStorage.clearAll();
+    await playerProfileStorage.clearAll();
   },
 
   async deletePlayer(playerId: string): Promise<void> {
     await this.deletePlayerGameLogs(playerId);
     const allPlayers = await playerProfileStorage.getAllPlayers();
     const updated = allPlayers.filter((p) => p.id !== playerId);
-    playerProfileStorage.savePlayers(updated);
+    await playerProfileStorage.savePlayers(updated);
   },
 
   async deletePlayerGameLogs(playerId: string): Promise<void> {
     if (playerId === DEFAULT_PLAYER_ID) {
       return;
     }
-    statsStorage.deleteGameLogsV2ByPlayerId(playerId);
+    await statsStorage.deleteGameLogsV2ByPlayerId(playerId);
   },
 
   async incrementPlayerTotalGames(): Promise<void> {
@@ -80,7 +80,7 @@ export const PlayerService = {
       return;
     }
     player.totalGames++;
-    playerProfileStorage.updatePlayer(player);
+    await playerProfileStorage.updatePlayer(player);
   },
 
   async canDeletePlayer(playerId: string): Promise<boolean> {
