@@ -1,3 +1,13 @@
+// src/screens/PlayerScreen/index.tsx
+
+import {Header, PlayerCard, PlayerModal} from '@sudoku/shared-components';
+import {CORE_EVENTS} from '@sudoku/shared-events';
+import eventBus from '@sudoku/shared-events/eventBus';
+import {usePlayerProfile} from '@sudoku/shared-hooks';
+import {PlayerService} from '@sudoku/shared-services';
+import {useTheme} from '@sudoku/shared-themes';
+import {PlayerProfile} from '@sudoku/shared-types';
+import {createNewPlayer, DEFAULT_PLAYER_ID} from '@sudoku/shared-utils';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -11,17 +21,6 @@ import {
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Header from '../../components/commons/Header';
-import PlayerCard from '../../components/Player/PlayerCard';
-import PlayerModal from '../../components/Player/PlayerModal';
-import {useTheme} from '../../context/ThemeContext';
-import {CORE_EVENTS} from '../../events';
-import eventBus from '../../events/eventBus';
-import {usePlayerProfile} from '../../hooks/usePlayerProfile';
-import {PlayerService} from '../../services/PlayerService';
-import {PlayerProfile} from '../../types/player';
-import {DEFAULT_PLAYER_ID} from '../../utils/constants';
-import {createNewPlayer} from '../../utils/playerUtil';
 
 const PlayerScreen = () => {
   const {theme} = useTheme();
@@ -41,8 +40,8 @@ const PlayerScreen = () => {
     null,
   );
 
-  const selectedPlayer = allPlayers.find(p => p.id === player?.id);
-  const otherPlayers = allPlayers.filter(p => p.id !== player?.id);
+  const selectedPlayer = allPlayers.find((p) => p.id === player?.id);
+  const otherPlayers = allPlayers.filter((p) => p.id !== player?.id);
 
   const handleDefaultPlayerUpdateDone = () => {
     reloadPlayer();
@@ -156,7 +155,7 @@ const PlayerScreen = () => {
           styles.contentContainer,
           {backgroundColor: theme.backgroundSecondary},
         ]}>
-        {otherPlayers.map(p => (
+        {otherPlayers.map((p) => (
           <PlayerCard
             key={p.id}
             player={p}

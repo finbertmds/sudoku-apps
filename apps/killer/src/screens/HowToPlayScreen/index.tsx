@@ -1,19 +1,19 @@
+// src/screens/HowToPlayScreen/index.tsx
+
+import {TUTORIAL_IMAGES} from '@/utils/constants';
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Header, HowToPlay} from '@sudoku/shared-components';
+import {useTheme} from '@sudoku/shared-themes';
+import {getTutorialImageList} from '@sudoku/shared-utils';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Header from '../../components/commons/Header';
-import HowToPlay from '../../components/HowToPlay';
-import {useTheme} from '../../context/ThemeContext';
-import {RootStackParamList} from '../../types';
 
 const HowToPlayScreen = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation();
   const {t} = useTranslation();
-  const {theme} = useTheme();
+  const {theme, mode} = useTheme();
 
   return (
     <SafeAreaView
@@ -25,7 +25,10 @@ const HowToPlayScreen = () => {
         showSettings={false}
         showTheme={false}
       />
-      <HowToPlay onClose={() => navigation.goBack()} />
+      <HowToPlay
+        slides={getTutorialImageList(TUTORIAL_IMAGES, mode)}
+        onClose={() => navigation.goBack()}
+      />
     </SafeAreaView>
   );
 };

@@ -2,6 +2,7 @@
 
 export * from './useAlert';
 export * from './useAppPause';
+export * from './useAppUpdateChecker';
 export * from './useDailyBackground';
 export * from './useDailyQuote';
 export * from './useEnsureStatsCache';

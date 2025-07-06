@@ -1,5 +1,18 @@
+// src/screens/SettingsScreen/index.tsx
+
+import LanguageSwitcher from '@/i18n/LanguageSwitcher';
+import {constantEnv} from '@/utils/constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {ConfirmDialog, Header} from '@sudoku/shared-components';
+import {CORE_EVENTS} from '@sudoku/shared-events';
+import eventBus from '@sudoku/shared-events/eventBus';
+import {SettingsService} from '@sudoku/shared-services';
+import {useTheme} from '@sudoku/shared-themes';
+import {
+  AppSettings,
+  SettingsParamProps,
+  SettingsScreenRouteProp,
+} from '@sudoku/shared-types';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -11,33 +24,18 @@ import {
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import ConfirmDialog from '../../components/commons/ConfirmDialog';
-import Header from '../../components/commons/Header';
-import {useTheme} from '../../context/ThemeContext';
-import {CORE_EVENTS} from '../../events';
-import eventBus from '../../events/eventBus';
-import LanguageSwitcher from '../../i18n/LanguageSwitcher';
-import {SettingsService} from '../../services/SettingsService';
-import {
-  AppSettings,
-  RootStackParamList,
-  SettingsParamProps,
-  SettingsScreenRouteProp,
-} from '../../types';
-import {DEFAULT_SETTINGS, MAX_MISTAKES} from '../../utils/constants';
 
 const SettingsScreen = () => {
   const {theme} = useTheme();
   const {t} = useTranslation();
   const route = useRoute<SettingsScreenRouteProp>();
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation();
   const {showAdvancedSettings} = route.params as SettingsParamProps;
-  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState(constantEnv.DEFAULT_SETTINGS);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   useEffect(() => {
-    SettingsService.load().then(data => {
+    SettingsService.load().then((data) => {
       if (data) {
         setSettings(data);
       }
@@ -49,7 +47,7 @@ const SettingsScreen = () => {
   }, [settings]);
 
   const toggle = (key: string, value: boolean) => {
-    setSettings(prev => {
+    setSettings((prev) => {
       const updated = SettingsService.normalizeSettings({
         ...prev,
         [key]: value,
@@ -78,7 +76,7 @@ const SettingsScreen = () => {
   const descriptions = {
     // statisticsMsg: t('desc.statisticsMsg'),
     // numberFirst: t('desc.numberFirst'),
-    mistakeLimit: t('desc.mistakeLimit', {limit: MAX_MISTAKES}),
+    mistakeLimit: t('desc.mistakeLimit', {limit: constantEnv.MAX_MISTAKES}),
     autoCheckMistake: t('desc.autoCheckMistake'),
     highlightDuplicates: t('desc.highlightDuplicates'),
     highlightAreas: t('desc.highlightAreas'),
@@ -134,8 +132,8 @@ const SettingsScreen = () => {
               )}
             </View>
             <Switch
-              value={settings[key as keyof typeof DEFAULT_SETTINGS]}
-              onValueChange={value => toggle(key, value)}
+              value={settings[key as keyof AppSettings]}
+              onValueChange={(value) => toggle(key, value)}
             />
           </View>
         ))}

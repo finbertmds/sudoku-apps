@@ -15,8 +15,6 @@ const HowToPlayScreen = () => {
   const {t} = useTranslation();
   const {mode, theme} = useTheme();
 
-  const slides = getTutorialImageList(TUTORIAL_IMAGES, mode);
-
   return (
     <SafeAreaView
       edges={['top', 'bottom']}
@@ -27,7 +25,10 @@ const HowToPlayScreen = () => {
         showSettings={false}
         showTheme={false}
       />
-      <HowToPlay slides={slides} onClose={() => goBack()} />
+      <HowToPlay
+        slides={getTutorialImageList(TUTORIAL_IMAGES, mode)}
+        onClose={() => goBack()}
+      />
     </SafeAreaView>
   );
 };

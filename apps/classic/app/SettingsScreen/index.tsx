@@ -1,7 +1,7 @@
 // SettingsScreen/index.tsx
 
 import LanguageSwitcher from '@/i18n/LanguageSwitcher';
-import {DEFAULT_SETTINGS, MAX_MISTAKES} from '@/utils/constants';
+import {constantEnv} from '@/utils/constants';
 import {ConfirmDialog, Header} from '@sudoku/shared-components';
 import {CORE_EVENTS} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
@@ -28,7 +28,7 @@ const SettingsScreen = () => {
   const rawParams = useLocalSearchParams();
   const {showAdvancedSettings} = rawParams as SettingsParamProps;
 
-  const [settings, setSettings] = useState(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState(constantEnv.DEFAULT_SETTINGS);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
   const goBack = useSafeGoBack();
@@ -75,7 +75,7 @@ const SettingsScreen = () => {
   const descriptions = {
     // statisticsMsg: t('desc.statisticsMsg'),
     // numberFirst: t('desc.numberFirst'),
-    mistakeLimit: t('desc.mistakeLimit', {limit: MAX_MISTAKES}),
+    mistakeLimit: t('desc.mistakeLimit', {limit: constantEnv.MAX_MISTAKES}),
     autoCheckMistake: t('desc.autoCheckMistake'),
     highlightDuplicates: t('desc.highlightDuplicates'),
     highlightAreas: t('desc.highlightAreas'),
@@ -131,7 +131,7 @@ const SettingsScreen = () => {
               )}
             </View>
             <Switch
-              value={settings[key as keyof typeof DEFAULT_SETTINGS]}
+              value={settings[key as keyof AppSettings]}
               onValueChange={(value) => toggle(key, value)}
             />
           </View>

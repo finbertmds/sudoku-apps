@@ -1,13 +1,14 @@
-// src/navigation/BottomTabs.tsx
+// src/screens/BottomTabs.tsx
+
+import LeaderboardScreen from '@/screens/LeaderboardScreen';
+import MainScreen from '@/screens/MainScreen';
+import StatisticsScreen from '@/screens/StatisticsScreen';
+import {SCREENS} from '@/utils/constants';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useTheme} from '@sudoku/shared-themes';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useTheme} from '../context/ThemeContext';
-import LeaderboardScreen from '../screens/LeaderboardScreen';
-import MainScreen from '../screens/MainScreen';
-import StatisticsScreen from '../screens/StatisticsScreen';
-import {SCREENS} from '../utils/constants';
 
 const Tab = createBottomTabNavigator();
 

@@ -1,5 +1,12 @@
+// src/screens/OptionsScreen/index.tsx
+
+import {appConfig} from '@/utils/appUtil';
+import {SCREENS} from '@/utils/constants';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Header} from '@sudoku/shared-components';
+import {useTheme} from '@sudoku/shared-themes';
+import {OptionMenuItem, RootStackParamList} from '@sudoku/shared-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -14,11 +21,6 @@ import {
 import InAppReview from 'react-native-in-app-review';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {appConfig} from '../../appConfig';
-import Header from '../../components/commons/Header';
-import {useTheme} from '../../context/ThemeContext';
-import {OptionMenuItem, RootStackParamList} from '../../types';
-import {SCREENS} from '../../utils/constants';
 
 const OptionsScreen = () => {
   const {theme} = useTheme();
@@ -28,7 +30,7 @@ const OptionsScreen = () => {
 
   const handleGoToSettings = () => {
     navigation.navigate(SCREENS.SETTINGS, {
-      showAdvancedSettings: true,
+      showAdvancedSettings: '1',
     });
   };
 
@@ -72,7 +74,9 @@ const OptionsScreen = () => {
   };
 
   const openURL = (url: string) => {
-    Linking.openURL(url).catch(err => console.error('Error opening URL', err));
+    Linking.openURL(url).catch((err) =>
+      console.error('Error opening URL', err),
+    );
   };
 
   const menuItems: OptionMenuItem[] = [
@@ -124,8 +128,8 @@ const OptionsScreen = () => {
               screen
                 ? navigation.navigate(screen as any)
                 : onPress
-                ? onPress()
-                : () => {}
+                  ? onPress()
+                  : () => {}
             }>
             <Icon
               name={icon}

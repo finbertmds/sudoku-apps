@@ -1,4 +1,8 @@
-export const lightTheme = {
+// src/theme/themeStyles.ts
+
+import {ThemeType} from '@sudoku/shared-themes/types';
+
+export const lightTheme: ThemeType = {
   primary: '#6750A4',
   onPrimary: '#FFFFFF',
   background: '#FFFFFF',
@@ -36,7 +40,7 @@ export const lightTheme = {
   card: '#F4F4F5',
 };
 
-export const darkTheme = {
+export const darkTheme: ThemeType = {
   primary: '#D0BCFF',
   onPrimary: '#381E72',
   background: '#121212',

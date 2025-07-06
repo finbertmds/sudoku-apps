@@ -3,9 +3,9 @@
 import {
   LEVEL_PRIORITY,
   LEVEL_WEIGHT,
-  MAX_TIME_PLAYED,
   PLAYER_STATS_THRESHOLDS,
   SCREENS,
+  constantEnv,
 } from '@/utils/constants';
 import {
   Header,
@@ -84,7 +84,7 @@ const LeaderboardScreen = () => {
         t,
         LEVEL_PRIORITY,
         LEVEL_WEIGHT,
-        MAX_TIME_PLAYED,
+        constantEnv.MAX_TIME_PLAYED,
         PLAYER_STATS_THRESHOLDS,
       );
       setPlayerStats(_playerStats);

@@ -1,7 +1,27 @@
-// StatisticsScreen.tsx
+// src/screens/StatisticsScreen/index.tsx
 
+import {LEVELS, SCREENS} from '@/utils/constants';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  ChartsStats,
+  GameHistory,
+  Header,
+  LevelStats,
+  TimeFilterDropdown,
+} from '@sudoku/shared-components';
+import {useAppPause, useEnsureStatsCache} from '@sudoku/shared-hooks';
+import {PlayerService, StatsService} from '@sudoku/shared-services';
+import {useTheme} from '@sudoku/shared-themes';
+import {
+  GameLogEntryV2,
+  GameStats,
+  Level,
+  RootStackParamList,
+  StatsTab,
+  TimeFilter,
+} from '@sudoku/shared-types';
+import {DEFAULT_PLAYER_ID} from '@sudoku/shared-utils';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -13,24 +33,6 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Header from '../../components/commons/Header';
-import ChartsStats from '../../components/Statistics/ChartsStats';
-import GameHistory from '../../components/Statistics/GameHistory';
-import LevelStats from '../../components/Statistics/LevelStats';
-import TimeFilterDropdown from '../../components/Statistics/TimeFilterDropdown';
-import {useTheme} from '../../context/ThemeContext';
-import {useAppPause} from '../../hooks/useAppPause';
-import {useEnsureStatsCache} from '../../hooks/useEnsureStatsCache';
-import {PlayerService, StatsService} from '../../services';
-import {
-  GameLogEntryV2,
-  GameStats,
-  Level,
-  RootStackParamList,
-  StatsTab,
-  TimeFilter,
-} from '../../types';
-import {DEFAULT_PLAYER_ID, SCREENS} from '../../utils/constants';
 
 const StatisticsScreen = () => {
   const navigation =
@@ -67,7 +69,7 @@ const StatisticsScreen = () => {
   // Sau khi navigation.goBack() sẽ gọi hàm này
   useFocusEffect(
     useCallback(() => {
-      updateStatsCache().then(_ => {
+      updateStatsCache().then((_) => {
         loadData();
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,7 +79,7 @@ const StatisticsScreen = () => {
   useAppPause(
     () => {},
     () => {
-      updateStatsCache().then(_ => {
+      updateStatsCache().then((_) => {
         loadData();
       });
     },
@@ -103,8 +105,8 @@ const StatisticsScreen = () => {
   }
 
   const renderTabContent: Record<string, React.ReactNode> = {
-    level: <LevelStats stats={stats} />,
-    chart: <ChartsStats logs={logs} filter={filter} />,
+    level: <LevelStats stats={stats} levels={LEVELS} />,
+    chart: <ChartsStats logs={logs} filter={filter} levels={LEVELS} />,
     history: <GameHistory logs={logs} filter={filter} />,
   };
 
@@ -137,7 +139,7 @@ const StatisticsScreen = () => {
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.tabRow}>
-          {statsTabs.map(tab => {
+          {statsTabs.map((tab) => {
             const isActive = activeTab === tab.key;
 
             return (
@@ -175,7 +177,7 @@ const StatisticsScreen = () => {
       {showDropdown && (
         <TimeFilterDropdown
           selected={filter}
-          onSelect={newFilter => {
+          onSelect={(newFilter) => {
             setFilter(newFilter);
             setShowDropdown(false);
           }}

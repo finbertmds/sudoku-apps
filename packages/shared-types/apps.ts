@@ -1,6 +1,6 @@
 // apps.ts
 
-import {AppSettings, Level} from '@sudoku/shared-types';
+import {AppSettings} from '@sudoku/shared-types';
 
 export interface AppEnv {
   UNSPLASH_ACCESS_KEY: string;
@@ -17,7 +17,8 @@ export interface AppEnv {
 }
 
 export interface ConstantEnv {
+  MAX_MISTAKES: number;
   MAX_HINTS: number;
+  MAX_TIME_PLAYED: number;
   DEFAULT_SETTINGS: AppSettings;
-  LEVELS: Level[];
 }

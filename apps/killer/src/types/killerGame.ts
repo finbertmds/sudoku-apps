@@ -1,3 +1,5 @@
+// src/types/killerGame.ts
+
 import {LEVELS} from '@/utils/constants';
 import {
   CageInfo,
@@ -7,6 +9,11 @@ import {
 
 export type KillerLevel = (typeof LEVELS)[number];
 
-export type KillerInitGame = GenericInitGame<KillerLevel, {cages: CageInfo[]}>;
+export type KillerInitGame = GenericInitGame<
+  KillerLevel,
+  {
+    cages: CageInfo[];
+  }
+>;
 
 export type KillerSavedGame = GenericSavedGame<KillerLevel>;

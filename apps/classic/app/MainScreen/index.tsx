@@ -19,12 +19,12 @@ import eventBus from '@sudoku/shared-events/eventBus';
 import {
   useAlert,
   useAppPause,
+  useAppUpdateChecker,
   useDailyBackground,
   useDailyQuote,
   usePlayerProfile,
   useSafeAreaInsetsSafe,
 } from '@sudoku/shared-hooks';
-import {useAppUpdateChecker} from '@sudoku/shared-hooks/useAppUpdateChecker';
 import {BoardService, PlayerService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {Level} from '@sudoku/shared-types';

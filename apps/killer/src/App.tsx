@@ -1,42 +1,29 @@
 // src/App.tsx
+
+import {autoDetectLanguage} from '@/i18n/i18n';
+import AboutGame from '@/screens/AboutGame';
+import BoardScreen from '@/screens/BoardScreen';
+import BottomTabs from '@/screens/BottomTabs';
+import HowToPlayScreen from '@/screens/HowToPlayScreen';
+import OptionsScreen from '@/screens/OptionsScreen';
+import PlayerScreen from '@/screens/PlayerScreen';
+import SettingsScreen from '@/screens/SettingsScreen';
+import SkWebViewScreen from '@/screens/SkWebViewScreen';
+import {darkTheme, lightTheme} from '@/theme/themeStyles';
 import {SCREENS} from '@/utils/constants';
-import {
-  NavigationContainer,
-  NavigationContainerRef,
-} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {setupEventListeners} from '@sudoku/shared-events';
 import {useAppPause} from '@sudoku/shared-hooks';
-import {
-  createReactNavigationImpl,
-  setNavigationImpl,
-} from '@sudoku/shared-navigation';
 import {runMigrationsIfNeeded} from '@sudoku/shared-storages';
 import {ThemeProvider} from '@sudoku/shared-themes';
 import {RootStackParamList} from '@sudoku/shared-types';
-import React, {useEffect, useRef} from 'react';
-import './i18n/i18n';
-import {autoDetectLanguage} from './i18n/i18n';
-import BottomTabs from './navigation/BottomTabs';
-import AboutGame from './screens/AboutGame';
-import BoardScreen from './screens/BoardScreen';
-import HowToPlayScreen from './screens/HowToPlayScreen';
-import OptionsScreen from './screens/OptionsScreen';
-import PlayerScreen from './screens/PlayerScreen';
-import SettingsScreen from './screens/SettingsScreen';
-import SkWebViewScreen from './screens/SkWebViewScreen';
-import {darkTheme, lightTheme} from './theme/themeStyles';
+import React, {useEffect} from 'react';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 setupEventListeners();
 
 const App = () => {
-  const navigationRef = useRef<NavigationContainerRef<any>>(null);
-
-  useEffect(() => {
-    setNavigationImpl(createReactNavigationImpl(navigationRef));
-  }, []);
-
   useEffect(() => {
     runMigrationsIfNeeded();
   }, []);
@@ -52,7 +39,7 @@ const App = () => {
 
   return (
     <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>
-      <NavigationContainer ref={navigationRef}>
+      <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
             name={SCREENS.HOME_TABS}

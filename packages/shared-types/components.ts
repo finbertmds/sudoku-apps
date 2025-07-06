@@ -29,8 +29,12 @@ export type BoardParamProps = {
   type: 'init' | 'saved';
 };
 
+/**
+ * @description: showAdvancedSettings: '0' | '1'
+ * 0: false, 1: true
+ */
 export type SettingsParamProps = {
-  showAdvancedSettings?: string;
+  showAdvancedSettings?: '0' | '1';
 };
 
 export type SkWebViewParamProps = {

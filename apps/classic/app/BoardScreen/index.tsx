@@ -2,13 +2,7 @@
 
 import {ClassicLevel} from '@/types';
 import {env} from '@/utils/appUtil';
-import {
-  DEFAULT_SETTINGS,
-  MAX_HINTS,
-  MAX_MISTAKES,
-  MAX_TIME_PLAYED,
-  TUTORIAL_IMAGES,
-} from '@/utils/constants';
+import {constantEnv, TUTORIAL_IMAGES} from '@/utils/constants';
 import {
   ActionButtons,
   ConfirmDialog,
@@ -152,7 +146,9 @@ const BoardScreen = () => {
 
   // Lấy settings
   // ===========================================================
-  const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState<AppSettings>(
+    constantEnv.DEFAULT_SETTINGS,
+  );
   const savedSettingsRef = useRef<AppSettings>(null);
   useEffect(() => {
     SettingsService.load().then((data) => {
@@ -202,7 +198,7 @@ const BoardScreen = () => {
     incrementMistake,
     resetMistakes,
   } = useMistakeCounter({
-    maxMistakes: MAX_MISTAKES,
+    maxMistakes: constantEnv.MAX_MISTAKES,
     onLimitReached: () => {
       setIsPlaying(false);
       setIsPaused(true);
@@ -216,7 +212,7 @@ const BoardScreen = () => {
     resetHintCount,
     changeLimitHintReached,
   } = useHintCounter({
-    maxHintCount: MAX_HINTS,
+    maxHintCount: constantEnv.MAX_HINTS,
     onLimitReached: () => {
       setIsPlaying(false);
       setIsPaused(true);
@@ -505,7 +501,7 @@ const BoardScreen = () => {
       }
       const correctValue = solvedBoard[row][col];
       if (settings.mistakeLimit && num !== correctValue) {
-        if (mistakes >= MAX_MISTAKES) {
+        if (mistakes >= constantEnv.MAX_MISTAKES) {
           return;
         } else {
           incrementMistake();
@@ -574,7 +570,7 @@ const BoardScreen = () => {
     if (limitMistakeReached && !isLoadedRewarded && !isClosedRewarded) {
       alert(
         t('mistakeWarning.title'),
-        t('mistakeWarning.messageNotAd', {max: MAX_MISTAKES}),
+        t('mistakeWarning.messageNotAd', {max: constantEnv.MAX_MISTAKES}),
         [
           {
             text: t('ok'),
@@ -671,8 +667,8 @@ const BoardScreen = () => {
             settings={settings}
             onPause={handlePause}
             onLimitTimeReached={handleLimitTimeReached}
-            maxMistakes={MAX_MISTAKES}
-            maxTimePlayed={MAX_TIME_PLAYED}
+            maxMistakes={constantEnv.MAX_MISTAKES}
+            maxTimePlayed={constantEnv.MAX_TIME_PLAYED}
           />
           <Grid
             board={board}
@@ -703,7 +699,7 @@ const BoardScreen = () => {
       </SafeAreaView>
       {showPauseModal && (
         <PauseModal
-          maxMistakes={MAX_MISTAKES}
+          maxMistakes={constantEnv.MAX_MISTAKES}
           level={level as ClassicLevel}
           mistake={mistakes}
           time={secondsRef.current}
@@ -714,7 +710,7 @@ const BoardScreen = () => {
       {limitMistakeReached && isLoadedRewarded && (
         <ConfirmDialog
           title={t('mistakeWarning.title')}
-          message={t('mistakeWarning.message', {max: MAX_MISTAKES})}
+          message={t('mistakeWarning.message', {max: constantEnv.MAX_MISTAKES})}
           cancelText={t('ad.cancel')}
           confirmText={t('ad.confirm')}
           disableBackdropClose={true}
@@ -729,7 +725,7 @@ const BoardScreen = () => {
       {limitHintReached && isLoadedRewarded && (
         <ConfirmDialog
           title={t('hintWarning.title')}
-          message={t('hintWarning.message', {max: MAX_HINTS})}
+          message={t('hintWarning.message', {max: constantEnv.MAX_HINTS})}
           cancelText={t('ad.cancel')}
           confirmText={t('ad.confirm')}
           disableBackdropClose={true}
