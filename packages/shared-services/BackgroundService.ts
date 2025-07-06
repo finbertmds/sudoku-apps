@@ -67,7 +67,7 @@ export const BackgroundService = {
         photographerLink: res.data?.user?.links?.html ?? null,
       };
     } catch (err) {
-      console.warn('Unsplash fetch failed:', query, err);
+      console.error('Unsplash fetch failed:', query, err);
       return null;
     }
   },

@@ -88,4 +88,5 @@ export const constantEnv: ConstantEnv = {
     hideUsedNumbers: true,
     autoRemoveNotes: true,
   },
+  LEVELS: LEVELS,
 };

@@ -36,7 +36,7 @@ export const QuoteService = {
         return res.data[0];
       }
     } catch (err) {
-      console.warn('Quote fetch failed:', err);
+      console.error('Quote fetch failed:', err);
     }
     return null;
   },

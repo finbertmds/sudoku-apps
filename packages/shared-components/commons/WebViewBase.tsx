@@ -75,7 +75,7 @@ const WebViewBaseComponent = ({
         try {
           injectDarkModeToIframe(iframe);
         } catch (err) {
-          console.warn('Could not inject dark mode into iframe:', err);
+          console.error('Could not inject dark mode into iframe:', err);
         }
       }
     };

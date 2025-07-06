@@ -63,7 +63,7 @@ export const StatsService = {
 
       return computedStats;
     } catch (error) {
-      console.warn('Failed to get stats with cache:', error);
+      console.error('Failed to get stats with cache:', error);
       return getStatsFromLogs(logs, filter, userId, this.levels); // fallback
     }
   },
@@ -85,7 +85,7 @@ export const StatsService = {
 
       await statsStorage.saveStatsCache(updatedCache);
     } catch (error) {
-      console.warn('Failed to update stats cache:', error);
+      console.error('Failed to update stats cache:', error);
     }
   },
 
@@ -136,7 +136,7 @@ export const StatsService = {
 
       await statsStorage.saveStatsCache(updatedCache);
     } catch (error) {
-      console.warn('Failed to update stats with cache:', error);
+      console.error('Failed to update stats with cache:', error);
     }
   },
 
@@ -194,7 +194,7 @@ export const StatsService = {
         if (index !== -1) {
           existing[index] = log;
         } else {
-          console.warn('Log not found for override:', log.id);
+          console.error('Log not found for override:', log.id);
           return;
         }
       } else {
