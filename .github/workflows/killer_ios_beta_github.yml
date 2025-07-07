@@ -1,0 +1,69 @@
+name: Killer iOS
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+    paths:
+      - 'packages/**'
+      - 'apps/killer/ios/**'
+      - 'apps/killer/src/**'
+
+jobs:
+  build-ios:
+    name: Build and Upload iOS to TestFlight
+    runs-on: macos-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH key for GitHub
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.MATCH_SSH_KEY }}
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: |
+          yarn install
+          cd apps/killer/ios && pod install
+
+      - name: Restore AuthKey from base64
+        run: |
+          echo "$APP_STORE_CONNECT_API_KEY_BASE64" | base64 -d > apps/killer/ios/fastlane/AuthKey.p8
+        env:
+          APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.K_APP_STORE_CONNECT_API_KEY_BASE64 }}
+
+      - name: Install fastlane (global)
+        run: |
+          sudo gem install fastlane
+          fastlane --version
+
+      - name: Run Fastlane beta_github (iOS)
+        run: |
+          cd apps/killer/ios
+          fastlane beta_github
+        env:
+          IDEDisableFileSyncMonitor: 'YES'
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.K_UNSPLASH_ACCESS_KEY }}
+          AD_UNIT_BANNER_ANDROID: ${{ secrets.K_AD_UNIT_BANNER_ANDROID }}
+          AD_UNIT_INTERSTITIAL_ANDROID: ${{ secrets.K_AD_UNIT_INTERSTITIAL_ANDROID }}
+          AD_UNIT_REWARDED_ANDROID: ${{ secrets.K_AD_UNIT_REWARDED_ANDROID }}
+          AD_UNIT_REWARDED_INTERSTITIAL_ANDROID: ${{ secrets.K_AD_UNIT_REWARDED_INTERSTITIAL_ANDROID }}
+          AD_UNIT_BANNER_IOS: ${{ secrets.K_AD_UNIT_BANNER_IOS }}
+          AD_UNIT_INTERSTITIAL_IOS: ${{ secrets.K_AD_UNIT_INTERSTITIAL_IOS }}
+          AD_UNIT_REWARDED_IOS: ${{ secrets.K_AD_UNIT_REWARDED_IOS }}
+          AD_UNIT_REWARDED_INTERSTITIAL_IOS: ${{ secrets.K_AD_UNIT_REWARDED_INTERSTITIAL_IOS }}

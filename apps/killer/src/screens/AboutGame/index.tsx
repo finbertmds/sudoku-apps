@@ -65,7 +65,7 @@ export default function AboutGame() {
               navigation.navigate(SCREENS.SK_WEBVIEW, {
                 title: 'termsOfService',
                 type: 'terms',
-                needPadding: true,
+                needPadding: 'true',
               })
             }
           />
@@ -76,7 +76,7 @@ export default function AboutGame() {
               navigation.navigate(SCREENS.SK_WEBVIEW, {
                 title: 'privacyPolicy',
                 type: 'privacy',
-                needPadding: true,
+                needPadding: 'true',
               })
             }
           />
@@ -87,7 +87,7 @@ export default function AboutGame() {
               navigation.navigate(SCREENS.SK_WEBVIEW, {
                 title: 'licenses',
                 type: 'licenses',
-                needPadding: false,
+                needPadding: 'false',
               })
             }
             isLast={true}

@@ -72,7 +72,7 @@ const BoardScreen = () => {
   const [solvedBoard, setSolvedBoard] = useState<number[][]>(
     createEmptyGridNumber(),
   );
-  const [score, setScore] = useState<number>(0);
+  // const [score, setScore] = useState<number>(0);
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [showPauseModal, setShowPauseModal] = useState<boolean>(false);
   const [noteMode, setNoteMode] = useState<boolean>(false);
@@ -103,7 +103,7 @@ const BoardScreen = () => {
       setBoard(deepCloneBoard(initGame.initialBoard));
       setHistory([deepCloneBoard(initGame.initialBoard)]);
       setNotes(createEmptyGridNotes<string>());
-      setScore(initGame.savedScore);
+      // setScore(initGame.savedScore);
       setSolvedBoard(initGame.solvedBoard);
       setIsPlaying(true);
     } else {
@@ -116,7 +116,7 @@ const BoardScreen = () => {
         setBoard(deepCloneBoard(savedGame.savedBoard));
         setHistory(savedGame.savedHistory);
         setNotes(savedGame.savedNotes);
-        setScore(savedGame.savedScore);
+        // setScore(savedGame.savedScore);
         setSolvedBoard(initGame.solvedBoard);
         setIsPlaying(true);
       }
@@ -293,7 +293,7 @@ const BoardScreen = () => {
     await BoardService.save({
       savedId: id,
       savedLevel: level,
-      savedScore: score,
+      // savedScore: score,
       savedBoard: board,
       savedHintCount: hintCount,
       savedTotalHintCountUsed: totalHintCountUsed,
@@ -312,7 +312,7 @@ const BoardScreen = () => {
     await BoardService.save({
       savedId: id,
       savedLevel: level,
-      savedScore: score,
+      // savedScore: score,
       savedBoard: board,
       savedHintCount: hintCount,
       savedTotalHintCountUsed: totalHintCountUsed,
@@ -338,7 +338,7 @@ const BoardScreen = () => {
     await BoardService.save({
       savedId: id,
       savedLevel: level,
-      savedScore: score,
+      // savedScore: score,
       savedBoard: board,
       savedHintCount: hintCount,
       savedTotalHintCountUsed: totalHintCountUsed,
@@ -660,6 +660,7 @@ const BoardScreen = () => {
           ]}>
           <InfoPanel
             isPlaying={isPlaying}
+            // score={score}
             level={level}
             mistakes={mistakes}
             secondsRef={secondsRef}

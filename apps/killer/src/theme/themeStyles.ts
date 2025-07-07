@@ -38,6 +38,7 @@ export const lightTheme: ThemeType = {
   cancelButtonBg: '#f2f2f2',
   selectedCardBg: '#F0F8FF',
   card: '#F4F4F5',
+  howToPlayBg: '#FFFFFF',
 };
 
 export const darkTheme: ThemeType = {
@@ -76,4 +77,5 @@ export const darkTheme: ThemeType = {
   cancelButtonBg: '#3a3a3c',
   selectedCardBg: '#0c1a2f',
   card: '#1E1E1E',
+  howToPlayBg: '#15151A',
 };

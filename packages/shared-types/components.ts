@@ -41,7 +41,7 @@ export type SettingsParamProps = {
 export type SkWebViewParamProps = {
   title: string;
   type: SkWebViewType;
-  needPadding?: boolean;
+  needPadding?: string;
 };
 
 export type SkWebViewType = 'licenses' | 'privacy' | 'terms';

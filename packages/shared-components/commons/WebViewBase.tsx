@@ -10,13 +10,13 @@ import {WebView} from 'react-native-webview';
 type WebViewBaseProps = {
   title: string;
   source: any;
-  needPadding?: boolean;
+  needPadding?: string;
 };
 
 const WebViewBaseComponent = ({
   title,
   source,
-  needPadding = false,
+  needPadding = 'false',
 }: WebViewBaseProps) => {
   const {theme, mode} = useTheme();
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -100,7 +100,7 @@ const WebViewBaseComponent = ({
           source={source}
           injectedJavaScript={mode === 'dark' ? darkModeStyle : ''}
           onMessage={(_) => {}}
-          style={needPadding ? styles.content : {}}
+          style={needPadding === 'true' ? styles.content : {}}
         />
       ) : (
         <View style={{flex: 1}}>
