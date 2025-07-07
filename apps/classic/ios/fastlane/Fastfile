@@ -86,7 +86,7 @@ platform :ios do
     app_store_connect_api_key(
       key_id: "SFP99U9WMY",
       issuer_id: "a43e1ea3-3ccd-4012-96d8-a1d3504f23c1",
-      key_filepath: "./fastlane/AuthKey.p8",
+      key_filepath: File.expand_path("../fastlane/AuthKey.p8", __dir__),
       in_house: false
     )
     # increment_version_number(

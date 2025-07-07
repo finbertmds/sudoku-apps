@@ -2,7 +2,7 @@
   InfoPlist.strings
   sudokuclassic
 
-  Created by Finbert Ngo on 2025/07/06.
+  Created by Finbert Ngo on 2025/07/08.
   
 */
 CFBundleDisplayName = "数独";

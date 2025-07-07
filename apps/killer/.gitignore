@@ -40,6 +40,7 @@ local.properties
 # node.js
 #
 node_modules/
+node_modules
 npm-debug.log
 yarn-error.log
 
@@ -82,3 +83,5 @@ android/fastlane/play-store-key.json
 AuthKey*.p8
 
 match_repo_key*
+
+report.xml

@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-      # - develop
+      - develop
     paths:
       - 'packages/**'
       - 'apps/classic/ios/**'
@@ -48,9 +48,9 @@ jobs:
 
       - name: Restore AuthKey from base64
         run: |
-          echo "$APP_STORE_CONNECT_API_KEY_BASE64" | base64 -d > apps/classic/ios/fastlane/AuthKey.p8
+          echo "$C_APP_STORE_CONNECT_API_KEY_BASE64" | base64 -d > apps/classic/ios/fastlane/AuthKey.p8
         env:
-          APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.C_APP_STORE_CONNECT_API_KEY_BASE64 }}
+          C_APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.C_APP_STORE_CONNECT_API_KEY_BASE64 }}
 
       - name: Install fastlane (global)
         run: |
