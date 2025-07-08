@@ -46,7 +46,7 @@ jobs:
         run: |
           yarn install
           cd apps/classic/ios && pod install
-          cd ../killer/ios && pod install
+          cd ../../killer/ios && pod install
 
       - name: Restore AuthKey from base64
         run: |
