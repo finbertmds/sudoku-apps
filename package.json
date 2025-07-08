@@ -1,6 +1,7 @@
 {
   "name": "sudoku-apps",
   "private": true,
+  "license": "MIT",
   "workspaces": [
     "apps/*",
     "packages/*"

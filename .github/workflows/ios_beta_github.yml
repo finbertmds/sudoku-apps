@@ -4,9 +4,7 @@ on:
   push:
     branches:
       - master
-      - develop
     paths:
-      - '.github/workflows/ios_beta_github.yml'
       - 'packages/**'
       - 'apps/classic/ios/**'
       - 'apps/classic/app/**'

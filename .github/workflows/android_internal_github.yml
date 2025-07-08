@@ -4,9 +4,7 @@ on:
   push:
     branches:
       - master
-      - develop
     paths:
-      - '.github/workflows/android_internal_github.yml'
       - 'packages/**'
       - 'apps/classic/android/**'
       - 'apps/classic/app/**'
