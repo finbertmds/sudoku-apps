@@ -1,9 +1,10 @@
 // useInterstitialAdSafe.base.ts
 
+import {AppEnv} from '@sudoku/shared-types';
 import {isExpoGo} from '@sudoku/shared-utils/ExpoConstantsSafe';
 import {Platform} from 'react-native';
 
-const impl: () => (adUnitId: string) => any = Platform.select({
+const impl: () => (env: AppEnv) => any = Platform.select({
   web: () => {
     return require('@sudoku/shared-hooks/useInterstitialAdSafe.web')
       .useInterstitialAdSafe;

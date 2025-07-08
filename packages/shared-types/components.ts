@@ -2,6 +2,7 @@
 
 import {RouteProp} from '@react-navigation/native';
 import {AppEnv} from '@sudoku/shared-types/apps';
+import {Level} from '@sudoku/shared-types/game';
 import {AD_TYPE} from '@sudoku/shared-utils';
 import {ImageSourcePropType} from 'react-native';
 
@@ -26,7 +27,7 @@ export type SkWebViewScreenRouteProp = RouteProp<
 
 export type BoardParamProps = {
   id: string;
-  level: string;
+  level: Level;
   type: 'init' | 'saved';
 };
 

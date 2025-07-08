@@ -3,10 +3,11 @@
   "version": "1.0.1",
   "scripts": {
     "prebuild:android:force": "cd android && fastlane increment_vc && fastlane increment_vn_force",
-    "prebuild:android": "cd android && fastlane increment_vc",
+    "prebuild:android:normal": "cd android && fastlane increment_vc && fastlane increment_vn",
     "prebuild:ios:force": "cd ios && fastlane increment_bn && fastlane increment_vn_force",
-    "prebuild:ios": "cd ios && fastlane increment_bn",
+    "prebuild:ios:normal": "cd ios && fastlane increment_bn && fastlane increment_vn",
     "prebuild:force": "yarn prebuild:android:force && yarn prebuild:ios:force",
+    "prebuild:normal": "yarn prebuild:android:normal && yarn prebuild:ios:normal",
     "prebuild": "yarn prebuild:android && yarn prebuild:ios",
     "android": "cp .env.development .env && react-native run-android",
     "ios": "cp .env.development .env && react-native run-ios",

@@ -67,14 +67,16 @@ jobs:
           IDEDisableFileSyncMonitor: 'YES'
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           UNSPLASH_ACCESS_KEY: ${{ secrets.C_UNSPLASH_ACCESS_KEY }}
+          AD_APP_ID_ANDROID: ${{ secrets.C_AD_APP_ID_ANDROID }}
           AD_UNIT_BANNER_ANDROID: ${{ secrets.C_AD_UNIT_BANNER_ANDROID }}
           AD_UNIT_INTERSTITIAL_ANDROID: ${{ secrets.C_AD_UNIT_INTERSTITIAL_ANDROID }}
           AD_UNIT_REWARDED_ANDROID: ${{ secrets.C_AD_UNIT_REWARDED_ANDROID }}
-          AD_UNIT_REWARDED_INTERSTITIAL_ANDROID: ${{ secrets.C_AD_UNIT_REWARDED_INTERSTITIAL_ANDROID }}
+          AD_UNIT_REWARDED_I_ANDROID: ${{ secrets.C_AD_UNIT_REWARDED_I_ANDROID }}
+          AD_APP_ID_IOS: ${{ secrets.C_AD_APP_ID_IOS }}
           AD_UNIT_BANNER_IOS: ${{ secrets.C_AD_UNIT_BANNER_IOS }}
           AD_UNIT_INTERSTITIAL_IOS: ${{ secrets.C_AD_UNIT_INTERSTITIAL_IOS }}
           AD_UNIT_REWARDED_IOS: ${{ secrets.C_AD_UNIT_REWARDED_IOS }}
-          AD_UNIT_REWARDED_INTERSTITIAL_IOS: ${{ secrets.C_AD_UNIT_REWARDED_INTERSTITIAL_IOS }}
+          AD_UNIT_REWARDED_I_IOS: ${{ secrets.C_AD_UNIT_REWARDED_I_IOS }}
 
       - name: Run Fastlane killer beta_github (iOS)
         run: |
@@ -84,11 +86,13 @@ jobs:
           IDEDisableFileSyncMonitor: 'YES'
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           UNSPLASH_ACCESS_KEY: ${{ secrets.K_UNSPLASH_ACCESS_KEY }}
+          AD_APP_ID_ANDROID: ${{ secrets.K_AD_APP_ID_ANDROID }}
           AD_UNIT_BANNER_ANDROID: ${{ secrets.K_AD_UNIT_BANNER_ANDROID }}
           AD_UNIT_INTERSTITIAL_ANDROID: ${{ secrets.K_AD_UNIT_INTERSTITIAL_ANDROID }}
           AD_UNIT_REWARDED_ANDROID: ${{ secrets.K_AD_UNIT_REWARDED_ANDROID }}
-          AD_UNIT_REWARDED_INTERSTITIAL_ANDROID: ${{ secrets.K_AD_UNIT_REWARDED_INTERSTITIAL_ANDROID }}
+          AD_UNIT_REWARDED_I_ANDROID: ${{ secrets.K_AD_UNIT_REWARDED_I_ANDROID }}
+          AD_APP_ID_IOS: ${{ secrets.K_AD_APP_ID_IOS }}
           AD_UNIT_BANNER_IOS: ${{ secrets.K_AD_UNIT_BANNER_IOS }}
           AD_UNIT_INTERSTITIAL_IOS: ${{ secrets.K_AD_UNIT_INTERSTITIAL_IOS }}
           AD_UNIT_REWARDED_IOS: ${{ secrets.K_AD_UNIT_REWARDED_IOS }}
-          AD_UNIT_REWARDED_INTERSTITIAL_IOS: ${{ secrets.K_AD_UNIT_REWARDED_INTERSTITIAL_IOS }}
+          AD_UNIT_REWARDED_I_IOS: ${{ secrets.K_AD_UNIT_REWARDED_I_IOS }}

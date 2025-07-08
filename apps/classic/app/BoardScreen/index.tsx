@@ -14,9 +14,8 @@ import {
   PauseModal,
 } from '@sudoku/shared-components';
 import {BannerAdSafeBase} from '@sudoku/shared-components/commons/BannerAdSafe.base';
-import {CORE_EVENTS} from '@sudoku/shared-events';
+import {CORE_EVENTS, GameEndedCoreEvent} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
-import {GameEndedCoreEvent} from '@sudoku/shared-events/types';
 import {
   useAlert,
   useAppPause,
@@ -36,7 +35,6 @@ import {
   SavedGame,
 } from '@sudoku/shared-types';
 import {
-  AD_TYPE,
   BANNER_HEIGHT,
   checkBoardIsSolved,
   createEmptyGrid,
@@ -47,7 +45,6 @@ import {
   getTutorialImageList,
   removeNoteFromPeers,
 } from '@sudoku/shared-utils';
-import {getAdUnitBase} from '@sudoku/shared-utils/getAdUnit.base';
 import {router, useFocusEffect, useLocalSearchParams} from 'expo-router';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -58,7 +55,8 @@ const BoardScreen = () => {
   const {mode, theme} = useTheme();
   const {t} = useTranslation();
   const rawParams = useLocalSearchParams();
-  const {id, level, type} = rawParams as BoardParamProps;
+  const {id, level: levelParam, type} = rawParams as BoardParamProps;
+  const level = levelParam as ClassicLevel;
 
   const goBack = useSafeGoBack();
   const {alert} = useAlert();
@@ -169,13 +167,12 @@ const BoardScreen = () => {
 
   // Hiển thị rewarded ad và xử lý khi đóng ad
   // ===========================================================
-  const adUnit = getAdUnitBase(AD_TYPE.INTERSTITIAL, env);
   const {
     isLoaded: isLoadedRewarded,
     isClosed: isClosedRewarded,
     load: loadRewarded,
     show: showRewarded,
-  } = useInterstitialAdSafeBase(adUnit);
+  } = useInterstitialAdSafeBase(env);
   useEffect(() => {
     loadRewarded();
   }, [loadRewarded]);
@@ -673,13 +670,13 @@ const BoardScreen = () => {
           />
           <Grid
             board={board}
+            cages={[]}
             notes={notes}
             solvedBoard={solvedBoard}
             selectedCell={selectedCell}
             settings={settings}
             onPress={handleCellPress}
             showCage={false}
-            cages={[]}
           />
           <ActionButtons
             noteMode={noteMode}
@@ -701,7 +698,7 @@ const BoardScreen = () => {
       {showPauseModal && (
         <PauseModal
           maxMistakes={constantEnv.MAX_MISTAKES}
-          level={level as ClassicLevel}
+          level={level}
           mistake={mistakes}
           time={secondsRef.current}
           settings={settings}

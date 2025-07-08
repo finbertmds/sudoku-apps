@@ -4,7 +4,7 @@ import {useSafeAreaInsetsSafe} from '@sudoku/shared-hooks';
 import {AD_REQUEST_OPTIONS} from '@sudoku/shared-hooks/useInterstitialAdSafe.native';
 import {useTheme} from '@sudoku/shared-themes';
 import {NativeAdSafeProps} from '@sudoku/shared-types';
-import {BANNER_HEIGHT} from '@sudoku/shared-utils/constants';
+import {AD_TYPE, BANNER_HEIGHT} from '@sudoku/shared-utils/constants';
 import {getAdUnit} from '@sudoku/shared-utils/getAdUnit.native';
 import {useRef} from 'react';
 import {Platform, StyleSheet, View} from 'react-native';
@@ -18,7 +18,7 @@ export const BannerAdSafe = ({env}: NativeAdSafeProps) => {
   const {theme} = useTheme();
   const insets = useSafeAreaInsetsSafe();
   const bannerRef = useRef<BannerAd>(null);
-  const bannerId = getAdUnit('banner', env);
+  const bannerId = getAdUnit(AD_TYPE.BANNER, env);
 
   useForeground(() => {
     if (Platform.OS === 'ios' && bannerRef?.current?.load) {

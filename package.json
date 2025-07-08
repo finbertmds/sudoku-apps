@@ -14,6 +14,9 @@
     "dev:classic": "yarn workspace classic start",
     "dev:classic:ios": "yarn workspace classic ios",
     "dev:classic:android": "yarn workspace classic android",
+    "prod:all": "yarn workspace classic prebuild && yarn workspace killer prebuild",
+    "prod:all:normal": "yarn workspace classic prebuild:normal && yarn workspace killer prebuild:normal",
+    "prod:all:force": "yarn workspace classic prebuild:force && yarn workspace killer prebuild:force",
     "format": "prettier --write .",
     "postinstall": "expo-yarn-workspaces postinstall",
     "check:deps": "npx ts-node tools/compare-package-versions.cts"

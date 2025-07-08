@@ -83,10 +83,12 @@ export default ({config}: ConfigContext): ExpoConfig => ({
     AD_UNIT_BANNER_IOS: process.env.AD_UNIT_BANNER_IOS,
     AD_UNIT_INTERSTITIAL_IOS: process.env.AD_UNIT_INTERSTITIAL_IOS,
     AD_UNIT_REWARDED_IOS: process.env.AD_UNIT_REWARDED_IOS,
+    AD_UNIT_REWARDED_I_IOS: process.env.AD_UNIT_REWARDED_I_IOS,
     AD_APP_ID_ANDROID: process.env.AD_APP_ID_ANDROID,
     AD_UNIT_BANNER_ANDROID: process.env.AD_UNIT_BANNER_ANDROID,
     AD_UNIT_INTERSTITIAL_ANDROID: process.env.AD_UNIT_INTERSTITIAL_ANDROID,
     AD_UNIT_REWARDED_ANDROID: process.env.AD_UNIT_REWARDED_ANDROID,
+    AD_UNIT_REWARDED_I_ANDROID: process.env.AD_UNIT_REWARDED_I_ANDROID,
     eas: {
       projectId: 'c2f9c7ae-a02f-4fbb-a814-c23d60bfc51e',
     },
