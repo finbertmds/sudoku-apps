@@ -1,11 +1,12 @@
 import 'dotenv/config';
 import {ConfigContext, ExpoConfig} from 'expo/config';
+import version from './version.json';
 
 export default ({config}: ConfigContext): ExpoConfig => ({
   ...config,
   name: 'sudoku-classic',
   slug: 'sudoku-classic',
-  version: '0.0.2',
+  version: version.version,
   orientation: 'portrait',
   icon: './assets/images/icon.png',
   scheme: 'sudokuclassic',

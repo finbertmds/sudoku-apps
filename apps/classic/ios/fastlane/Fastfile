@@ -31,6 +31,22 @@ platform :ios do
     capture_screenshots
   end
 
+  desc "Update version in version.json"
+  private_lane :update_version_json do |options|
+    require 'json'
+
+    version = options[:version]
+    path = File.expand_path("../../version.json", __dir__)
+
+    json = JSON.parse(File.read(path))
+    json["version"] = version
+
+    File.write(path, JSON.pretty_generate(json))
+
+    UI.message("✅ Updated version.json to #{version}")
+  end
+
+
   desc "Push a new beta build to TestFlight"
   lane :beta do
     copy_env("production")
@@ -60,16 +76,18 @@ platform :ios do
 
   desc "Increment version number"
   lane :increment_vn do
-    increment_version_number(
+    new_version = increment_version_number(
       bump_type: "patch" # hoặc "minor", "major"
     )
+    update_version_json(version: new_version)
   end
 
   desc "Increment version number force"
   lane :increment_vn_force do
-    increment_version_number(
+    new_version = increment_version_number(
       bump_type: "minor"
     )
+    update_version_json(version: new_version)
   end
 
   desc "Increment build number"
