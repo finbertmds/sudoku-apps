@@ -19,18 +19,18 @@ import {
 /**
  * @deprecated
  */
-const saveGameLogs = (logs: GameLogEntry[]) => {
+const saveGameLogs = async (logs: GameLogEntry[]) => {
   try {
-    storage.set(STORAGE_KEY_GAME_LOGS, JSON.stringify(logs));
+    await storage.set(STORAGE_KEY_GAME_LOGS, JSON.stringify(logs));
   } catch (_) {}
 };
 
 /**
  * @deprecated
  */
-const getGameLogs = (): GameLogEntry[] => {
+const getGameLogs = async (): Promise<GameLogEntry[]> => {
   try {
-    const json = storage.getString(STORAGE_KEY_GAME_LOGS);
+    const json = await storage.getString(STORAGE_KEY_GAME_LOGS);
     return json ? JSON.parse(json) : [];
   } catch (_) {
     return [];
@@ -40,129 +40,134 @@ const getGameLogs = (): GameLogEntry[] => {
 /**
  * @deprecated
  */
-const clearGameLogs = () => {
+const clearGameLogs = async () => {
   try {
-    storage.delete(STORAGE_KEY_GAME_LOGS);
+    await storage.delete(STORAGE_KEY_GAME_LOGS);
   } catch (_) {}
 };
 
-const saveGameLogsV2 = (logs: GameLogEntryV2[]) =>
-  storage.set(STORAGE_KEY_GAME_LOGS, JSON.stringify(logs));
+const saveGameLogsV2 = async (logs: GameLogEntryV2[]) =>
+  await storage.set(STORAGE_KEY_GAME_LOGS, JSON.stringify(logs));
 
-const getGameLogsV2 = (): GameLogEntryV2[] => {
-  const json = storage.getString(STORAGE_KEY_GAME_LOGS);
+const getGameLogsV2 = async (): Promise<GameLogEntryV2[]> => {
+  const json = await storage.getString(STORAGE_KEY_GAME_LOGS);
   return json ? JSON.parse(json) : [];
 };
 
-const clearGameLogsV2 = () => {
+const clearGameLogsV2 = async () => {
   try {
-    storage.delete(STORAGE_KEY_GAME_LOGS);
+    await storage.delete(STORAGE_KEY_GAME_LOGS);
   } catch (_) {}
 };
 
-const getGameLogsV2ByPlayerId = (playerId: string): GameLogEntryV2[] => {
-  const logs = getGameLogsV2();
+const getGameLogsV2ByPlayerId = async (
+  playerId: string,
+): Promise<GameLogEntryV2[]> => {
+  const logs = await getGameLogsV2();
   return logs.filter((log) => log.playerId === playerId);
 };
 
-const deleteGameLogsV2ByPlayerId = (playerId: string) => {
-  const logs = getGameLogsV2();
+const deleteGameLogsV2ByPlayerId = async (playerId: string) => {
+  const logs = await getGameLogsV2();
   const updated = logs.filter((log) => log.playerId !== playerId);
   saveGameLogsV2(updated);
 };
 
-const saveStatsCache = (cache: GameStatsCache) => {
+const saveStatsCache = async (cache: GameStatsCache) => {
   try {
-    storage.set(STORAGE_KEY_GAME_STATS_CACHE, JSON.stringify(cache));
+    await storage.set(STORAGE_KEY_GAME_STATS_CACHE, JSON.stringify(cache));
   } catch (_) {}
 };
 
-const getStatsCache = (): GameStatsCache => {
+const getStatsCache = async (): Promise<GameStatsCache> => {
   try {
-    const json = storage.getString(STORAGE_KEY_GAME_STATS_CACHE);
+    const json = await storage.getString(STORAGE_KEY_GAME_STATS_CACHE);
     return json ? JSON.parse(json) : {};
   } catch (_) {
     return {};
   }
 };
 
-const clearStatsCache = () => {
+const clearStatsCache = async () => {
   try {
-    storage.delete(STORAGE_KEY_GAME_STATS_CACHE);
+    await storage.delete(STORAGE_KEY_GAME_STATS_CACHE);
   } catch (_) {}
 };
 
-const saveDailyStats = (dailyStats: DailyStats[]) => {
+const saveDailyStats = async (dailyStats: DailyStats[]) => {
   try {
-    storage.set(STORAGE_KEY_DAILY_STATS, JSON.stringify(dailyStats));
+    await storage.set(STORAGE_KEY_DAILY_STATS, JSON.stringify(dailyStats));
   } catch (_) {}
 };
 
-const getDailyStats = (): DailyStats[] => {
+const getDailyStats = async (): Promise<DailyStats[]> => {
   try {
-    const json = storage.getString(STORAGE_KEY_DAILY_STATS);
+    const json = await storage.getString(STORAGE_KEY_DAILY_STATS);
     return json ? JSON.parse(json) : [];
   } catch (_) {
     return [];
   }
 };
 
-const clearDailyStats = () => {
+const clearDailyStats = async () => {
   try {
-    storage.delete(STORAGE_KEY_DAILY_STATS);
+    await storage.delete(STORAGE_KEY_DAILY_STATS);
   } catch (_) {}
 };
 
-const setLastStatsCacheUpdate = () => {
+const setLastStatsCacheUpdate = async () => {
   const today = getTodayDateString();
   try {
-    storage.set(STORAGE_KEY_LAST_STATS_CACHE_UPDATE, today);
+    await storage.set(STORAGE_KEY_LAST_STATS_CACHE_UPDATE, today);
   } catch (_) {}
 };
 
-const getLastStatsCacheUpdate = (): string | null => {
-  try {
-    return storage.getString(STORAGE_KEY_LAST_STATS_CACHE_UPDATE) || null;
-  } catch (_) {
-    return null;
-  }
-};
-
-const clearLastStatsCacheUpdate = () => {
-  try {
-    storage.delete(STORAGE_KEY_LAST_STATS_CACHE_UPDATE);
-  } catch (_) {}
-};
-
-const setLastStatsCacheUpdateUserId = (userId: string) => {
-  try {
-    storage.set(STORAGE_KEY_LAST_STATS_CACHE_UPDATE_USER_ID, userId);
-  } catch (_) {}
-};
-
-const getLastStatsCacheUpdateUserId = (): string | null => {
+const getLastStatsCacheUpdate = async (): Promise<string | null> => {
   try {
     return (
-      storage.getString(STORAGE_KEY_LAST_STATS_CACHE_UPDATE_USER_ID) || null
+      (await storage.getString(STORAGE_KEY_LAST_STATS_CACHE_UPDATE)) || null
     );
   } catch (_) {
     return null;
   }
 };
 
-const clearLastStatsCacheUpdateUserId = () => {
+const clearLastStatsCacheUpdate = async () => {
   try {
-    storage.delete(STORAGE_KEY_LAST_STATS_CACHE_UPDATE_USER_ID);
+    await storage.delete(STORAGE_KEY_LAST_STATS_CACHE_UPDATE);
   } catch (_) {}
 };
 
-const clearStatsData = () => {
+const setLastStatsCacheUpdateUserId = async (userId: string) => {
   try {
-    clearDailyStats();
-    clearGameLogsV2();
-    clearStatsCache();
-    clearLastStatsCacheUpdate();
-    clearLastStatsCacheUpdateUserId();
+    await storage.set(STORAGE_KEY_LAST_STATS_CACHE_UPDATE_USER_ID, userId);
+  } catch (_) {}
+};
+
+const getLastStatsCacheUpdateUserId = async (): Promise<string | null> => {
+  try {
+    return (
+      (await storage.getString(STORAGE_KEY_LAST_STATS_CACHE_UPDATE_USER_ID)) ||
+      null
+    );
+  } catch (_) {
+    return null;
+  }
+};
+
+const clearLastStatsCacheUpdateUserId = async () => {
+  try {
+    await storage.delete(STORAGE_KEY_LAST_STATS_CACHE_UPDATE_USER_ID);
+  } catch (_) {}
+};
+
+const clearStatsData = async () => {
+  try {
+    await clearDailyStats();
+    await clearGameLogsV2();
+    await clearStatsCache();
+    await clearLastStatsCacheUpdate();
+    await clearLastStatsCacheUpdateUserId();
   } catch (_) {}
 };
 

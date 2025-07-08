@@ -1,6 +1,29 @@
 // src/screens/MainScreen/index.tsx
+
+import {env} from '@/utils/appUtil';
+import {
+  IS_UI_TESTING,
+  LEVELS,
+  SCREENS,
+  SHOW_UNSPLASH_IMAGE_INFO,
+  UNSPLASH_UTM,
+} from '@/utils/constants';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Header, NewGameMenu, QuoteBox} from '@sudoku/shared-components';
+import {CORE_EVENTS, InitGameCoreEvent} from '@sudoku/shared-events';
+import eventBus from '@sudoku/shared-events/eventBus';
+import {
+  useAppPause,
+  useAppUpdateChecker,
+  useDailyBackground,
+  useDailyQuote,
+  usePlayerProfile,
+} from '@sudoku/shared-hooks';
+import {BoardService, PlayerService} from '@sudoku/shared-services';
+import {useTheme} from '@sudoku/shared-themes';
+import {Level, RootStackParamList} from '@sudoku/shared-types';
+import {UNSPLASH_URL} from '@sudoku/shared-utils';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -15,28 +38,6 @@ import {
 import DeviceInfo from 'react-native-device-info';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import uuid from 'react-native-uuid';
-import Header from '../../components/commons/Header';
-import NewGameMenu from '../../components/Main/NewGameMenu';
-import QuoteBox from '../../components/Main/QuoteBox';
-import {useTheme} from '../../context/ThemeContext';
-import {CORE_EVENTS} from '../../events';
-import eventBus from '../../events/eventBus';
-import {InitGameCoreEvent} from '../../events/types';
-import {useAppPause} from '../../hooks/useAppPause';
-import {useAppUpdateChecker} from '../../hooks/useAppUpdateChecker';
-import {useDailyBackground} from '../../hooks/useDailyBackground';
-import {useDailyQuote} from '../../hooks/useDailyQuote';
-import {usePlayerProfile} from '../../hooks/usePlayerProfile';
-import {BoardService} from '../../services/BoardService';
-import {PlayerService} from '../../services/PlayerService';
-import {Level, RootStackParamList} from '../../types/index';
-import {
-  IS_UI_TESTING,
-  SCREENS,
-  SHOW_UNSPLASH_IMAGE_INFO,
-  UNSPLASH_URL,
-  UNSPLASH_UTM,
-} from '../../utils/constants';
 
 const MainScreen = () => {
   const {mode, theme} = useTheme();
@@ -49,7 +50,7 @@ const MainScreen = () => {
   const {player, reloadPlayer} = usePlayerProfile();
   const [showUpdateAlert, setShowUpdateAlert] = useState(false);
   const {needUpdate, forceUpdate, storeUrl, checkVersion} =
-    useAppUpdateChecker();
+    useAppUpdateChecker(env);
 
   // Sau khi navigation.goBack() sẽ gọi hàm này
   useFocusEffect(
@@ -180,6 +181,9 @@ const MainScreen = () => {
           title={t('appName')}
           showBack={false}
           showSettings={true}
+          onSettings={() => {
+            navigation.navigate(SCREENS.OPTIONS);
+          }}
           showTheme={true}
           showSwitchPlayer={true}
           onSwitchPlayer={() => {
@@ -219,7 +223,7 @@ const MainScreen = () => {
             </TouchableOpacity>
           )}
 
-          <NewGameMenu handleNewGame={handleNewGame} />
+          <NewGameMenu handleNewGame={handleNewGame} levels={LEVELS} />
 
           {__DEV__ && !IS_UI_TESTING && (
             <TouchableOpacity

@@ -1,0 +1,8 @@
+/* 
+  InfoPlist.strings
+  sudokuclassic
+
+  Created by Finbert Ngo on 2025/07/08.
+  
+*/
+CFBundleDisplayName = "Sudoku";

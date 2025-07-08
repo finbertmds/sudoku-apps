@@ -2,14 +2,7 @@
 
 import {ClassicLevel} from '@/types';
 import {env} from '@/utils/appUtil';
-import {
-  DEFAULT_SETTINGS,
-  MAX_HINTS,
-  MAX_MISTAKES,
-  MAX_TIME_PLAYED,
-  TUTORIAL_IMAGES,
-} from '@/utils/constants';
-import {useFocusEffect} from '@react-navigation/native';
+import {constantEnv, TUTORIAL_IMAGES} from '@/utils/constants';
 import {
   ActionButtons,
   ConfirmDialog,
@@ -20,7 +13,7 @@ import {
   NumberPad,
   PauseModal,
 } from '@sudoku/shared-components';
-import {BannerAdSafe} from '@sudoku/shared-components/commons/BannerAdSafe';
+import {BannerAdSafeBase} from '@sudoku/shared-components/commons/BannerAdSafe.base';
 import {CORE_EVENTS} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
 import {GameEndedCoreEvent} from '@sudoku/shared-events/types';
@@ -29,9 +22,10 @@ import {
   useAppPause,
   useHintCounter,
   useMistakeCounter,
+  useSafeAreaInsetsSafe,
   useSafeGoBack,
 } from '@sudoku/shared-hooks';
-import {useInterstitialAdSafe} from '@sudoku/shared-hooks/useInterstitialAdSafe';
+import {useInterstitialAdSafeBase} from '@sudoku/shared-hooks/useInterstitialAdSafe.base';
 import {BoardService, SettingsService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {
@@ -43,21 +37,22 @@ import {
 } from '@sudoku/shared-types';
 import {
   AD_TYPE,
+  BANNER_HEIGHT,
   checkBoardIsSolved,
   createEmptyGrid,
   createEmptyGridNotes,
   createEmptyGridNumber,
   deepCloneBoard,
   deepCloneNotes,
-  getAdUnit,
   getTutorialImageList,
   removeNoteFromPeers,
 } from '@sudoku/shared-utils';
-import {router, useLocalSearchParams} from 'expo-router';
+import {getAdUnitBase} from '@sudoku/shared-utils/getAdUnit.base';
+import {router, useFocusEffect, useLocalSearchParams} from 'expo-router';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ActivityIndicator, Platform, StyleSheet, View} from 'react-native';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const BoardScreen = () => {
   const {mode, theme} = useTheme();
@@ -77,7 +72,7 @@ const BoardScreen = () => {
   const [solvedBoard, setSolvedBoard] = useState<number[][]>(
     createEmptyGridNumber(),
   );
-  const [score, setScore] = useState<number>(0);
+  // const [score, setScore] = useState<number>(0);
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [showPauseModal, setShowPauseModal] = useState<boolean>(false);
   const [noteMode, setNoteMode] = useState<boolean>(false);
@@ -108,7 +103,7 @@ const BoardScreen = () => {
       setBoard(deepCloneBoard(initGame.initialBoard));
       setHistory([deepCloneBoard(initGame.initialBoard)]);
       setNotes(createEmptyGridNotes<string>());
-      setScore(initGame.savedScore);
+      // setScore(initGame.savedScore);
       setSolvedBoard(initGame.solvedBoard);
       setIsPlaying(true);
     } else {
@@ -121,7 +116,7 @@ const BoardScreen = () => {
         setBoard(deepCloneBoard(savedGame.savedBoard));
         setHistory(savedGame.savedHistory);
         setNotes(savedGame.savedNotes);
-        setScore(savedGame.savedScore);
+        // setScore(savedGame.savedScore);
         setSolvedBoard(initGame.solvedBoard);
         setIsPlaying(true);
       }
@@ -152,7 +147,9 @@ const BoardScreen = () => {
 
   // Lấy settings
   // ===========================================================
-  const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState<AppSettings>(
+    constantEnv.DEFAULT_SETTINGS,
+  );
   const savedSettingsRef = useRef<AppSettings>(null);
   useEffect(() => {
     SettingsService.load().then((data) => {
@@ -172,13 +169,13 @@ const BoardScreen = () => {
 
   // Hiển thị rewarded ad và xử lý khi đóng ad
   // ===========================================================
-  const adUnit = getAdUnit(AD_TYPE.INTERSTITIAL, env);
+  const adUnit = getAdUnitBase(AD_TYPE.INTERSTITIAL, env);
   const {
     isLoaded: isLoadedRewarded,
     isClosed: isClosedRewarded,
     load: loadRewarded,
     show: showRewarded,
-  } = useInterstitialAdSafe(adUnit);
+  } = useInterstitialAdSafeBase(adUnit);
   useEffect(() => {
     loadRewarded();
   }, [loadRewarded]);
@@ -202,7 +199,7 @@ const BoardScreen = () => {
     incrementMistake,
     resetMistakes,
   } = useMistakeCounter({
-    maxMistakes: MAX_MISTAKES,
+    maxMistakes: constantEnv.MAX_MISTAKES,
     onLimitReached: () => {
       setIsPlaying(false);
       setIsPaused(true);
@@ -216,7 +213,7 @@ const BoardScreen = () => {
     resetHintCount,
     changeLimitHintReached,
   } = useHintCounter({
-    maxHintCount: MAX_HINTS,
+    maxHintCount: constantEnv.MAX_HINTS,
     onLimitReached: () => {
       setIsPlaying(false);
       setIsPaused(true);
@@ -296,7 +293,7 @@ const BoardScreen = () => {
     await BoardService.save({
       savedId: id,
       savedLevel: level,
-      savedScore: score,
+      // savedScore: score,
       savedBoard: board,
       savedHintCount: hintCount,
       savedTotalHintCountUsed: totalHintCountUsed,
@@ -315,7 +312,7 @@ const BoardScreen = () => {
     await BoardService.save({
       savedId: id,
       savedLevel: level,
-      savedScore: score,
+      // savedScore: score,
       savedBoard: board,
       savedHintCount: hintCount,
       savedTotalHintCountUsed: totalHintCountUsed,
@@ -341,7 +338,7 @@ const BoardScreen = () => {
     await BoardService.save({
       savedId: id,
       savedLevel: level,
-      savedScore: score,
+      // savedScore: score,
       savedBoard: board,
       savedHintCount: hintCount,
       savedTotalHintCountUsed: totalHintCountUsed,
@@ -505,7 +502,7 @@ const BoardScreen = () => {
       }
       const correctValue = solvedBoard[row][col];
       if (settings.mistakeLimit && num !== correctValue) {
-        if (mistakes >= MAX_MISTAKES) {
+        if (mistakes >= constantEnv.MAX_MISTAKES) {
           return;
         } else {
           incrementMistake();
@@ -567,14 +564,13 @@ const BoardScreen = () => {
     }, []),
   );
 
-  const insets = useSafeAreaInsets();
-  const bannerHeight = 70;
+  const insets = useSafeAreaInsetsSafe();
 
   useEffect(() => {
     if (limitMistakeReached && !isLoadedRewarded && !isClosedRewarded) {
       alert(
         t('mistakeWarning.title'),
-        t('mistakeWarning.messageNotAd', {max: MAX_MISTAKES}),
+        t('mistakeWarning.messageNotAd', {max: constantEnv.MAX_MISTAKES}),
         [
           {
             text: t('ok'),
@@ -650,20 +646,21 @@ const BoardScreen = () => {
           title={t('appName')}
           showBack={true}
           showSettings={true}
+          onSettings={handleGoToSettings}
           showTheme={true}
           onBack={handleBackPress}
-          onSettings={handleGoToSettings}
         />
         <View
           style={[
             styles.contentContainerNoAd,
             {
               paddingTop: insets.top,
-              paddingBottom: insets.bottom + bannerHeight,
+              paddingBottom: insets.bottom + BANNER_HEIGHT,
             },
           ]}>
           <InfoPanel
             isPlaying={isPlaying}
+            // score={score}
             level={level}
             mistakes={mistakes}
             secondsRef={secondsRef}
@@ -671,8 +668,8 @@ const BoardScreen = () => {
             settings={settings}
             onPause={handlePause}
             onLimitTimeReached={handleLimitTimeReached}
-            maxMistakes={MAX_MISTAKES}
-            maxTimePlayed={MAX_TIME_PLAYED}
+            maxMistakes={constantEnv.MAX_MISTAKES}
+            maxTimePlayed={constantEnv.MAX_TIME_PLAYED}
           />
           <Grid
             board={board}
@@ -699,11 +696,11 @@ const BoardScreen = () => {
             onSelectNumber={handleNumberPress}
           />
         </View>
-        <BannerAdSafe env={env} />
+        {Platform.OS !== 'web' && <BannerAdSafeBase env={env} />}
       </SafeAreaView>
       {showPauseModal && (
         <PauseModal
-          maxMistakes={MAX_MISTAKES}
+          maxMistakes={constantEnv.MAX_MISTAKES}
           level={level as ClassicLevel}
           mistake={mistakes}
           time={secondsRef.current}
@@ -714,7 +711,7 @@ const BoardScreen = () => {
       {limitMistakeReached && isLoadedRewarded && (
         <ConfirmDialog
           title={t('mistakeWarning.title')}
-          message={t('mistakeWarning.message', {max: MAX_MISTAKES})}
+          message={t('mistakeWarning.message', {max: constantEnv.MAX_MISTAKES})}
           cancelText={t('ad.cancel')}
           confirmText={t('ad.confirm')}
           disableBackdropClose={true}
@@ -729,7 +726,7 @@ const BoardScreen = () => {
       {limitHintReached && isLoadedRewarded && (
         <ConfirmDialog
           title={t('hintWarning.title')}
-          message={t('hintWarning.message', {max: MAX_HINTS})}
+          message={t('hintWarning.message', {max: constantEnv.MAX_HINTS})}
           cancelText={t('ad.cancel')}
           confirmText={t('ad.confirm')}
           disableBackdropClose={true}

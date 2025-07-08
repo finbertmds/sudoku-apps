@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "jsx": "react-native",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@sudoku/shared-components": ["packages/shared-components"],
+      "@sudoku/shared-events": ["packages/shared-events"],
+      "@sudoku/shared-hooks": ["packages/shared-hooks"],
+      "@sudoku/shared-icons": ["packages/shared-icons"],
+      "@sudoku/shared-services": ["packages/shared-services"],
+      "@sudoku/shared-storages": ["packages/shared-storages"],
+      "@sudoku/shared-themes": ["packages/shared-themes"],
+      "@sudoku/shared-types": ["packages/shared-types"],
+      "@sudoku/shared-utils": ["packages/shared-utils"]
+    }
+  }
+}

@@ -1,12 +1,9 @@
 // app/AboutGame/index.tsx
 
 import {appConfig} from '@/utils/appUtil';
-import {SCREENS} from '@/utils/constants';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Header} from '@sudoku/shared-components';
 import {ThemeType, useTheme} from '@sudoku/shared-themes';
-import {RootStackParamList} from '@sudoku/shared-types';
+import {useRouter} from 'expo-router';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -18,11 +15,10 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-export default function AboutGame() {
+const AboutGame = () => {
   const {theme} = useTheme();
   const {t} = useTranslation();
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const router = useRouter();
 
   const year = new Date().getFullYear();
   const copyrightYear = year === 2025 ? year : `2025 - ${year}`;
@@ -62,10 +58,13 @@ export default function AboutGame() {
             theme={theme}
             label={t('termsOfService')}
             onPress={() =>
-              navigation.navigate(SCREENS.SK_WEBVIEW as any, {
-                title: 'termsOfService',
-                type: 'terms',
-                needPadding: true,
+              router.push({
+                pathname: 'AboutGame/SkWebViewScreen' as any,
+                params: {
+                  title: 'termsOfService',
+                  type: 'terms',
+                  needPadding: 'true',
+                },
               })
             }
           />
@@ -73,10 +72,13 @@ export default function AboutGame() {
             theme={theme}
             label={t('privacyPolicy')}
             onPress={() =>
-              navigation.navigate(SCREENS.SK_WEBVIEW as any, {
-                title: 'privacyPolicy',
-                type: 'privacy',
-                needPadding: true,
+              router.push({
+                pathname: 'AboutGame/SkWebViewScreen' as any,
+                params: {
+                  title: 'privacyPolicy',
+                  type: 'privacy',
+                  needPadding: 'true',
+                },
               })
             }
           />
@@ -84,10 +86,13 @@ export default function AboutGame() {
             theme={theme}
             label={t('licenses')}
             onPress={() =>
-              navigation.navigate(SCREENS.SK_WEBVIEW as any, {
-                title: 'licenses',
-                type: 'licenses',
-                needPadding: false,
+              router.push({
+                pathname: 'AboutGame/SkWebViewScreen' as any,
+                params: {
+                  title: 'licenses',
+                  type: 'licenses',
+                  needPadding: 'false',
+                },
               })
             }
             isLast={true}
@@ -96,7 +101,7 @@ export default function AboutGame() {
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
 
 const Item = ({
   theme,
@@ -161,3 +166,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+export default AboutGame;

@@ -2,3 +2,4 @@
 
 export {NewGameMenu} from './NewGameMenu';
 export {QuoteBox} from './QuoteBox';
+export {UnsplashImageInfo} from './UnsplashImageInfo';

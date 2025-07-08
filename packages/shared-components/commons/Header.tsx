@@ -1,10 +1,8 @@
 // commons/Header.tsx
 
 import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {MaterialCommunityIcons} from '@sudoku/shared-icons';
 import {useTheme} from '@sudoku/shared-themes';
-import {RootStackParamList} from '@sudoku/shared-types';
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
@@ -12,7 +10,6 @@ type HeaderProps = {
   title?: string;
   showBack?: boolean;
   showSettings?: boolean;
-  optionsScreen?: string;
   showTheme?: boolean;
   showCustom?: boolean;
   customIconCount?: number;
@@ -27,7 +24,6 @@ const HeaderComponent = ({
   title,
   showBack = false,
   showSettings = false,
-  optionsScreen = '',
   showTheme = true,
   showCustom = false,
   customIconCount = 0,
@@ -38,12 +34,7 @@ const HeaderComponent = ({
   onSwitchPlayer = undefined,
 }: HeaderProps) => {
   const {theme, toggleTheme, mode} = useTheme();
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
-  const defaultOnSettings = () => {
-    navigation.navigate(optionsScreen as any);
-  };
+  const navigation = useNavigation();
 
   const defaultOnBack = () => {
     navigation.goBack();
@@ -133,13 +124,7 @@ const HeaderComponent = ({
             <TouchableOpacity
               accessibilityLabel="SettingsButton"
               testID="SettingsButton"
-              onPress={
-                onSettings
-                  ? onSettings
-                  : optionsScreen
-                    ? defaultOnSettings
-                    : undefined
-              }
+              onPress={onSettings ? onSettings : undefined}
               style={styles.iconButton}>
               <MaterialCommunityIcons
                 name="cog-outline"

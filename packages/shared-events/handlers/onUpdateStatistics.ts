@@ -19,7 +19,7 @@ export const handleUpdateStatistics = async (
     await StatsService.updateStatsWithCache(
       allLogs,
       payload.logs,
-      playerProfileStorage.getCurrentPlayerId(),
+      await playerProfileStorage.getCurrentPlayerId(),
     );
   }
 };

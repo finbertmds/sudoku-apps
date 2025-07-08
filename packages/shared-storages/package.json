@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {},
   "peerDependencies": {
-    "react-native-mmkv": "*"
+    "react-native-mmkv": "*",
+    "@react-native-async-storage/async-storage": "*"
   }
 }

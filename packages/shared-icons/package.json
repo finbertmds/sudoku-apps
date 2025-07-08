@@ -5,6 +5,8 @@
   "private": true,
   "dependencies": {},
   "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
     "@expo/vector-icons": "*",
     "react-native-vector-icons": "*"
   }

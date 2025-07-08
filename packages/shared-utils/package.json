@@ -6,6 +6,7 @@
   "peerDependencies": {
     "i18next": "*",
     "react-native-uuid": "*",
-    "date-fns": "*"
+    "date-fns": "*",
+    "expo-constants": "*"
   }
 }

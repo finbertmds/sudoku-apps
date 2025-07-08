@@ -1,11 +1,10 @@
 // MaterialCommunityIcons.tsx
 
-import Constants from 'expo-constants';
+import {isExpoGo} from '@sudoku/shared-utils/ExpoConstantsSafe';
 import React from 'react';
 import {Platform} from 'react-native';
 
-const isExpo =
-  Platform.OS === 'web' || Constants.expoConfig?.extra?.IS_EXPO_APP === true;
+const isExpo = Platform.OS === 'web' || isExpoGo;
 
 let IconComponent: any;
 

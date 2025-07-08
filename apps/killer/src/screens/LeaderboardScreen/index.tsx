@@ -1,5 +1,27 @@
 // src/screens/LeaderboardScreen.tsx
-import {useFocusEffect} from '@react-navigation/native';
+
+import {
+  constantEnv,
+  LEVEL_PRIORITY,
+  LEVEL_WEIGHT,
+  PLAYER_STATS_THRESHOLDS,
+  SCREENS,
+} from '@/utils/constants';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {
+  Header,
+  LoadingContainer,
+  PlayerRanking,
+} from '@sudoku/shared-components';
+import {useAppPause} from '@sudoku/shared-hooks';
+import {LeaderboardService} from '@sudoku/shared-services';
+import {useTheme} from '@sudoku/shared-themes';
+import {
+  LeaderboardTab,
+  PlayerStats,
+  RootStackParamList,
+} from '@sudoku/shared-types';
 import React, {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -10,17 +32,12 @@ import {
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Header from '../../components/commons/Header';
-import LoadingContainer from '../../components/commons/LoadingContainer';
-import PlayerRanking from '../../components/Leaderboard/PlayerRanking';
-import {useTheme} from '../../context/ThemeContext';
-import {useAppPause} from '../../hooks/useAppPause';
-import {LeaderboardService} from '../../services';
-import {LeaderboardTab, PlayerStats} from '../../types';
 
 const LeaderboardScreen = () => {
   const {t} = useTranslation();
   const {theme} = useTheme();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [isLoading, setIsLoading] = useState(false);
   const [playerStats, setPlayerStats] = useState<PlayerStats[]>([]);
   const [activeTab, setActiveTab] = useState<LeaderboardTab['key']>('player');
@@ -70,7 +87,13 @@ const LeaderboardScreen = () => {
     try {
       setIsLoading(true);
 
-      const _playerStats = await LeaderboardService.getAllPlayerStats(t);
+      const _playerStats = await LeaderboardService.getAllPlayerStats(
+        t,
+        LEVEL_PRIORITY,
+        LEVEL_WEIGHT,
+        constantEnv.MAX_TIME_PLAYED,
+        PLAYER_STATS_THRESHOLDS,
+      );
       setPlayerStats(_playerStats);
 
       // const _logs = await StatsService.getLogs();
@@ -117,6 +140,9 @@ const LeaderboardScreen = () => {
         title={t('leaderboard')}
         showBack={false}
         showSettings={true}
+        onSettings={() => {
+          navigation.navigate(SCREENS.OPTIONS);
+        }}
         showTheme={true}
         showSwitchPlayer={false}
         showCustom={false}
@@ -128,7 +154,7 @@ const LeaderboardScreen = () => {
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.tabRow}>
-          {leaderboardTabs.map(tab => {
+          {leaderboardTabs.map((tab) => {
             const isActive = activeTab === tab.key;
 
             return (

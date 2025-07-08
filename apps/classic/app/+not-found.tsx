@@ -16,7 +16,7 @@ export default function NotFoundScreen() {
         <Text style={[styles.title, {color: theme.text}]}>
           {t('thisScreenDoesNotExist')}
         </Text>
-        <Link href="/" style={styles.link}>
+        <Link href={'/' as any} style={styles.link}>
           <Text style={[styles.link, {color: theme.text}]}>
             {t('goToHomeScreen')}
           </Text>

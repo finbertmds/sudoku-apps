@@ -31,7 +31,7 @@ export function useEnsureStatsCache() {
       }
       return needsUpdate;
     } catch (err) {
-      console.warn('Failed to ensure stats cache:', err);
+      console.error('Failed to ensure stats cache:', err);
     }
     return false;
   };

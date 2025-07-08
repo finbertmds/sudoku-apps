@@ -7,21 +7,21 @@ import {createDefaultPlayer, DEFAULT_PLAYER_ID} from '@sudoku/shared-utils';
 
 export const PlayerService = {
   async createDefaultPlayerIfNeeded(language: string = 'en'): Promise<void> {
-    const players = playerProfileStorage.getAllPlayers();
+    const players = await playerProfileStorage.getAllPlayers();
     if (players.length === 0) {
-      const rawLogs = statsStorage.getGameLogsV2();
+      const rawLogs = await statsStorage.getGameLogsV2();
       // count total games from raw logs which completed
       const totalGames = rawLogs.filter((log) => log.completed).length;
       const player = createDefaultPlayer(totalGames, language);
-      playerProfileStorage.savePlayers([player]);
-      playerProfileStorage.setCurrentPlayerId(player.id);
+      await playerProfileStorage.savePlayers([player]);
+      await playerProfileStorage.setCurrentPlayerId(player.id);
     }
   },
 
   async migrateDataFromDefaultPlayerToNewPlayer(
     newPlayerId: string,
   ): Promise<void> {
-    const rawLogs = statsStorage.getGameLogsV2();
+    const rawLogs = await statsStorage.getGameLogsV2();
     const migrated = rawLogs.map((entry) => {
       if (entry.playerId === DEFAULT_PLAYER_ID) {
         return {
@@ -31,87 +31,88 @@ export const PlayerService = {
       }
       return entry;
     });
-    statsStorage.saveGameLogsV2(migrated);
+    await statsStorage.saveGameLogsV2(migrated);
 
     // move total games from default player to new player
-    const defaultPlayer = playerProfileStorage.getPlayerById(DEFAULT_PLAYER_ID);
-    const newPlayer = playerProfileStorage.getPlayerById(newPlayerId);
+    const defaultPlayer =
+      await playerProfileStorage.getPlayerById(DEFAULT_PLAYER_ID);
+    const newPlayer = await playerProfileStorage.getPlayerById(newPlayerId);
     if (defaultPlayer && newPlayer) {
       newPlayer.totalGames = defaultPlayer.totalGames;
-      playerProfileStorage.updatePlayer(newPlayer);
+      await playerProfileStorage.updatePlayer(newPlayer);
     }
 
     // delete default player
-    const allPlayers = playerProfileStorage.getAllPlayers();
+    const allPlayers = await playerProfileStorage.getAllPlayers();
     const updated = allPlayers.filter(
       (_player) => _player.id !== DEFAULT_PLAYER_ID,
     );
-    playerProfileStorage.savePlayers(updated);
+    await playerProfileStorage.savePlayers(updated);
 
     // nếu đổi default player và đang chọn default player thì update stats cache
-    if (newPlayerId === playerProfileStorage.getCurrentPlayerId()) {
+    if (newPlayerId === (await playerProfileStorage.getCurrentPlayerId())) {
       const allLogs = await StatsService.getLogsByPlayerId(newPlayerId);
       await StatsService.updateStatsWithCache(allLogs, allLogs, newPlayerId);
     }
   },
 
   async clear(): Promise<void> {
-    playerProfileStorage.clearAll();
+    await playerProfileStorage.clearAll();
   },
 
   async deletePlayer(playerId: string): Promise<void> {
     await this.deletePlayerGameLogs(playerId);
-    const allPlayers = playerProfileStorage.getAllPlayers();
+    const allPlayers = await playerProfileStorage.getAllPlayers();
     const updated = allPlayers.filter((p) => p.id !== playerId);
-    playerProfileStorage.savePlayers(updated);
+    await playerProfileStorage.savePlayers(updated);
   },
 
   async deletePlayerGameLogs(playerId: string): Promise<void> {
     if (playerId === DEFAULT_PLAYER_ID) {
       return;
     }
-    statsStorage.deleteGameLogsV2ByPlayerId(playerId);
+    await statsStorage.deleteGameLogsV2ByPlayerId(playerId);
   },
 
   async incrementPlayerTotalGames(): Promise<void> {
-    const player = playerProfileStorage.getCurrentPlayer();
+    const player = await playerProfileStorage.getCurrentPlayer();
     if (!player) {
       return;
     }
     player.totalGames++;
-    playerProfileStorage.updatePlayer(player);
+    await playerProfileStorage.updatePlayer(player);
   },
 
   async canDeletePlayer(playerId: string): Promise<boolean> {
     if (playerId === DEFAULT_PLAYER_ID) {
       return false;
     }
-    const allPlayers = playerProfileStorage.getAllPlayers();
+    const allPlayers = await playerProfileStorage.getAllPlayers();
     return allPlayers.length > 1 && allPlayers.some((p) => p.id === playerId);
   },
 
   async getAllPlayers(): Promise<PlayerProfile[]> {
-    return playerProfileStorage.getAllPlayers();
+    return await playerProfileStorage.getAllPlayers();
   },
 
   async getCurrentPlayer(): Promise<PlayerProfile | null> {
-    return playerProfileStorage.getCurrentPlayer();
+    return await playerProfileStorage.getCurrentPlayer();
   },
 
   async getCurrentPlayerId(): Promise<string> {
-    return playerProfileStorage.getCurrentPlayerId();
+    return await playerProfileStorage.getCurrentPlayerId();
   },
 
   async setCurrentPlayerId(playerId: string): Promise<void> {
-    playerProfileStorage.setCurrentPlayerId(playerId);
+    await playerProfileStorage.setCurrentPlayerId(playerId);
   },
 
   async getPlayerById(playerId: string): Promise<PlayerProfile | null> {
-    return playerProfileStorage.getPlayerById(playerId);
+    return await playerProfileStorage.getPlayerById(playerId);
   },
 
   async savePlayers(players: PlayerProfile[]): Promise<void> {
-    playerProfileStorage.savePlayers(players);
+    await playerProfileStorage.savePlayers(players);
   },
 
   async createPlayer(profile: PlayerProfile): Promise<void> {

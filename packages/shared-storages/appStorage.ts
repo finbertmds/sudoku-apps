@@ -13,152 +13,166 @@ import {
 } from '@sudoku/shared-utils';
 
 // STORAGE_KEY_LANG_KEY_DEFAULT
-const getLangKeyDefault = (): string | null => {
+const getLangKeyDefault = async (): Promise<string | null> => {
   try {
-    return storage.getString(STORAGE_KEY_LANG_KEY_DEFAULT) || null;
+    return (await storage.getString(STORAGE_KEY_LANG_KEY_DEFAULT)) || null;
   } catch (_) {
     return null;
   }
 };
-const saveLangKeyDefault = (key: string) => {
+
+const saveLangKeyDefault = async (key: string) => {
   try {
-    storage.set(STORAGE_KEY_LANG_KEY_DEFAULT, key);
+    await storage.set(STORAGE_KEY_LANG_KEY_DEFAULT, key);
   } catch (_) {}
 };
-const clearLangKeyDefault = () => {
+
+const clearLangKeyDefault = async () => {
   try {
-    storage.delete(STORAGE_KEY_LANG_KEY_DEFAULT);
+    await storage.delete(STORAGE_KEY_LANG_KEY_DEFAULT);
   } catch (_) {}
 };
 
 // STORAGE_KEY_LANG_KEY_PREFERRED
-const getLangKeyPreferred = (): string | null => {
+const getLangKeyPreferred = async (): Promise<string | null> => {
   try {
-    return storage.getString(STORAGE_KEY_LANG_KEY_PREFERRED) || null;
+    return (await storage.getString(STORAGE_KEY_LANG_KEY_PREFERRED)) || null;
   } catch (_) {
     return null;
   }
 };
-const saveLangKeyPreferred = (key: string) => {
+
+const saveLangKeyPreferred = async (key: string) => {
   try {
-    storage.set(STORAGE_KEY_LANG_KEY_PREFERRED, key);
+    await storage.set(STORAGE_KEY_LANG_KEY_PREFERRED, key);
   } catch (_) {}
 };
-const clearLangKeyPreferred = () => {
+
+const clearLangKeyPreferred = async () => {
   try {
-    storage.delete(STORAGE_KEY_LANG_KEY_PREFERRED);
+    await storage.delete(STORAGE_KEY_LANG_KEY_PREFERRED);
   } catch (_) {}
 };
 
 // STORAGE_KEY_SETTINGS
-const getSettings = (): AppSettings | null => {
+const getSettings = async (): Promise<AppSettings | null> => {
   try {
-    const json = storage.getString(STORAGE_KEY_SETTINGS);
+    const json = await storage.getString(STORAGE_KEY_SETTINGS);
     return json ? JSON.parse(json as string) : null;
   } catch (_) {
     return null;
   }
 };
-const setSettings = (data: AppSettings) => {
+
+const setSettings = async (data: AppSettings) => {
   try {
-    storage.set(STORAGE_KEY_SETTINGS, JSON.stringify(data));
+    await storage.set(STORAGE_KEY_SETTINGS, JSON.stringify(data));
   } catch (_) {}
 };
-const clearSettings = () => {
+
+const clearSettings = async () => {
   try {
-    storage.delete(STORAGE_KEY_SETTINGS);
+    await storage.delete(STORAGE_KEY_SETTINGS);
   } catch (_) {}
 };
 
 // STORAGE_KEY_BACKGROUNDS
-const getBackgrounds = (): DailyBackgrounds | null => {
+const getBackgrounds = async (): Promise<DailyBackgrounds | null> => {
   try {
-    const json = storage.getString(STORAGE_KEY_BACKGROUNDS);
+    const json = await storage.getString(STORAGE_KEY_BACKGROUNDS);
     return json ? JSON.parse(json) : null;
   } catch (_) {
     return null;
   }
 };
-const setBackgrounds = (data: DailyBackgrounds) => {
+
+const setBackgrounds = async (data: DailyBackgrounds) => {
   try {
-    storage.set(STORAGE_KEY_BACKGROUNDS, JSON.stringify(data));
+    await storage.set(STORAGE_KEY_BACKGROUNDS, JSON.stringify(data));
   } catch (_) {}
 };
-const clearBackgrounds = () => {
+
+const clearBackgrounds = async () => {
   try {
-    storage.delete(STORAGE_KEY_BACKGROUNDS);
+    await storage.delete(STORAGE_KEY_BACKGROUNDS);
   } catch (_) {}
 };
 
 // STORAGE_KEY_QUOTES
-const getQuotes = (): DailyQuotes | null => {
+const getQuotes = async (): Promise<DailyQuotes | null> => {
   try {
-    const json = storage.getString(STORAGE_KEY_QUOTES);
+    const json = await storage.getString(STORAGE_KEY_QUOTES);
     return json ? JSON.parse(json) : null;
   } catch (_) {
     return null;
   }
 };
-const setQuotes = (data: DailyQuotes) => {
+
+const setQuotes = async (data: DailyQuotes) => {
   try {
-    storage.set(STORAGE_KEY_QUOTES, JSON.stringify(data));
+    await storage.set(STORAGE_KEY_QUOTES, JSON.stringify(data));
   } catch (_) {}
 };
-const clearQuotes = () => {
+
+const clearQuotes = async () => {
   try {
-    storage.delete(STORAGE_KEY_QUOTES);
+    await storage.delete(STORAGE_KEY_QUOTES);
   } catch (_) {}
 };
 
 // STORAGE_KEY_HAS_PLAYED
-const getHasPlayed = (): boolean => {
+const getHasPlayed = async (): Promise<boolean> => {
   try {
-    return storage.getBoolean(STORAGE_KEY_HAS_PLAYED) || false;
+    return (await storage.getBoolean(STORAGE_KEY_HAS_PLAYED)) || false;
   } catch (_) {
     return false;
   }
 };
-const setHasPlayed = (value: boolean) => {
+
+const setHasPlayed = async (value: boolean) => {
   try {
-    storage.set(STORAGE_KEY_HAS_PLAYED, value);
+    await storage.set(STORAGE_KEY_HAS_PLAYED, value);
   } catch (_) {}
 };
-const clearHasPlayed = () => {
+
+const clearHasPlayed = async () => {
   try {
-    storage.delete(STORAGE_KEY_HAS_PLAYED);
+    await storage.delete(STORAGE_KEY_HAS_PLAYED);
   } catch (_) {}
 };
 
 // STORAGE_KEY_MIGRATION_VERSION
-const getMigrationVersion = (): number => {
+const getMigrationVersion = async (): Promise<number> => {
   try {
-    return storage.getNumber(STORAGE_KEY_MIGRATION_VERSION) || 0;
+    return (await storage.getNumber(STORAGE_KEY_MIGRATION_VERSION)) || 0;
   } catch (_) {
     return 0;
   }
 };
-const setMigrationVersion = (version: number) => {
+
+const setMigrationVersion = async (version: number) => {
   try {
-    storage.set(STORAGE_KEY_MIGRATION_VERSION, version);
-  } catch (_) {}
-};
-const clearMigrationVersion = () => {
-  try {
-    storage.delete(STORAGE_KEY_MIGRATION_VERSION);
+    await storage.set(STORAGE_KEY_MIGRATION_VERSION, version);
   } catch (_) {}
 };
 
-const clearAll = () => {
-  clearLangKeyDefault();
-  clearLangKeyPreferred();
-  clearSettings();
-  clearHasPlayed();
+const clearMigrationVersion = async () => {
+  try {
+    await storage.delete(STORAGE_KEY_MIGRATION_VERSION);
+  } catch (_) {}
 };
 
-const clearAllForDev = () => {
-  clearBackgrounds();
-  clearQuotes();
-  clearMigrationVersion();
+const clearAll = async () => {
+  await clearLangKeyDefault();
+  await clearLangKeyPreferred();
+  await clearSettings();
+  await clearHasPlayed();
+};
+
+const clearAllForDev = async () => {
+  await clearBackgrounds();
+  await clearQuotes();
+  await clearMigrationVersion();
 };
 
 export const appStorage = {

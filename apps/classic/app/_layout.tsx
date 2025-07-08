@@ -1,16 +1,12 @@
 // _layout.tsx
 
-import {autoDetectLanguage} from '@/i18n/i18n';
+import {autoDetectLanguage, getLanguage} from '@/i18n/i18n';
 import {darkTheme, lightTheme} from '@/theme/themeStyles';
 import {env} from '@/utils/appUtil';
 import {generateBoard} from '@/utils/boardUtil';
 import {constantEnv, SCREENS} from '@/utils/constants';
 import {setupEventListeners, setupInitGameHandler} from '@sudoku/shared-events';
 import {useAppPause} from '@sudoku/shared-hooks';
-import {
-  createExpoNavigationImpl,
-  setNavigationImpl,
-} from '@sudoku/shared-navigation';
 import {
   BackgroundService,
   BoardService,
@@ -20,17 +16,12 @@ import {
 import {runMigrationsIfNeeded} from '@sudoku/shared-storages';
 import {ThemeProvider} from '@sudoku/shared-themes';
 import {useFonts} from 'expo-font';
-import {Stack, useFocusEffect, useRouter} from 'expo-router';
+import {Stack, useFocusEffect} from 'expo-router';
 import {StatusBar} from 'expo-status-bar';
 import {useCallback, useEffect} from 'react';
 import 'react-native-reanimated';
 
 export default function RootLayout() {
-  const router = useRouter();
-  useEffect(() => {
-    setNavigationImpl(createExpoNavigationImpl());
-  }, [router]);
-
   const initEnv = useCallback(() => {
     BackgroundService.init(env);
     BoardService.init(constantEnv);
@@ -45,7 +36,8 @@ export default function RootLayout() {
       generateBoard: generateBoard,
     });
     setupEventListeners();
-    runMigrationsIfNeeded();
+
+    getLanguage().then((language) => runMigrationsIfNeeded(language));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -60,6 +52,7 @@ export default function RootLayout() {
     () => {},
     () => {
       setTimeout(() => {
+        initEnv();
         autoDetectLanguage();
       }, 200);
     },

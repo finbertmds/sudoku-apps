@@ -1,47 +1,40 @@
 // ThemeContext.tsx
 
-import React, {createContext, useContext, useEffect, useState} from 'react';
-import {useColorScheme} from 'react-native';
+import type {
+  ThemeContextValue,
+  ThemeMode,
+  ThemeType,
+} from '@sudoku/shared-themes/types';
+import React, {createContext, useContext, useMemo, useState} from 'react';
+import {Appearance} from 'react-native';
 
-export type ThemeType = Record<string, any>;
-
-type ThemeContextType = {
-  theme: ThemeType;
-  mode: 'light' | 'dark';
-  toggleTheme: () => void;
-};
-
-const ThemeContext = createContext<ThemeContextType>({
+const ThemeContext = createContext<ThemeContextValue>({
   theme: {},
   mode: 'light',
   toggleTheme: () => {},
 });
 
-type ThemeProviderProps = {
+export const useTheme = () => useContext(ThemeContext);
+
+/**
+ * App sẽ truyền lightTheme và darkTheme từ phía app riêng.
+ */
+export const ThemeProvider: React.FC<{
   children: React.ReactNode;
   lightTheme: ThemeType;
   darkTheme: ThemeType;
-};
-
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({
-  children,
-  lightTheme,
-  darkTheme,
-}) => {
-  const systemColorScheme = useColorScheme();
+}> = ({children, lightTheme, darkTheme}) => {
+  const colorScheme = Appearance.getColorScheme() as ThemeMode;
   const [mode, setMode] = useState<'light' | 'dark'>('light');
 
-  useEffect(() => {
-    if (systemColorScheme) {
-      setMode(systemColorScheme as 'light' | 'dark');
-    }
-  }, [systemColorScheme]);
+  const theme = useMemo(
+    () => (mode === 'dark' ? darkTheme : lightTheme),
+    [mode, darkTheme, lightTheme],
+  );
 
   const toggleTheme = () => {
     setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
-
-  const theme = mode === 'dark' ? darkTheme : lightTheme;
 
   return (
     <ThemeContext.Provider value={{theme, mode, toggleTheme}}>
@@ -49,5 +42,3 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     </ThemeContext.Provider>
   );
 };
-
-export const useTheme = () => useContext(ThemeContext);

@@ -7,52 +7,52 @@ import {
   STORAGE_KEY_SAVED_GAME,
 } from '@sudoku/shared-utils';
 
-const saveInitGame = (game: InitGame) => {
+const saveInitGame = async (game: InitGame) => {
   try {
-    storage.set(STORAGE_KEY_INIT_GAME, JSON.stringify(game));
+    await storage.set(STORAGE_KEY_INIT_GAME, JSON.stringify(game));
   } catch (_) {}
 };
 
-const getInitGame = (): InitGame | null => {
+const getInitGame = async (): Promise<InitGame | null> => {
   try {
-    const json = storage.getString(STORAGE_KEY_INIT_GAME);
+    const json = await storage.getString(STORAGE_KEY_INIT_GAME);
     return json ? JSON.parse(json) : null;
   } catch (_) {
     return null;
   }
 };
 
-const clearInitGame = () => {
+const clearInitGame = async () => {
   try {
-    storage.delete(STORAGE_KEY_INIT_GAME);
+    await storage.delete(STORAGE_KEY_INIT_GAME);
   } catch (_) {}
 };
 
-const saveSavedGame = (game: SavedGame) => {
+const saveSavedGame = async (game: SavedGame) => {
   try {
-    storage.set(STORAGE_KEY_SAVED_GAME, JSON.stringify(game));
+    await storage.set(STORAGE_KEY_SAVED_GAME, JSON.stringify(game));
   } catch (_) {}
 };
 
-const getSavedGame = (): SavedGame | null => {
+const getSavedGame = async (): Promise<SavedGame | null> => {
   try {
-    const json = storage.getString(STORAGE_KEY_SAVED_GAME);
+    const json = await storage.getString(STORAGE_KEY_SAVED_GAME);
     return json ? JSON.parse(json) : null;
   } catch (_) {
     return null;
   }
 };
 
-const clearSavedGameData = () => {
+const clearSavedGameData = async () => {
   try {
-    storage.delete(STORAGE_KEY_SAVED_GAME);
+    await storage.delete(STORAGE_KEY_SAVED_GAME);
   } catch (_) {}
 };
 
-const clearGameData = () => {
+const clearGameData = async () => {
   try {
-    clearInitGame();
-    clearSavedGameData();
+    await clearInitGame();
+    await clearSavedGameData();
   } catch (_) {}
 };
 

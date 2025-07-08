@@ -7,12 +7,11 @@ export type ClassicLevel = (typeof LEVELS)[number];
 
 export type ClassicInitGame = GenericInitGame<
   ClassicLevel,
-  {savedScore: number}
->;
-
-export type ClassicSavedGame = GenericSavedGame<
-  ClassicLevel,
+  // TODO: add savedScore
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   {
     // savedScore: number;
   }
 >;
+
+export type ClassicSavedGame = GenericSavedGame<ClassicLevel>;

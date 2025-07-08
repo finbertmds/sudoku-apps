@@ -17,7 +17,9 @@ export interface AppEnv {
 }
 
 export interface ConstantEnv {
+  MAX_MISTAKES: number;
   MAX_HINTS: number;
+  MAX_TIME_PLAYED: number;
   DEFAULT_SETTINGS: AppSettings;
   LEVELS: Level[];
 }

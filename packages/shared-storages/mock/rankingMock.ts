@@ -142,21 +142,21 @@ const mockGameLogs: GameLogEntryV2[] = [
 ];
 
 const saveMockRanking = async () => {
-  const oldLogs = statsStorage.getGameLogsV2();
+  const oldLogs = await statsStorage.getGameLogsV2();
   if (oldLogs.length > 0) {
     return;
   }
 
   // save mock players
-  playerProfileStorage.savePlayers(mockPlayers);
-  playerProfileStorage.setCurrentPlayerId(mockPlayers[0].id);
+  await playerProfileStorage.savePlayers(mockPlayers);
+  await playerProfileStorage.setCurrentPlayerId(mockPlayers[0].id);
 
   // save mock game logs
   console.log('mock game logs', mockGameLogs);
-  statsStorage.saveGameLogsV2(mockGameLogs);
+  await statsStorage.saveGameLogsV2(mockGameLogs);
   const affectedRanges: TimeRange[] = ALL_AFFECTED_RANGES;
 
-  const allLogs = statsStorage.getGameLogsV2();
+  const allLogs = await statsStorage.getGameLogsV2();
 
   mockPlayers.forEach(async (player) => {
     await StatsService.updateStatsWithAllCache(

@@ -6,7 +6,6 @@ export * from './componentUtil';
 export * from './constants';
 export * from './dateUtil';
 export * from './deviceUtil';
-export * from './getAdUnit';
 export * from './getDailyBackground';
 export * from './getDailyQuote';
 export * from './leaderboardUtil';

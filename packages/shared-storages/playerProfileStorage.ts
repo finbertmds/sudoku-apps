@@ -8,79 +8,79 @@ import {
   STORAGE_KEY_PLAYERS,
 } from '@sudoku/shared-utils';
 
-const getAllPlayers = (): PlayerProfile[] => {
+const getAllPlayers = async (): Promise<PlayerProfile[]> => {
   try {
-    const raw = storage.getString(STORAGE_KEY_PLAYERS);
+    const raw = await storage.getString(STORAGE_KEY_PLAYERS);
     return raw ? JSON.parse(raw) : [];
   } catch (_) {
     return [];
   }
 };
 
-const savePlayers = (players: PlayerProfile[]) => {
+const savePlayers = async (players: PlayerProfile[]) => {
   try {
-    storage.set(STORAGE_KEY_PLAYERS, JSON.stringify(players));
+    await storage.set(STORAGE_KEY_PLAYERS, JSON.stringify(players));
   } catch (_) {}
 };
 
-const clearPlayers = () => {
+const clearPlayers = async () => {
   try {
-    storage.delete(STORAGE_KEY_PLAYERS);
+    await storage.delete(STORAGE_KEY_PLAYERS);
   } catch (_) {}
 };
 
-const getCurrentPlayerId = (): string => {
+const getCurrentPlayerId = async (): Promise<string> => {
   try {
-    const id = storage.getString(STORAGE_KEY_CURRENT_PLAYER_ID);
+    const id = await storage.getString(STORAGE_KEY_CURRENT_PLAYER_ID);
     return id || DEFAULT_PLAYER_ID;
   } catch (_) {
     return DEFAULT_PLAYER_ID;
   }
 };
 
-const setCurrentPlayerId = (id: string) => {
+const setCurrentPlayerId = async (id: string) => {
   try {
-    storage.set(STORAGE_KEY_CURRENT_PLAYER_ID, id);
+    await storage.set(STORAGE_KEY_CURRENT_PLAYER_ID, id);
   } catch (_) {}
 };
 
-const clearCurrentPlayerId = () => {
+const clearCurrentPlayerId = async () => {
   try {
-    storage.delete(STORAGE_KEY_CURRENT_PLAYER_ID);
+    await storage.delete(STORAGE_KEY_CURRENT_PLAYER_ID);
   } catch (_) {}
 };
 
-const getCurrentPlayer = (): PlayerProfile | null => {
+const getCurrentPlayer = async (): Promise<PlayerProfile | null> => {
   try {
-    const id = getCurrentPlayerId();
-    const all = getAllPlayers();
+    const id = await getCurrentPlayerId();
+    const all = await getAllPlayers();
     return all.find((p) => p.id === id) || null;
   } catch (_) {
     return null;
   }
 };
 
-const getPlayerById = (id: string): PlayerProfile | null => {
+const getPlayerById = async (id: string): Promise<PlayerProfile | null> => {
   try {
-    const all = getAllPlayers();
+    const all = await getAllPlayers();
     return all.find((p) => p.id === id) || null;
   } catch (_) {
     return null;
   }
 };
 
-const updatePlayer = (player: PlayerProfile) => {
+const updatePlayer = async (player: PlayerProfile) => {
   try {
-    const all = getAllPlayers();
+    const all = await getAllPlayers();
     const updated = all.map((p) => (p.id === player.id ? player : p));
     savePlayers(updated);
   } catch (_) {}
 };
 
-const clearAll = () => {
+const clearAll = async () => {
   try {
-    clearPlayers();
-    clearCurrentPlayerId();
+    await clearPlayers();
+    await clearCurrentPlayerId();
   } catch (_) {}
 };
 

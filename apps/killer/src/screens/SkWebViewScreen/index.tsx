@@ -1,9 +1,14 @@
+// src/screens/SkWebViewScreen/index.tsx
+
 import {useRoute} from '@react-navigation/native';
+import {WebViewBase} from '@sudoku/shared-components';
+import {
+  SkWebViewParamProps,
+  SkWebViewScreenRouteProp,
+} from '@sudoku/shared-types';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Platform} from 'react-native';
-import WebViewBase from '../../components/commons/WebViewBase';
-import {SkWebViewParamProps, SkWebViewScreenRouteProp} from '../../types';
 
 export default function SkWebViewScreen() {
   const {t} = useTranslation();
@@ -14,17 +19,17 @@ export default function SkWebViewScreen() {
   const licensesSource =
     Platform.OS === 'android'
       ? {uri: 'file:///android_asset/licenses.html'}
-      : require('../../../assets/htmls/licenses.html');
+      : require('@/../assets/htmls/licenses.html');
 
   const privacyPolicySource =
     Platform.OS === 'android'
       ? {uri: 'file:///android_asset/privacypolicy.html'}
-      : require('../../../assets/htmls/privacypolicy.html');
+      : require('@/../assets/htmls/privacypolicy.html');
 
   const termsSource =
     Platform.OS === 'android'
       ? {uri: 'file:///android_asset/terms.html'}
-      : require('../../../assets/htmls/terms.html');
+      : require('@/../assets/htmls/terms.html');
 
   const getSource = () => {
     switch (type) {

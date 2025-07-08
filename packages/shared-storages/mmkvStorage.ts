@@ -6,22 +6,22 @@ import {MMKV} from 'react-native-mmkv';
 const mmkv = new MMKV();
 
 export const mmkvStorage: AppStorage = {
-  getString: (key: string): string | null => {
+  getString: async (key: string): Promise<string | null> => {
     return mmkv.getString(key) ?? null;
   },
-  getBoolean: (key: string): boolean | null => {
+  getBoolean: async (key: string): Promise<boolean | null> => {
     return mmkv.getBoolean(key) ?? null;
   },
-  getNumber: (key: string): number | null => {
+  getNumber: async (key: string): Promise<number | null> => {
     return mmkv.getNumber(key) ?? null;
   },
-  set: (key: string, value: boolean | string | number | ArrayBuffer) => {
+  set: async (key: string, value: boolean | string | number | ArrayBuffer) => {
     mmkv.set(key, value);
   },
-  delete: (key: string) => {
+  delete: async (key: string) => {
     mmkv.delete(key);
   },
-  clearAll: () => {
+  clearAll: async () => {
     mmkv.clearAll();
   },
 };

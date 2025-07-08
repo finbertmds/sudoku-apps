@@ -1,2 +1,3 @@
-export * from './killerGame';
+// src/types/index.ts
 
+export * from './killerGame';

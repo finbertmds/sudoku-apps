@@ -1,6 +1,7 @@
 // components.ts
 
 import {RouteProp} from '@react-navigation/native';
+import {AppEnv} from '@sudoku/shared-types/apps';
 import {AD_TYPE} from '@sudoku/shared-utils';
 import {ImageSourcePropType} from 'react-native';
 
@@ -29,14 +30,18 @@ export type BoardParamProps = {
   type: 'init' | 'saved';
 };
 
+/**
+ * @description: showAdvancedSettings: '0' | '1'
+ * 0: false, 1: true
+ */
 export type SettingsParamProps = {
-  showAdvancedSettings?: string;
+  showAdvancedSettings?: '0' | '1';
 };
 
 export type SkWebViewParamProps = {
   title: string;
   type: SkWebViewType;
-  needPadding?: boolean;
+  needPadding?: string;
 };
 
 export type SkWebViewType = 'licenses' | 'privacy' | 'terms';
@@ -105,3 +110,9 @@ export type TutorialSlideItem = {
 };
 
 export type AdType = (typeof AD_TYPE)[keyof typeof AD_TYPE];
+
+export type GetAdUnit = (type: AdType, env: AppEnv | undefined) => string;
+
+export type NativeAdSafeProps = {
+  env: AppEnv;
+};

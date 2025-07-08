@@ -14,7 +14,7 @@ export async function runMigrationsIfNeeded(language: string = 'en') {
     // rankingMock.saveMockRanking();
   }
 
-  const storedVersion = appStorage.getMigrationVersion() ?? 0;
+  const storedVersion = (await appStorage.getMigrationVersion()) ?? 0;
 
   if (storedVersion >= CURRENT_MIGRATION_VERSION) {
     console.log('[MIGRATION] No migration needed: v =', storedVersion);
@@ -35,7 +35,7 @@ export async function runMigrationsIfNeeded(language: string = 'en') {
   }
 
   // Cập nhật version sau khi migrate xong
-  appStorage.setMigrationVersion(CURRENT_MIGRATION_VERSION);
+  await appStorage.setMigrationVersion(CURRENT_MIGRATION_VERSION);
 
   console.log('[MIGRATION] Done');
 }

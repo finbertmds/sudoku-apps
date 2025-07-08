@@ -1,21 +1,16 @@
 // utils/constants.ts
 
-import {
-  AppSettings,
-  ConstantEnv,
-  Level,
-  TutorialImageMap,
-} from '@sudoku/shared-types';
+import {ConstantEnv, Level, TutorialImageMap} from '@sudoku/shared-types';
 
 export const SCREENS = {
   HOME_TABS: '(tabs)',
   BOARD: 'BoardScreen',
-  OPTIONS: 'OptionsScreen/index',
-  SETTINGS: 'SettingsScreen/index',
-  HOW_TO_PLAY: 'HowToPlayScreen/index',
-  ABOUT_GAME: 'AboutGame/index',
-  PLAYERS: 'PlayerScreen/index',
-  SK_WEBVIEW: 'AboutGame/SkWebViewScreen/index',
+  OPTIONS: 'OptionsScreen',
+  SETTINGS: 'SettingsScreen',
+  HOW_TO_PLAY: 'HowToPlayScreen',
+  ABOUT_GAME: 'AboutGame',
+  PLAYERS: 'PlayerScreen',
+  SK_WEBVIEW: 'AboutGame/SkWebViewScreen',
   NOT_FOUND: '+not-found',
 } as const;
 
@@ -23,7 +18,7 @@ export const UNSPLASH_UTM = '?utm_source=sudoku-classic&utm_medium=referral';
 
 export const LEVELS = ['easy', 'medium', 'hard', 'expert'] as Level[];
 export const LEVEL_PRIORITY: Level[] = LEVELS.slice().reverse();
-export const LEVEL_WEIGHT: Record<string, number> = {
+export const LEVEL_WEIGHT: Record<Level, number> = {
   expert: 5,
   hard: 4,
   medium: 2.5,
@@ -45,10 +40,6 @@ export const PLAYER_STATS_THRESHOLDS = {
 
 export const SHOW_UNSPLASH_IMAGE_INFO = false;
 export const IS_UI_TESTING = false;
-
-export const MAX_TIME_PLAYED = 3 * 60 * 60; // in seconds
-export const MAX_MISTAKES = 5;
-export const MAX_HINTS = 5;
 
 export const LANGUAGES = [
   {code: 'en', label: 'English'},
@@ -78,24 +69,24 @@ export const TUTORIAL_IMAGES: TutorialImageMap = {
   },
 };
 
-export const DEFAULT_SETTINGS: AppSettings = {
-  // sounds: true,
-  // autoLock: false,
-  timer: true,
-  // score: true,
-  // statisticsMsg: true,
-  // numberFirst: false,
-  mistakeLimit: true,
-  autoCheckMistake: true,
-  highlightDuplicates: true,
-  highlightAreas: true,
-  highlightIdenticalNumbers: true,
-  hideUsedNumbers: true,
-  autoRemoveNotes: true,
-};
-
 export const constantEnv: ConstantEnv = {
-  MAX_HINTS,
-  DEFAULT_SETTINGS,
-  LEVELS,
+  MAX_MISTAKES: 5,
+  MAX_HINTS: 5,
+  MAX_TIME_PLAYED: 3 * 60 * 60, // in seconds
+  DEFAULT_SETTINGS: {
+    // sounds: true,
+    // autoLock: false,
+    timer: true,
+    // score: true,
+    // statisticsMsg: true,
+    // numberFirst: false,
+    mistakeLimit: true,
+    autoCheckMistake: true,
+    highlightDuplicates: true,
+    highlightAreas: true,
+    highlightIdenticalNumbers: true,
+    hideUsedNumbers: true,
+    autoRemoveNotes: true,
+  },
+  LEVELS: LEVELS,
 };

@@ -1,10 +1,13 @@
 // storage.interface.ts
 
 export interface AppStorage {
-  getString(key: string): string | null;
-  getBoolean(key: string): boolean | null;
-  getNumber(key: string): number | null;
-  set(key: string, value: boolean | string | number | ArrayBuffer): void;
-  delete(key: string): void;
-  clearAll(): void;
+  getString(key: string): Promise<string | null>;
+  getBoolean(key: string): Promise<boolean | null>;
+  getNumber(key: string): Promise<number | null>;
+  set(
+    key: string,
+    value: boolean | string | number | ArrayBuffer,
+  ): Promise<void>;
+  delete(key: string): Promise<void>;
+  clearAll(): Promise<void>;
 }

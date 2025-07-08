@@ -1,52 +1,49 @@
+// src/screens/BoardScreen/index.tsx
+
+import {env} from '@/utils/appUtil';
+import {constantEnv, SCREENS, TUTORIAL_IMAGES} from '@/utils/constants';
 import {
   useFocusEffect,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {useTranslation} from 'react-i18next';
 import {
-  ActivityIndicator,
-  Alert,
-  Platform,
-  StyleSheet,
-  View,
-} from 'react-native';
+  ActionButtons,
+  ConfirmDialog,
+  Grid,
+  Header,
+  HowToPlay,
+  InfoPanel,
+  NumberPad,
+  PauseModal,
+} from '@sudoku/shared-components';
+import {BannerAdSafeBase} from '@sudoku/shared-components/commons/BannerAdSafe.base';
+import {CORE_EVENTS, GameEndedCoreEvent} from '@sudoku/shared-events';
+import eventBus from '@sudoku/shared-events/eventBus';
 import {
-  BannerAd,
-  BannerAdSize,
-  useForeground,
-  useInterstitialAd,
-} from 'react-native-google-mobile-ads';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
-import ActionButtons from '../../components/Board/ActionButtons';
-import Grid from '../../components/Board/Grid';
-import InfoPanel from '../../components/Board/InfoPanel';
-import NumberPad from '../../components/Board/NumberPad';
-import PauseModal from '../../components/Board/PauseModal';
-import ConfirmDialog from '../../components/commons/ConfirmDialog';
-import Header from '../../components/commons/Header';
-import HowToPlay from '../../components/HowToPlay';
-import {useTheme} from '../../context/ThemeContext';
-import {CORE_EVENTS} from '../../events';
-import eventBus from '../../events/eventBus';
-import {GameEndedCoreEvent} from '../../events/types';
-import {useAppPause} from '../../hooks/useAppPause';
-import {useHintCounter} from '../../hooks/useHintCounter';
-import {useMistakeCounter} from '../../hooks/useMistakeCounter';
-import {BoardService} from '../../services/BoardService';
-import {SettingsService} from '../../services/SettingsService';
+  useAppPause,
+  useHintCounter,
+  useMistakeCounter,
+} from '@sudoku/shared-hooks';
+import {useInterstitialAdSafeBase} from '@sudoku/shared-hooks/useInterstitialAdSafe.base';
+import {BoardService, SettingsService} from '@sudoku/shared-services';
+import {useTheme} from '@sudoku/shared-themes';
 import {
   AppSettings,
   BoardParamProps,
   BoardScreenRouteProp,
-  Cage,
+  CageInfo,
   Cell,
   CellValue,
   RootStackParamList,
   SavedGame,
-} from '../../types';
+} from '@sudoku/shared-types';
+import {
+  AD_TYPE,
+  BANNER_HEIGHT,
+  getTutorialImageList,
+} from '@sudoku/shared-utils';
 import {
   checkBoardIsSolved,
   createEmptyGrid,
@@ -55,18 +52,15 @@ import {
   deepCloneBoard,
   deepCloneNotes,
   removeNoteFromPeers,
-} from '../../utils/boardUtil';
-import {
-  AD_REQUEST_OPTIONS,
-  DEFAULT_SETTINGS,
-  MAX_HINTS,
-  MAX_MISTAKES,
-  SCREENS,
-} from '../../utils/constants';
-import {getAdUnit} from '../../utils/getAdUnit';
+} from '@sudoku/shared-utils/boardUtil';
+import {getAdUnitBase} from '@sudoku/shared-utils/getAdUnit.base';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {ActivityIndicator, Alert, StyleSheet, View} from 'react-native';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const BoardScreen = () => {
-  const {theme} = useTheme();
+  const {theme, mode} = useTheme();
   const {t} = useTranslation();
   const route = useRoute<BoardScreenRouteProp>();
   const navigation =
@@ -77,10 +71,9 @@ const BoardScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const [initialBoard, setInitialBoard] = useState<CellValue[][]>(
-    createEmptyGrid<CellValue>(),
-  );
-  const [cages, setCages] = useState<Cage[]>([]);
+  const [initialBoard, setInitialBoard] =
+    useState<CellValue[][]>(createEmptyGrid<CellValue>());
+  const [cages, setCages] = useState<CageInfo[]>([]);
   const [solvedBoard, setSolvedBoard] = useState<number[][]>(
     createEmptyGridNumber(),
   );
@@ -92,9 +85,8 @@ const BoardScreen = () => {
     setSelectedCell(cell);
   }, []);
 
-  const [board, setBoard] = useState<CellValue[][]>(
-    createEmptyGrid<CellValue>(),
-  );
+  const [board, setBoard] =
+    useState<CellValue[][]>(createEmptyGrid<CellValue>());
   const [history, setHistory] = useState<CellValue[][][]>([
     createEmptyGrid<CellValue>(),
   ]);
@@ -141,7 +133,7 @@ const BoardScreen = () => {
   };
 
   useEffect(() => {
-    SettingsService.getHasPlayed().then(hasPlayed => {
+    SettingsService.getHasPlayed().then((hasPlayed) => {
       if (!hasPlayed) {
         setShowHowToPlay(true);
       } else {
@@ -159,10 +151,12 @@ const BoardScreen = () => {
 
   // Lấy settings
   // ===========================================================
-  const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
+  const [settings, setSettings] = useState<AppSettings>(
+    constantEnv.DEFAULT_SETTINGS,
+  );
   const savedSettingsRef = useRef<AppSettings>(null);
   useEffect(() => {
-    SettingsService.load().then(data => {
+    SettingsService.load().then((data) => {
       if (data) {
         setSettings(data);
       }
@@ -179,12 +173,13 @@ const BoardScreen = () => {
 
   // Hiển thị rewarded ad và xử lý khi đóng ad
   // ===========================================================
+  const adUnit = getAdUnitBase(AD_TYPE.INTERSTITIAL, env);
   const {
     isLoaded: isLoadedRewarded,
     isClosed: isClosedRewarded,
     load: loadRewarded,
     show: showRewarded,
-  } = useInterstitialAd(getAdUnit('interstitial'), AD_REQUEST_OPTIONS);
+  } = useInterstitialAdSafeBase(adUnit);
   useEffect(() => {
     loadRewarded();
   }, [loadRewarded]);
@@ -208,7 +203,7 @@ const BoardScreen = () => {
     incrementMistake,
     resetMistakes,
   } = useMistakeCounter({
-    maxMistakes: MAX_MISTAKES,
+    maxMistakes: constantEnv.MAX_MISTAKES,
     onLimitReached: () => {
       setIsPlaying(false);
       setIsPaused(true);
@@ -222,7 +217,7 @@ const BoardScreen = () => {
     resetHintCount,
     changeLimitHintReached,
   } = useHintCounter({
-    maxHintCount: MAX_HINTS,
+    maxHintCount: constantEnv.MAX_HINTS,
     onLimitReached: () => {
       setIsPlaying(false);
       setIsPaused(true);
@@ -333,7 +328,7 @@ const BoardScreen = () => {
     setIsPlaying(false);
     setIsPaused(true);
     navigation.navigate(SCREENS.SETTINGS, {
-      showAdvancedSettings: false,
+      showAdvancedSettings: '0',
     });
   };
 
@@ -363,7 +358,7 @@ const BoardScreen = () => {
   };
 
   const saveHistory = (newBoard: CellValue[][]) => {
-    setHistory(prev => [...prev, deepCloneBoard(newBoard)]);
+    setHistory((prev) => [...prev, deepCloneBoard(newBoard)]);
   };
 
   /**
@@ -376,7 +371,7 @@ const BoardScreen = () => {
 
     const lastState = history[history.length - 2];
     setBoard(deepCloneBoard(lastState));
-    setHistory(prev => prev.slice(0, -1));
+    setHistory((prev) => prev.slice(0, -1));
   };
 
   /**
@@ -452,7 +447,9 @@ const BoardScreen = () => {
     newBoard[row][col] = solvedNum;
     setSelectedCell({...selectedCell, value: solvedNum});
     setBoard(newBoard);
-    setNotes(prevNotes => removeNoteFromPeers(prevNotes, row, col, solvedNum));
+    setNotes((prevNotes) =>
+      removeNoteFromPeers(prevNotes, row, col, solvedNum),
+    );
 
     if (checkBoardIsSolved(newBoard, solvedBoard)) {
       handleCheckSolved(totalHintCountUsed + 1);
@@ -493,7 +490,7 @@ const BoardScreen = () => {
       const newNotes = deepCloneNotes(notes);
       const cellNotes = newNotes[row][col];
       if (cellNotes.includes(num.toString())) {
-        newNotes[row][col] = cellNotes.filter(n => n !== num.toString());
+        newNotes[row][col] = cellNotes.filter((n) => n !== num.toString());
       } else {
         newNotes[row][col] = [...cellNotes, num.toString()].sort();
       }
@@ -505,7 +502,7 @@ const BoardScreen = () => {
       }
       const correctValue = solvedBoard[row][col];
       if (settings.mistakeLimit && num !== correctValue) {
-        if (mistakes >= MAX_MISTAKES) {
+        if (mistakes >= constantEnv.MAX_MISTAKES) {
           return;
         } else {
           incrementMistake();
@@ -517,7 +514,7 @@ const BoardScreen = () => {
       setSelectedCell({...selectedCell, value: num});
 
       if (settings.autoRemoveNotes) {
-        setNotes(prevNotes => removeNoteFromPeers(prevNotes, row, col, num));
+        setNotes((prevNotes) => removeNoteFromPeers(prevNotes, row, col, num));
       }
 
       if (checkBoardIsSolved(newBoard, solvedBoard)) {
@@ -531,7 +528,7 @@ const BoardScreen = () => {
   useEffect(() => {
     return () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      Object.values(timeoutRefs.current).forEach(timeoutId => {
+      Object.values(timeoutRefs.current).forEach((timeoutId) => {
         clearTimeout(timeoutId);
       });
     };
@@ -567,19 +564,13 @@ const BoardScreen = () => {
     }, []),
   );
 
-  const bannerRef = useRef<BannerAd>(null);
-  const bannerId = getAdUnit('banner');
-  useForeground(() => {
-    Platform.OS === 'ios' && bannerRef.current?.load();
-  });
   const insets = useSafeAreaInsets();
-  const bannerHeight = 70;
 
   useEffect(() => {
     if (limitMistakeReached && !isLoadedRewarded && !isClosedRewarded) {
       Alert.alert(
         t('mistakeWarning.title'),
-        t('mistakeWarning.messageNotAd', {max: MAX_MISTAKES}),
+        t('mistakeWarning.messageNotAd', {max: constantEnv.MAX_MISTAKES}),
         [
           {
             text: t('ok'),
@@ -638,7 +629,10 @@ const BoardScreen = () => {
           showSettings={false}
           showTheme={false}
         />
-        <HowToPlay onClose={handleAfterCheckHasPlayed} />
+        <HowToPlay
+          slides={getTutorialImageList(TUTORIAL_IMAGES, mode)}
+          onClose={handleAfterCheckHasPlayed}
+        />
       </SafeAreaView>
     );
   }
@@ -652,16 +646,16 @@ const BoardScreen = () => {
           title={t('appName')}
           showBack={true}
           showSettings={true}
+          onSettings={handleGoToSettings}
           showTheme={true}
           onBack={handleBackPress}
-          onSettings={handleGoToSettings}
         />
         <View
           style={[
             styles.contentContainerNoAd,
             {
               paddingTop: insets.top,
-              paddingBottom: insets.bottom + bannerHeight,
+              paddingBottom: insets.bottom + BANNER_HEIGHT,
             },
           ]}>
           <InfoPanel
@@ -673,6 +667,8 @@ const BoardScreen = () => {
             settings={settings}
             onPause={handlePause}
             onLimitTimeReached={handleLimitTimeReached}
+            maxMistakes={constantEnv.MAX_MISTAKES}
+            maxTimePlayed={constantEnv.MAX_TIME_PLAYED}
           />
           <Grid
             board={board}
@@ -682,6 +678,7 @@ const BoardScreen = () => {
             selectedCell={selectedCell}
             settings={settings}
             onPress={handleCellPress}
+            showCage={true}
           />
           <ActionButtons
             noteMode={noteMode}
@@ -698,22 +695,7 @@ const BoardScreen = () => {
             onSelectNumber={handleNumberPress}
           />
         </View>
-        <View
-          style={[
-            styles.adContainer,
-            {
-              height: bannerHeight,
-              bottom: insets.bottom,
-              backgroundColor: theme.background,
-            },
-          ]}>
-          <BannerAd
-            ref={bannerRef}
-            unitId={bannerId}
-            size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-            requestOptions={AD_REQUEST_OPTIONS}
-          />
-        </View>
+        <BannerAdSafeBase env={env} />
       </SafeAreaView>
       {showPauseModal && (
         <PauseModal
@@ -722,12 +704,13 @@ const BoardScreen = () => {
           time={secondsRef.current}
           settings={settings}
           onResume={() => handleResume()}
+          maxMistakes={constantEnv.MAX_MISTAKES}
         />
       )}
       {limitMistakeReached && isLoadedRewarded && (
         <ConfirmDialog
           title={t('mistakeWarning.title')}
-          message={t('mistakeWarning.message', {max: MAX_MISTAKES})}
+          message={t('mistakeWarning.message', {max: constantEnv.MAX_MISTAKES})}
           cancelText={t('ad.cancel')}
           confirmText={t('ad.confirm')}
           disableBackdropClose={true}
@@ -742,7 +725,7 @@ const BoardScreen = () => {
       {limitHintReached && isLoadedRewarded && (
         <ConfirmDialog
           title={t('hintWarning.title')}
-          message={t('hintWarning.message', {max: MAX_HINTS})}
+          message={t('hintWarning.message', {max: constantEnv.MAX_HINTS})}
           cancelText={t('ad.cancel')}
           confirmText={t('ad.confirm')}
           disableBackdropClose={true}

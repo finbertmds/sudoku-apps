@@ -1,8 +1,8 @@
 // commons/BannerAdSafe.web.tsx
 
-import {AppEnv} from '@sudoku/shared-types';
+import {NativeAdSafeProps} from '@sudoku/shared-types';
 import React from 'react';
 
-export const BannerAdSafe = ({env}: {env: AppEnv}) => {
+export const BannerAdSafe = ({env}: NativeAdSafeProps) => {
   return <></>;
 };
