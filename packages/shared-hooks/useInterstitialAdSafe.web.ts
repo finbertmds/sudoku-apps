@@ -1,6 +1,8 @@
 // useInterstitialAdSafe.web.ts
 
-export function useInterstitialAdSafe(adUnitId: string) {
+import {AppEnv} from '@sudoku/shared-types';
+
+export function useInterstitialAdSafe(env: AppEnv) {
   return {
     isLoaded: false,
     isEarnedReward: false,

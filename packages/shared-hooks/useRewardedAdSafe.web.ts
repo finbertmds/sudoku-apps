@@ -1,6 +1,8 @@
 // useRewardedAdSafe.web.ts
 
-export function useRewardedAdSafe(adUnitId: string) {
+import {AppEnv} from '@sudoku/shared-types';
+
+export function useRewardedAdSafe(env: AppEnv) {
   return {
     isLoaded: false,
     isEarnedReward: false,

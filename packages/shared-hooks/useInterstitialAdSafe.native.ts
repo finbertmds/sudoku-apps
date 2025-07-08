@@ -1,5 +1,8 @@
 // useInterstitialAdSafe.native.ts
 
+import {AppEnv} from '@sudoku/shared-types';
+import {AD_TYPE} from '@sudoku/shared-utils/constants';
+import {getAdUnit} from '@sudoku/shared-utils/getAdUnit.native';
 import {
   RequestOptions,
   useInterstitialAd,
@@ -46,6 +49,8 @@ export const AD_REQUEST_OPTIONS: RequestOptions = {
   ],
 };
 
-export function useInterstitialAdSafe(adUnitId: string) {
-  return useInterstitialAd(adUnitId, AD_REQUEST_OPTIONS);
+export function useInterstitialAdSafe(env: AppEnv) {
+  const adUnit = getAdUnit(AD_TYPE.INTERSTITIAL, env);
+
+  return useInterstitialAd(adUnit, AD_REQUEST_OPTIONS);
 }

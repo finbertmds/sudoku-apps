@@ -1,5 +1,8 @@
 // useRewardedAdSafe.native.ts
 
+import {AppEnv} from '@sudoku/shared-types';
+import {AD_TYPE} from '@sudoku/shared-utils/constants';
+import {getAdUnit} from '@sudoku/shared-utils/getAdUnit.native';
 import {RequestOptions, useRewardedAd} from 'react-native-google-mobile-ads';
 
 export const AD_REQUEST_OPTIONS: RequestOptions = {
@@ -43,6 +46,7 @@ export const AD_REQUEST_OPTIONS: RequestOptions = {
   ],
 };
 
-export function useRewardedAdSafe(adUnitId: string) {
-  return useRewardedAd(adUnitId, AD_REQUEST_OPTIONS);
+export function useRewardedAdSafe(env: AppEnv) {
+  const adUnit = getAdUnit(AD_TYPE.REWARDED, env);
+  return useRewardedAd(adUnit, AD_REQUEST_OPTIONS);
 }

@@ -7,11 +7,11 @@ export interface AppEnv {
   AD_UNIT_BANNER_IOS: string;
   AD_UNIT_INTERSTITIAL_IOS: string;
   AD_UNIT_REWARDED_IOS: string;
-  AD_UNIT_REWARDED_INTERSTITIAL_IOS: string;
+  AD_UNIT_REWARDED_I_IOS: string;
   AD_UNIT_BANNER_ANDROID: string;
   AD_UNIT_INTERSTITIAL_ANDROID: string;
   AD_UNIT_REWARDED_ANDROID: string;
-  AD_UNIT_REWARDED_INTERSTITIAL_ANDROID: string;
+  AD_UNIT_REWARDED_I_ANDROID: string;
   iosAppId: string;
   androidPackageName: string;
 }

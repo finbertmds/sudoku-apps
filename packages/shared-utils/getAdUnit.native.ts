@@ -20,14 +20,14 @@ export function getAdUnit(type: AdType, env: AppEnv | undefined): string {
     banner: env.AD_UNIT_BANNER_IOS,
     interstitial: env.AD_UNIT_INTERSTITIAL_IOS,
     rewarded: env.AD_UNIT_REWARDED_IOS,
-    rewardedInterstitial: env.AD_UNIT_REWARDED_INTERSTITIAL_IOS,
+    rewardedInterstitial: env.AD_UNIT_REWARDED_I_IOS,
   };
 
   const prodAdUnitsAndroid: Record<AdType, string> = {
     banner: env.AD_UNIT_BANNER_ANDROID,
     interstitial: env.AD_UNIT_INTERSTITIAL_ANDROID,
     rewarded: env.AD_UNIT_REWARDED_ANDROID,
-    rewardedInterstitial: env.AD_UNIT_REWARDED_INTERSTITIAL_ANDROID,
+    rewardedInterstitial: env.AD_UNIT_REWARDED_I_ANDROID,
   };
 
   const platformUnits =

@@ -1,5 +1,6 @@
 // src/screens/BoardScreen/index.tsx
 
+import {KillerLevel} from '@/types';
 import {env} from '@/utils/appUtil';
 import {constantEnv, SCREENS, TUTORIAL_IMAGES} from '@/utils/constants';
 import {
@@ -40,32 +41,29 @@ import {
   SavedGame,
 } from '@sudoku/shared-types';
 import {
-  AD_TYPE,
   BANNER_HEIGHT,
-  getTutorialImageList,
-} from '@sudoku/shared-utils';
-import {
   checkBoardIsSolved,
   createEmptyGrid,
   createEmptyGridNotes,
   createEmptyGridNumber,
   deepCloneBoard,
   deepCloneNotes,
+  getTutorialImageList,
   removeNoteFromPeers,
-} from '@sudoku/shared-utils/boardUtil';
-import {getAdUnitBase} from '@sudoku/shared-utils/getAdUnit.base';
+} from '@sudoku/shared-utils';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {ActivityIndicator, Alert, StyleSheet, View} from 'react-native';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const BoardScreen = () => {
-  const {theme, mode} = useTheme();
+  const {mode, theme} = useTheme();
   const {t} = useTranslation();
   const route = useRoute<BoardScreenRouteProp>();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const {id, level, type} = route.params as BoardParamProps;
+  const {id, level: levelParam, type} = route.params as BoardParamProps;
+  const level = levelParam as KillerLevel;
 
   const [showHowToPlay, setShowHowToPlay] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -173,13 +171,12 @@ const BoardScreen = () => {
 
   // Hiển thị rewarded ad và xử lý khi đóng ad
   // ===========================================================
-  const adUnit = getAdUnitBase(AD_TYPE.INTERSTITIAL, env);
   const {
     isLoaded: isLoadedRewarded,
     isClosed: isClosedRewarded,
     load: loadRewarded,
     show: showRewarded,
-  } = useInterstitialAdSafeBase(adUnit);
+  } = useInterstitialAdSafeBase(env);
   useEffect(() => {
     loadRewarded();
   }, [loadRewarded]);
@@ -699,12 +696,12 @@ const BoardScreen = () => {
       </SafeAreaView>
       {showPauseModal && (
         <PauseModal
+          maxMistakes={constantEnv.MAX_MISTAKES}
           level={level}
           mistake={mistakes}
           time={secondsRef.current}
           settings={settings}
           onResume={() => handleResume()}
-          maxMistakes={constantEnv.MAX_MISTAKES}
         />
       )}
       {limitMistakeReached && isLoadedRewarded && (
