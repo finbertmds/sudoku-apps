@@ -5,6 +5,7 @@
   "scripts": {
     "prebuild:android:force": "cd android && fastlane increment_vc && fastlane increment_vn_force",
     "prebuild:android:normal": "cd android && fastlane increment_vc && fastlane increment_vn",
+    "prebuild:android": "cd android && fastlane increment_vc",
     "prebuild:ios:force": "cd ios && fastlane increment_bn && fastlane increment_vn_force",
     "prebuild:ios:normal": "cd ios && fastlane increment_bn && fastlane increment_vn",
     "prebuild:ios": "cd ios && fastlane increment_bn",

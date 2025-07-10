@@ -28,7 +28,7 @@ const CageBordersComponent = ({cages}: CageBordersProps) => {
       }
     });
 
-    const lines = [];
+    const lines: React.ReactNode[] = [];
 
     for (let r = 0; r < BOARD_SIZE; r++) {
       for (let c = 0; c < BOARD_SIZE; c++) {

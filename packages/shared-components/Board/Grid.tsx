@@ -43,7 +43,7 @@ const GridComponent = ({
   settings,
   onPress,
 }: GridProps) => {
-  const {theme} = useTheme();
+  const {mode, theme} = useTheme();
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const rowScales = Array.from({length: BOARD_SIZE}, () => useSharedValue(1));
@@ -195,10 +195,15 @@ const GridComponent = ({
 
       const borderStyle = {
         borderColor: theme.cellBorderColor,
-        borderTopWidth: isBoldBorder(row) ? 2 : 0.5,
-        borderBottomWidth: isLastBolBorder(row) ? 2 : 0.5,
-        borderLeftWidth: isBoldBorder(col) ? 2 : 0.5,
-        borderRightWidth: col === BOARD_SIZE - 1 ? 2 : 0.5,
+        borderTopWidth: isBoldBorder(row) ? (mode === 'dark' ? 3 : 2) : 0.2,
+        borderBottomWidth: isLastBolBorder(row)
+          ? mode === 'dark'
+            ? 2.5
+            : 2
+          : 0.2,
+        borderLeftWidth: isBoldBorder(col) ? (mode === 'dark' ? 3 : 2) : 0.2,
+        borderRightWidth:
+          col === BOARD_SIZE - 1 ? (mode === 'dark' ? 3 : 2) : 0.2,
       };
 
       return (
@@ -337,7 +342,6 @@ const styles = StyleSheet.create({
   cell: {
     justifyContent: 'center' as const,
     alignItems: 'center' as const,
-    // borderWidth: 0.1,
     zIndex: 20,
   },
   cellText: {
@@ -353,7 +357,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start' as const,
   },
   noteText: {
-    top: 1,
+    top: 0,
     left: 2,
     textAlign: 'center' as const,
     fontWeight: '600' as const,

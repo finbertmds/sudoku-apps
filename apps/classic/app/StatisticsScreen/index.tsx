@@ -162,7 +162,7 @@ const StatisticsScreen = () => {
                   style={[
                     styles.chipText,
                     {
-                      color: isActive ? theme.text : theme.secondary,
+                      color: isActive ? theme.background : theme.secondary,
                     },
                   ]}>
                   {tab.label}

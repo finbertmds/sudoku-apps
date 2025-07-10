@@ -45,6 +45,12 @@ export const BannerAdSafe = ({env}: NativeAdSafeProps) => {
         unitId={bannerId}
         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
         requestOptions={AD_REQUEST_OPTIONS}
+        onAdLoaded={() => {
+          console.log('BannerAd loaded');
+        }}
+        onAdFailedToLoad={(error) => {
+          console.log('BannerAd failed to load', JSON.stringify(error));
+        }}
       />
     </View>
   );
