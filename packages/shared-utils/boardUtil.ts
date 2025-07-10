@@ -2,6 +2,8 @@
 
 import {CageInfo, CellValue, Level} from '@sudoku/shared-types';
 import {BOARD_SIZE} from '@sudoku/shared-utils';
+import {overrideNumberOfCellsToRemove} from 'killer-sudoku-generator';
+import {Difficulty} from 'sudoku-gen/dist/types/difficulty.type';
 
 /**
  * Chuyển string thành mảng 2 chiều theo số cột nhất định (thường là 9 với Sudoku).
@@ -259,7 +261,7 @@ export const setRandomCellsToRemoveForLevel = (
 ) => {
   const [min, max] = cellsToRemove[level];
   const randomNumber = randomBetween(min, max);
-  return randomNumber;
+  overrideNumberOfCellsToRemove(level as Difficulty, randomNumber);
 };
 
 // ---------------- Killer Sudoku ----------------

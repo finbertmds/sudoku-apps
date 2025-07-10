@@ -47,13 +47,6 @@ export const LANGUAGES = [
   {code: 'ja', label: '日本語'},
 ];
 
-export const CELLS_TO_REMOVE_RANGE: Record<Level, number[]> = {
-  easy: [30, 34],
-  medium: [40, 46],
-  hard: [50, 54],
-  expert: [60, 64],
-};
-
 export const TUTORIAL_IMAGES: TutorialImageMap = {
   slide1: {
     light: require('@/assets/tutorial/tutorial1.png'),

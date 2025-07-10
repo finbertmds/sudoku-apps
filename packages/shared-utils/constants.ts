@@ -1,10 +1,10 @@
 // constants.ts
 
-import {TimeRange} from '@sudoku/shared-types';
+import {Level, TimeRange} from '@sudoku/shared-types';
 
 export const BOARD_SIZE = 9;
 export const CELL_SIZE = 40;
-export const CAGE_PADDING = 4;
+export const CAGE_PADDING = 4.5;
 
 export const ANIMATION_DURATION = 300; // in ms
 export const ANIMATION_TYPE = {
@@ -12,7 +12,7 @@ export const ANIMATION_TYPE = {
   COL: 2,
   ROW_COL: 3,
   NONE: 0,
-} as const;
+};
 
 // Game Storage Keys
 export const STORAGE_KEY_INIT_GAME = 'sudoku_initGame';
@@ -79,6 +79,17 @@ export const AD_TYPE = {
   INTERSTITIAL: 'interstitial',
   REWARDED: 'rewarded',
   REWARDED_INTERSTITIAL: 'rewardedInterstitial',
-} as const;
+};
 
 export const BANNER_HEIGHT = 70;
+
+// ---------------- Killer Sudoku ----------------
+
+export const CELLS_TO_REMOVE_RANGE: Record<Level, number[]> = {
+  easy: [30, 34],
+  medium: [40, 46],
+  hard: [50, 54],
+  expert: [60, 64],
+};
+
+// ---------------- Killer Sudoku ----------------
