@@ -42,7 +42,7 @@ export const lightTheme: ThemeType = {
 };
 
 export const darkTheme: ThemeType = {
-  primary: '#60A5FA', // Lighter version of #1E3A8A for dark background
+  primary: '#60A5FA',
   onPrimary: '#1E3A8A',
   background: '#0F172A',
   backgroundSecondary: '#1C1B1F',
@@ -59,14 +59,14 @@ export const darkTheme: ThemeType = {
   iconColor: '#E0E0E0',
   buttonBackground: '#1E3A8A',
   buttonText: '#000000',
-  buttonBorder: '#60A5FA',
-  cell: '#1E293B',
-  selectedOverlayColor: '#475569',
-  sameValueOverlayColor: '#334155',
+  buttonBorder: '#3B82F6',
+  cell: '#1C1E26',
+  selectedOverlayColor: '#3C5AB9',
+  sameValueOverlayColor: '#2F3F74',
   conflictOverlayColor: '#EF4444',
-  sameRowOrColumnOverlayColor: '#1E293B',
-  overlayColor: '#1E293B',
-  cellBorderColor: '#93C5FD',
+  sameRowOrColumnOverlayColor: '#2C354D',
+  overlayColor: '#1A1A22',
+  cellBorderColor: '#B0B0C0',
   settingItemBackground: '#2C2C2C',
   buttonBlue: '#409CFF',
   selectedItemBackground: '#333333',

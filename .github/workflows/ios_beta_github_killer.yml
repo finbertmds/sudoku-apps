@@ -5,7 +5,13 @@ on:
     branches:
       - master
     paths:
-      - 'packages/**'
+      - 'apps/killer/ios/**'
+      - 'apps/killer/app/**'
+      - 'apps/killer/assets/**'
+      - 'apps/killer/i18n/**'
+      - 'apps/killer/theme/**'
+      - 'apps/killer/types/**'
+      - 'apps/killer/utils/**'
 
 jobs:
   build-ios:
@@ -35,40 +41,18 @@ jobs:
       - name: Install dependencies
         run: |
           yarn install
-          cd apps/classic/ios && pod install
-          cd ../../killer/ios && pod install
+          cd apps/killer/ios && pod install
 
       - name: Restore AuthKey from base64
         run: |
-          echo "$C_APP_STORE_CONNECT_API_KEY_BASE64" | base64 -d > apps/classic/ios/fastlane/AuthKey.p8
           echo "$K_APP_STORE_CONNECT_API_KEY_BASE64" | base64 -d > apps/killer/ios/fastlane/AuthKey.p8
         env:
-          C_APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.C_APP_STORE_CONNECT_API_KEY_BASE64 }}
           K_APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.K_APP_STORE_CONNECT_API_KEY_BASE64 }}
 
       - name: Install fastlane (global)
         run: |
           sudo gem install fastlane
           fastlane --version
-
-      - name: Run Fastlane classic beta_github (iOS)
-        run: |
-          cd apps/classic/ios
-          fastlane beta_github
-        env:
-          IDEDisableFileSyncMonitor: 'YES'
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          UNSPLASH_ACCESS_KEY: ${{ secrets.C_UNSPLASH_ACCESS_KEY }}
-          AD_APP_ID_ANDROID: ${{ secrets.C_AD_APP_ID_ANDROID }}
-          AD_UNIT_BANNER_ANDROID: ${{ secrets.C_AD_UNIT_BANNER_ANDROID }}
-          AD_UNIT_INTERSTITIAL_ANDROID: ${{ secrets.C_AD_UNIT_INTERSTITIAL_ANDROID }}
-          AD_UNIT_REWARDED_ANDROID: ${{ secrets.C_AD_UNIT_REWARDED_ANDROID }}
-          AD_UNIT_REWARDED_I_ANDROID: ${{ secrets.C_AD_UNIT_REWARDED_I_ANDROID }}
-          AD_APP_ID_IOS: ${{ secrets.C_AD_APP_ID_IOS }}
-          AD_UNIT_BANNER_IOS: ${{ secrets.C_AD_UNIT_BANNER_IOS }}
-          AD_UNIT_INTERSTITIAL_IOS: ${{ secrets.C_AD_UNIT_INTERSTITIAL_IOS }}
-          AD_UNIT_REWARDED_IOS: ${{ secrets.C_AD_UNIT_REWARDED_IOS }}
-          AD_UNIT_REWARDED_I_IOS: ${{ secrets.C_AD_UNIT_REWARDED_I_IOS }}
 
       - name: Run Fastlane killer beta_github (iOS)
         run: |
