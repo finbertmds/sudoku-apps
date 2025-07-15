@@ -12,3 +12,4 @@ export * from './leaderboardUtil';
 export * from './playerNotesUtil';
 export * from './playerUtil';
 export * from './statsUtil';
+export * from './whatsNew/whatsNewUtil';

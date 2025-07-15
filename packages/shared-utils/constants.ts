@@ -33,6 +33,7 @@ export const STORAGE_KEY_QUOTES = 'sudoku_quotes';
 export const STORAGE_KEY_MIGRATION_VERSION = 'sudoku_migrationVersion';
 export const STORAGE_KEY_PLAYERS = 'sudoku_players';
 export const STORAGE_KEY_CURRENT_PLAYER_ID = 'sudoku_currentPlayerId';
+export const STORAGE_KEY_LAST_APP_VERSION_KEY = 'sudoku_lastAppVersionKey';
 
 export const CHART_WIDTH = 60;
 export const CHART2_WIDTH = 70;

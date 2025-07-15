@@ -70,4 +70,16 @@ export const SettingsService = {
   async setHasPlayed(value: boolean): Promise<void> {
     await appStorage.setHasPlayed(value);
   },
+
+  async getLastAppVersionKey(): Promise<string | null> {
+    return await appStorage.getLastAppVersionKey();
+  },
+
+  async setLastAppVersionKey(version: string): Promise<void> {
+    await appStorage.setLastAppVersionKey(version);
+  },
+
+  async clearLastAppVersionKey(): Promise<void> {
+    await appStorage.clearLastAppVersionKey();
+  },
 };

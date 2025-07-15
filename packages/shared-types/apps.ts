@@ -23,3 +23,12 @@ export interface ConstantEnv {
   DEFAULT_SETTINGS: AppSettings;
   LEVELS: Level[];
 }
+
+export type WhatsNewEntry = {
+  version: string;
+  date?: string; // optional ISO date
+  title: string;
+  changes: string[];
+};
+
+export type AppId = 'classic' | 'killer';

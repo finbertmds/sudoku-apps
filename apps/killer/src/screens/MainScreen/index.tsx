@@ -1,6 +1,6 @@
 // src/screens/MainScreen/index.tsx
 
-import {env} from '@/utils/appUtil';
+import {appConfig, env} from '@/utils/appUtil';
 import {
   IS_UI_TESTING,
   LEVELS,
@@ -10,7 +10,12 @@ import {
 } from '@/utils/constants';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Header, NewGameMenu, QuoteBox} from '@sudoku/shared-components';
+import {
+  Header,
+  NewGameMenu,
+  QuoteBox,
+  WhatsNew,
+} from '@sudoku/shared-components';
 import {CORE_EVENTS, InitGameCoreEvent} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
 import {
@@ -20,7 +25,11 @@ import {
   useDailyQuote,
   usePlayerProfile,
 } from '@sudoku/shared-hooks';
-import {BoardService, PlayerService} from '@sudoku/shared-services';
+import {
+  BoardService,
+  PlayerService,
+  SettingsService,
+} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {Level, RootStackParamList} from '@sudoku/shared-types';
 import {UNSPLASH_URL} from '@sudoku/shared-utils';
@@ -51,7 +60,14 @@ const MainScreen = () => {
   const [showUpdateAlert, setShowUpdateAlert] = useState(false);
   const {needUpdate, forceUpdate, storeUrl, checkVersion} =
     useAppUpdateChecker(env);
+  const [showWhatsNew, setShowWhatsNew] = useState(false);
 
+  const checkWhatsNew = async () => {
+    const lastVersion = await SettingsService.getLastAppVersionKey();
+    if (lastVersion !== appConfig.version) {
+      setShowWhatsNew(true);
+    }
+  };
   // Sau khi navigation.goBack() sẽ gọi hàm này
   useFocusEffect(
     useCallback(() => {
@@ -60,9 +76,14 @@ const MainScreen = () => {
       loadBackgrounds();
       loadQuote();
       checkVersion();
+      checkWhatsNew();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
+
+  useEffect(() => {
+    checkWhatsNew();
+  }, []);
 
   const checkSavedGame = async () => {
     const saved = await BoardService.loadSaved();
@@ -242,6 +263,19 @@ const MainScreen = () => {
           )}
         </View>
       </SafeAreaView>
+      {showWhatsNew && (
+        <WhatsNew
+          appId="killer"
+          version={appConfig.version ?? ''}
+          onClose={() => {
+            setShowWhatsNew(false);
+          }}
+          onGotIt={() => {
+            setShowWhatsNew(false);
+            SettingsService.setLastAppVersionKey(appConfig.version ?? '');
+          }}
+        />
+      )}
     </>
   );
 };

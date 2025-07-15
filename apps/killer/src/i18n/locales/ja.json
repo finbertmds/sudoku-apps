@@ -189,5 +189,7 @@
   "playerNotes_highlights_bestPerformance": "最高の勝率。",
   "playerNotes_highlights_fastest": "最速の平均時間。",
   "playerNotes_highlights_mostGames": "最も多くのゲームをプレイ。",
-  "playerNotes_highlights_allNotCompleted": "どのゲームも完了していません。"
+  "playerNotes_highlights_allNotCompleted": "どのゲームも完了していません。",
+
+  "gotIt": "わかった"
 }

@@ -1,6 +1,6 @@
 // MainScreen/index.tsx
 
-import {env} from '@/utils/appUtil';
+import {appConfig, env} from '@/utils/appUtil';
 import {
   IS_UI_TESTING,
   LEVELS,
@@ -13,6 +13,7 @@ import {
   NewGameMenu,
   QuoteBox,
   UnsplashImageInfo,
+  WhatsNew,
 } from '@sudoku/shared-components';
 import {CORE_EVENTS, InitGameCoreEvent} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
@@ -25,7 +26,11 @@ import {
   usePlayerProfile,
   useSafeAreaInsetsSafe,
 } from '@sudoku/shared-hooks';
-import {BoardService, PlayerService} from '@sudoku/shared-services';
+import {
+  BoardService,
+  PlayerService,
+  SettingsService,
+} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {Level} from '@sudoku/shared-types';
 import * as Device from 'expo-device';
@@ -54,6 +59,7 @@ const MainScreen = () => {
   const [showUpdateAlert, setShowUpdateAlert] = useState(false);
   const {needUpdate, forceUpdate, storeUrl, checkVersion} =
     useAppUpdateChecker(env);
+  const [showWhatsNew, setShowWhatsNew] = useState(false);
 
   const {alert} = useAlert();
 
@@ -65,9 +71,21 @@ const MainScreen = () => {
       loadBackgrounds();
       loadQuote();
       checkVersion();
+      checkWhatsNew();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
+
+  useEffect(() => {
+    checkWhatsNew();
+  }, []);
+
+  const checkWhatsNew = async () => {
+    const lastVersion = await SettingsService.getLastAppVersionKey();
+    if (lastVersion !== appConfig.version) {
+      setShowWhatsNew(true);
+    }
+  };
 
   const checkSavedGame = async () => {
     const saved = await BoardService.loadSaved();
@@ -143,6 +161,7 @@ const MainScreen = () => {
   useAppPause(
     () => {
       setShowUpdateAlert(false);
+      setShowWhatsNew(false);
     },
     () => {},
   );
@@ -234,6 +253,19 @@ const MainScreen = () => {
           )}
         </View>
       </SafeAreaView>
+      {showWhatsNew && (
+        <WhatsNew
+          appId="classic"
+          version={appConfig.version ?? ''}
+          onClose={() => {
+            setShowWhatsNew(false);
+          }}
+          onGotIt={() => {
+            setShowWhatsNew(false);
+            SettingsService.setLastAppVersionKey(appConfig.version ?? '');
+          }}
+        />
+      )}
     </>
   );
 };
