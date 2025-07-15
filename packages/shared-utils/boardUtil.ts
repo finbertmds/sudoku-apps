@@ -1,6 +1,6 @@
 // boardUtil.ts
 
-import {CageInfo, CellValue, Level} from '@sudoku/shared-types';
+import {CageInfo, Cell, CellValue, Level} from '@sudoku/shared-types';
 import {BOARD_SIZE} from '@sudoku/shared-utils';
 import {overrideNumberOfCellsToRemove} from 'killer-sudoku-generator';
 import {Difficulty} from 'sudoku-gen/dist/types/difficulty.type';
@@ -176,6 +176,42 @@ export function getFontSizesFromCellSize() {
     cageText: 9,
     noteWidth: 9,
   };
+}
+
+export function getAvailableMemoNumbers(
+  initialBoard: CellValue[][],
+  selectedCell: Cell,
+): number[] {
+  const {row, col} = selectedCell;
+
+  // Dùng mảng bool thay vì Set để kiểm tra đã dùng
+  const used: boolean[] = Array(BOARD_SIZE + 1).fill(false); // chỉ dùng index 1–9
+
+  // Hàng và Cột (kết hợp vào 1 vòng lặp)
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    const rowVal = initialBoard[row][i];
+    const colVal = initialBoard[i][col];
+    if (rowVal !== null) used[rowVal] = true;
+    if (colVal !== null) used[colVal] = true;
+  }
+
+  // Khung 3x3
+  const startRow = Math.floor(row / 3);
+  const startCol = Math.floor(col / 3);
+  for (let r = startRow * 3; r < startRow * 3 + 3; r++) {
+    for (let c = startCol * 3; c < startCol * 3 + 3; c++) {
+      const val = initialBoard[r][c];
+      if (val !== null) used[val] = true;
+    }
+  }
+
+  // Trả lại các số chưa bị đánh dấu
+  const result: number[] = [];
+  for (let n = 1; n <= BOARD_SIZE; n++) {
+    if (!used[n]) result.push(n);
+  }
+
+  return result;
 }
 
 // ---------------- Killer Sudoku ----------------

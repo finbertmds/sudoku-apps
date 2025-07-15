@@ -83,6 +83,8 @@ export const AD_TYPE = {
 
 export const BANNER_HEIGHT = 70;
 
+export const NUMBERS_1_TO_9 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 // ---------------- Killer Sudoku ----------------
 
 export const CELLS_TO_REMOVE_RANGE: Record<Level, number[]> = {

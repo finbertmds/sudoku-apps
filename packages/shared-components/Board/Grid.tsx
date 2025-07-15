@@ -24,19 +24,27 @@ import Animated, {
 
 type GridProps = {
   showCage: boolean;
+  initialBoard: CellValue[][];
   board: CellValue[][];
   cages: CageInfo[];
+  isNoteMode: boolean;
   notes: string[][][];
   solvedBoard: number[][];
   selectedCell: Cell | null;
   settings: AppSettings;
-  onPress: (cell: Cell | null) => void;
+  onPress: (
+    cell: Cell | null,
+    isNoteMode: boolean,
+    initialBoard: CellValue[][],
+  ) => void;
 };
 
 const GridComponent = ({
   showCage,
+  initialBoard,
   board,
   cages,
+  isNoteMode,
   notes,
   solvedBoard,
   selectedCell,
@@ -227,7 +235,9 @@ const GridComponent = ({
               borderStyle,
               {width: cellSize, height: cellSize},
             ]}
-            onPress={() => onPress({row, col, value: cellValue})}
+            onPress={() =>
+              onPress({row, col, value: cellValue}, isNoteMode, initialBoard)
+            }
             activeOpacity={0.8}>
             {isCageFirst && (
               <Text

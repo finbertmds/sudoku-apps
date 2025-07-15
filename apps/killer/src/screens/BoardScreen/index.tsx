@@ -37,6 +37,7 @@ import {
   CageInfo,
   Cell,
   CellValue,
+  InitGame,
   RootStackParamList,
   SavedGame,
 } from '@sudoku/shared-types';
@@ -48,7 +49,9 @@ import {
   createEmptyGridNumber,
   deepCloneBoard,
   deepCloneNotes,
+  getAvailableMemoNumbers,
   getTutorialImageList,
+  NUMBERS_1_TO_9,
   removeNoteFromPeers,
 } from '@sudoku/shared-utils';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
@@ -79,9 +82,8 @@ const BoardScreen = () => {
   const [showPauseModal, setShowPauseModal] = useState<boolean>(false);
   const [noteMode, setNoteMode] = useState<boolean>(false);
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
-  const handleCellPress = useCallback((cell: Cell | null) => {
-    setSelectedCell(cell);
-  }, []);
+  const [availableMemoNumbers, setAvailableMemoNumbers] =
+    useState<number[]>(NUMBERS_1_TO_9);
 
   const [board, setBoard] =
     useState<CellValue[][]>(createEmptyGrid<CellValue>());
@@ -90,6 +92,18 @@ const BoardScreen = () => {
   ]);
   const [notes, setNotes] = useState<string[][][]>(
     createEmptyGridNotes<string>(),
+  );
+
+  const handleCellPress = useCallback(
+    (cell: Cell | null, _isNoteMode: boolean, _initialBoard: CellValue[][]) => {
+      setSelectedCell(cell);
+      if (_isNoteMode && cell) {
+        setAvailableMemoNumbers(getAvailableMemoNumbers(_initialBoard, cell));
+      } else {
+        setAvailableMemoNumbers(NUMBERS_1_TO_9);
+      }
+    },
+    [],
   );
 
   // Lấy initGame and savedGame
@@ -346,6 +360,14 @@ const BoardScreen = () => {
       savedNotes: notes,
       lastSaved: new Date(),
     } as SavedGame);
+
+    const initGame = await BoardService.loadInit();
+    await BoardService.save({
+      ...initGame,
+      initialBoard: {
+        ...initialBoard,
+      },
+    } as InitGame);
   };
 
   const handleResume = () => {
@@ -517,6 +539,8 @@ const BoardScreen = () => {
       if (checkBoardIsSolved(newBoard, solvedBoard)) {
         handleCheckSolved(totalHintCountUsed);
       }
+      const newInitBoard = deepCloneBoard(initialBoard);
+      setInitialBoard(newInitBoard);
       saveHistory(newBoard);
     }
   };
@@ -668,8 +692,10 @@ const BoardScreen = () => {
             maxTimePlayed={constantEnv.MAX_TIME_PLAYED}
           />
           <Grid
+            initialBoard={initialBoard}
             board={board}
             cages={cages}
+            isNoteMode={noteMode}
             notes={notes}
             solvedBoard={solvedBoard}
             selectedCell={selectedCell}
@@ -687,6 +713,7 @@ const BoardScreen = () => {
             onSolve={handleSolve}
           />
           <NumberPad
+            availableMemoNumbers={availableMemoNumbers}
             board={board}
             settings={settings}
             onSelectNumber={handleNumberPress}

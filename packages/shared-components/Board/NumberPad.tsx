@@ -11,12 +11,14 @@ type NumberPadProps = {
   board: CellValue[][];
   settings: AppSettings;
   onSelectNumber: (num: number) => void;
+  availableMemoNumbers: number[];
 };
 
 const NumberPadComponent = ({
   board,
   settings,
   onSelectNumber,
+  availableMemoNumbers,
 }: NumberPadProps) => {
   const {theme} = useTheme();
   const counts = useNumberCounts(board, settings);
@@ -34,7 +36,9 @@ const NumberPadComponent = ({
           key={num}
           style={[styles.button]}
           onPress={() => onSelectNumber(num)}
-          disabled={counts[num] === BOARD_SIZE}>
+          disabled={
+            counts[num] === BOARD_SIZE || !availableMemoNumbers.includes(num)
+          }>
           <Text
             style={[
               // eslint-disable-next-line react-native/no-inline-styles
