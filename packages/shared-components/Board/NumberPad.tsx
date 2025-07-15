@@ -10,15 +10,17 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 type NumberPadProps = {
   board: CellValue[][];
   settings: AppSettings;
-  onSelectNumber: (num: number) => void;
+  isNoteMode: boolean;
   availableMemoNumbers: number[];
+  onSelectNumber: (num: number) => void;
 };
 
 const NumberPadComponent = ({
   board,
   settings,
-  onSelectNumber,
+  isNoteMode,
   availableMemoNumbers,
+  onSelectNumber,
 }: NumberPadProps) => {
   const {theme} = useTheme();
   const counts = useNumberCounts(board, settings);
@@ -29,6 +31,13 @@ const NumberPadComponent = ({
     [],
   );
 
+  const isDisabled = (num: number) => {
+    if (isNoteMode && settings.smartMemo) {
+      return counts[num] === BOARD_SIZE || !availableMemoNumbers.includes(num);
+    }
+    return counts[num] === BOARD_SIZE;
+  };
+
   return (
     <View style={[styles.container, {backgroundColor: theme.background}]}>
       {numbers.map((num) => (
@@ -36,15 +45,13 @@ const NumberPadComponent = ({
           key={num}
           style={[styles.button]}
           onPress={() => onSelectNumber(num)}
-          disabled={
-            counts[num] === BOARD_SIZE || !availableMemoNumbers.includes(num)
-          }>
+          disabled={isDisabled(num)}>
           <Text
             style={[
               // eslint-disable-next-line react-native/no-inline-styles
               {color: theme.text, fontSize: 32},
             ]}>
-            {counts[num] === BOARD_SIZE ? ' ' : num}
+            {isDisabled(num) ? ' ' : num}
           </Text>
         </TouchableOpacity>
       ))}

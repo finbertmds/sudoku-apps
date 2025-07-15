@@ -80,6 +80,7 @@ export const constantEnv: ConstantEnv = {
     highlightIdenticalNumbers: true,
     hideUsedNumbers: true,
     autoRemoveNotes: true,
+    smartMemo: true,
   },
   LEVELS: LEVELS,
 };

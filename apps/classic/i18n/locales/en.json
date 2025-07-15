@@ -82,6 +82,7 @@
   "setting.highlightIdenticalNumbers": "Highlight Identical Numbers",
   "setting.hideUsedNumbers": "Hide Used Numbers",
   "setting.autoRemoveNotes": "Auto-Remove Notes",
+  "setting.smartMemo": "Smart Memo Filtering",
 
   "desc.statisticsMsg": "Show messages about the number of people who were able to solve a level",
   "desc.numberFirst": "Lock a number by tapping and holding it, then use it for multiple cells",
@@ -92,6 +93,7 @@
   "desc.highlightIdenticalNumbers": "When selecting a cell with a number, highlight the same numbers throughout the grid",
   "desc.hideUsedNumbers": "Hide numbers that have been placed in 9 different cells",
   "desc.autoRemoveNotes": "Remove a number from all notes when it's placed in a cell",
+  "desc.smartMemo": "Only show memo numbers that are valid in the selected cell based on the current board",
 
   "howToPlay.title": "How to Play",
   "howToPlay.slide1": "A sudoku puzzle begins with a grid in which some of the numbers are already in place. A puzzle is completed when each number from 1 to 9 appears only once in each of the 9 rows, columns, and blocks. Study the grid to find the numbers that might fit into each cell.",

@@ -63,7 +63,7 @@ export const darkTheme: ThemeType = {
   cell: '#1C1E26',
   selectedOverlayColor: '#3C5AB9',
   sameValueOverlayColor: '#2F3F74',
-  conflictOverlayColor: '#EF4444',
+  conflictOverlayColor: '#FF6B6B',
   sameRowOrColumnOverlayColor: '#2C354D',
   overlayColor: '#1A1A22',
   cellBorderColor: '#B0B0C0',

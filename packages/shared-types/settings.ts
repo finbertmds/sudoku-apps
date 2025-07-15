@@ -14,4 +14,5 @@ export interface AppSettings {
   highlightIdenticalNumbers: boolean;
   hideUsedNumbers: boolean;
   autoRemoveNotes: boolean;
+  smartMemo: boolean;
 }

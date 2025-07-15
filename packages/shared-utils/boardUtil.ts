@@ -179,7 +179,7 @@ export function getFontSizesFromCellSize() {
 }
 
 export function getAvailableMemoNumbers(
-  initialBoard: CellValue[][],
+  board: CellValue[][],
   selectedCell: Cell,
 ): number[] {
   const {row, col} = selectedCell;
@@ -189,8 +189,8 @@ export function getAvailableMemoNumbers(
 
   // Hàng và Cột (kết hợp vào 1 vòng lặp)
   for (let i = 0; i < BOARD_SIZE; i++) {
-    const rowVal = initialBoard[row][i];
-    const colVal = initialBoard[i][col];
+    const rowVal = board[row][i];
+    const colVal = board[i][col];
     if (rowVal !== null) used[rowVal] = true;
     if (colVal !== null) used[colVal] = true;
   }
@@ -200,7 +200,7 @@ export function getAvailableMemoNumbers(
   const startCol = Math.floor(col / 3);
   for (let r = startRow * 3; r < startRow * 3 + 3; r++) {
     for (let c = startCol * 3; c < startCol * 3 + 3; c++) {
-      const val = initialBoard[r][c];
+      const val = board[r][c];
       if (val !== null) used[val] = true;
     }
   }

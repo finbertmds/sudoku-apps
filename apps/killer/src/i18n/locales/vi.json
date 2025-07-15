@@ -78,6 +78,7 @@
   "setting.highlightIdenticalNumbers": "Tô sáng số giống nhau",
   "setting.hideUsedNumbers": "Ẩn số đã dùng",
   "setting.autoRemoveNotes": "Tự xoá ghi chú",
+  "setting.smartMemo": "Lọc ghi chú thông minh",
 
   "desc.statisticsMsg": "Hiển thị thông báo về số người đã giải được một cấp độ",
   "desc.numberFirst": "Giữ một số bằng cách nhấn giữ, sau đó sử dụng cho nhiều ô",
@@ -88,6 +89,7 @@
   "desc.highlightIdenticalNumbers": "Khi chọn một ô có số, tô sáng tất cả số giống nhau trong bảng",
   "desc.hideUsedNumbers": "Ẩn các số đã được đặt ở đủ 9 ô khác nhau",
   "desc.autoRemoveNotes": "Tự động xoá số khỏi ghi chú khi được đặt vào ô",
+  "desc.smartMemo": "Chỉ hiển thị các số ghi chú hợp lệ trong ô đang chọn dựa trên bảng hiện tại",
 
   "howToPlay.title": "Cách chơi",
   "howToPlay.slide1": "Lưới được chia thành các vùng có hình dạng không đều. Những vùng này được gọi là các lồng (cages).",
