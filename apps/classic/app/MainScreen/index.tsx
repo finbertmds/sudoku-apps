@@ -32,15 +32,18 @@ import {
   SettingsService,
 } from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
-import {Level} from '@sudoku/shared-types';
-import * as Device from 'expo-device';
+import {Level, WhatsNewEntry} from '@sudoku/shared-types';
+import {
+  CLASSIC_APP_ID,
+  DeviceUtil,
+  getWhatsNewList,
+} from '@sudoku/shared-utils';
 import {router, useFocusEffect} from 'expo-router';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   ImageBackground,
   Linking,
-  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -60,6 +63,7 @@ const MainScreen = () => {
   const {needUpdate, forceUpdate, storeUrl, checkVersion} =
     useAppUpdateChecker(env);
   const [showWhatsNew, setShowWhatsNew] = useState(false);
+  const [whatsNewEntries, setWhatsNewEntries] = useState<WhatsNewEntry[]>([]);
 
   const {alert} = useAlert();
 
@@ -82,8 +86,10 @@ const MainScreen = () => {
 
   const checkWhatsNew = async () => {
     const lastVersion = await SettingsService.getLastAppVersionKey();
-    if (lastVersion !== appConfig.version) {
+    const entries = getWhatsNewList(CLASSIC_APP_ID, lastVersion ?? '');
+    if (entries.length > 0) {
       setShowWhatsNew(true);
+      setWhatsNewEntries(entries);
     }
   };
 
@@ -253,19 +259,17 @@ const MainScreen = () => {
           )}
         </View>
       </SafeAreaView>
-      {showWhatsNew && (
-        <WhatsNew
-          appId="classic"
-          version={appConfig.version ?? ''}
-          onClose={() => {
-            setShowWhatsNew(false);
-          }}
-          onGotIt={() => {
-            setShowWhatsNew(false);
-            SettingsService.setLastAppVersionKey(appConfig.version ?? '');
-          }}
-        />
-      )}
+      <WhatsNew
+        visible={showWhatsNew}
+        onClose={() => {
+          setShowWhatsNew(false);
+        }}
+        entries={whatsNewEntries}
+        onGotIt={() => {
+          setShowWhatsNew(false);
+          SettingsService.setLastAppVersionKey(appConfig.version ?? '');
+        }}
+      />
     </>
   );
 };
@@ -300,10 +304,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 4,
   },
   footer: {
-    marginBottom:
-      Platform.OS !== 'web' && Device.deviceType === Device.DeviceType.TABLET
-        ? 32
-        : 96,
+    marginBottom: DeviceUtil.isTablet() ? 32 : 96,
     paddingHorizontal: 20,
     alignItems: 'center',
   },

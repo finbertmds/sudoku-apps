@@ -24,11 +24,27 @@ export interface ConstantEnv {
   LEVELS: Level[];
 }
 
+export type TranslatedText = {
+  en: string;
+  vi?: string;
+  ja?: string;
+};
+
+export type WhatsNewChange = {
+  title: TranslatedText;
+  description: TranslatedText;
+};
+
 export type WhatsNewEntry = {
   version: string;
-  date?: string; // optional ISO date
-  title: string;
-  changes: string[];
+  changes: WhatsNewChange[];
+};
+
+export type LanguageCode = 'en' | 'vi' | 'ja';
+
+export type Language = {
+  code: LanguageCode;
+  label: string;
 };
 
 export type AppId = 'classic' | 'killer';

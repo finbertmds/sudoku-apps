@@ -5,23 +5,19 @@ import {NativeModules, Platform} from 'react-native';
 
 let isTabletFn = () => false;
 
-if (Platform.OS === 'web') {
-  isTabletFn = () => false;
-} else {
-  if (isExpoGo) {
-    const Device = require('expo-device');
-    isTabletFn = () => Device?.deviceType === Device?.DeviceType?.TABLET;
-  } else {
-    try {
-      if (Platform.OS === 'ios' || Platform.OS === 'android') {
-        const DeviceInfo = require('react-native-device-info').default;
-        isTabletFn = () => DeviceInfo.isTablet();
-      }
-    } catch (_) {}
-  }
-}
+const isWeb = typeof window !== 'undefined' && Platform.OS === 'web';
 
-const isWeb = Platform.OS === 'web';
+if (!isWeb) {
+  try {
+    if (isExpoGo) {
+      const Device = require('expo-device');
+      isTabletFn = () => Device?.deviceType === Device?.DeviceType?.TABLET;
+    } else {
+      const DeviceInfo = require('react-native-device-info');
+      isTabletFn = () => DeviceInfo.isTablet?.();
+    }
+  } catch (_) {}
+}
 
 const isMMKVAvailable = () => {
   let isAvailable = false;
@@ -41,8 +37,10 @@ const isMMKVAvailable = () => {
   return isAvailable;
 };
 
-export const DeviceUtil = {
+const DeviceUtil = {
   isTablet: isTabletFn,
   isWeb,
   isMMKVAvailable,
 };
+
+export {DeviceUtil};

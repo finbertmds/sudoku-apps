@@ -39,6 +39,12 @@ export const lightTheme: ThemeType = {
   selectedCardBg: '#F0F8FF',
   card: '#F4F4F5',
   howToPlayBg: '#FFFFFF',
+  cardBackground: '#f8fafc',
+  cardText: '#1e293b',
+  cardSubtitle: '#475569',
+  cardCard: '#ffffff',
+  cardBorder: '#e2e8f0',
+  cardIcon: '#2563EB',
 };
 
 export const darkTheme: ThemeType = {
@@ -78,4 +84,10 @@ export const darkTheme: ThemeType = {
   selectedCardBg: '#0c1a2f',
   card: '#1E1E1E',
   howToPlayBg: '#15151A',
+  cardBackground: '#0f172a',
+  cardText: '#f1f5f9',
+  cardSubtitle: '#94a3b8',
+  cardCard: '#1e293b',
+  cardBorder: '#334155',
+  cardIcon: '#60A5FA',
 };

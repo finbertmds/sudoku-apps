@@ -1,8 +1,8 @@
-// useInterstitialAdSafe.web.ts
+// hooks/useInterstitialAdSafe.web.ts
 
 import {AppEnv} from '@sudoku/shared-types';
 
-export function useInterstitialAdSafe(env: AppEnv) {
+const useInterstitialAdSafe = (env: AppEnv) => {
   return {
     isLoaded: false,
     isEarnedReward: false,
@@ -10,4 +10,6 @@ export function useInterstitialAdSafe(env: AppEnv) {
     load: () => {},
     show: () => {},
   };
-}
+};
+
+export {useInterstitialAdSafe};

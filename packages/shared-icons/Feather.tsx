@@ -1,4 +1,4 @@
-// Ionicons.tsx
+// Feather.tsx
 
 import React from 'react';
 import {Platform} from 'react-native';
@@ -8,10 +8,10 @@ const isWeb = typeof window !== 'undefined' && Platform.OS === 'web';
 let IconComponent: any;
 
 if (isWeb) {
-  const {Ionicons} = require('@expo/vector-icons');
-  IconComponent = Ionicons;
+  const {Feather} = require('@expo/vector-icons');
+  IconComponent = Feather;
 } else {
-  const mod = require('react-native-vector-icons/Ionicons');
+  const mod = require('react-native-vector-icons/Feather');
   IconComponent = mod.default;
 }
 
@@ -22,8 +22,8 @@ type Props = {
   style?: any;
 };
 
-const Ionicons = ({name, size = 24, color = 'black', style}: Props) => {
+const Feather = ({name, size = 24, color = 'black', style}: Props) => {
   return <IconComponent name={name} size={size} color={color} style={style} />;
 };
 
-export {Ionicons};
+export {Feather};

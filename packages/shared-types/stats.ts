@@ -20,10 +20,10 @@ export type GameLogEntryV2 = GameLogEntry & {
   playerId: string; // player ID (UUID)
 };
 
-export type TimeRange = 'today' | 'week' | 'month' | 'year' | 'all';
+export type TimeFilter = 'today' | 'week' | 'month' | 'year' | 'all';
 
 export type GameStatsCache = {
-  [range in TimeRange]?: Record<Level, GameStats>;
+  [range in TimeFilter]?: Record<Level, GameStats> | null;
 };
 export interface GameStats {
   gamesStarted: number;

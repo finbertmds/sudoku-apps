@@ -1,7 +1,7 @@
 {
   "name": "classic",
   "main": "expo-router/entry",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "scripts": {
     "prebuild:android:force": "cd android && fastlane increment_vc && fastlane increment_vn_force",
     "prebuild:android:normal": "cd android && fastlane increment_vc && fastlane increment_vn",

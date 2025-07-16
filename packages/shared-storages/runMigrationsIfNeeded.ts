@@ -5,10 +5,11 @@ import {
   migrateGameLogsEntryV2,
   updateTotalGames,
 } from '@sudoku/shared-storages/migrations';
+import {LanguageCode} from '@sudoku/shared-types';
 
 export const CURRENT_MIGRATION_VERSION = 2;
 
-export async function runMigrationsIfNeeded(language: string = 'en') {
+export async function runMigrationsIfNeeded(language: LanguageCode = 'en') {
   if (__DEV__) {
     // statsMock.saveMockGameLogsV2();
     // rankingMock.saveMockRanking();
