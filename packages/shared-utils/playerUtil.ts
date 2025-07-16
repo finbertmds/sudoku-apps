@@ -1,6 +1,6 @@
 // playerUtil.ts
 
-import {PlayerProfile} from '@sudoku/shared-types';
+import {LanguageCode, PlayerProfile} from '@sudoku/shared-types';
 import {DEFAULT_PLAYER_ID, getRandomColorKey} from '@sudoku/shared-utils';
 import uuid from 'react-native-uuid';
 
@@ -22,9 +22,9 @@ export const createNewPlayer = (name: string): PlayerProfile => ({
 
 export const createDefaultPlayer = (
   totalGames: number,
-  language: string,
+  language: LanguageCode,
 ): PlayerProfile => {
-  let defaultPlayerName;
+  let defaultPlayerName: string;
   switch (language) {
     case 'ja':
       defaultPlayerName = 'プレイヤー';

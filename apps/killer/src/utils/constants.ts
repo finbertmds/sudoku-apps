@@ -1,6 +1,11 @@
 // src/utils/constants.ts
 
-import {ConstantEnv, Level, TutorialImageMap} from '@sudoku/shared-types';
+import {
+  ConstantEnv,
+  Language,
+  Level,
+  TutorialImageMap,
+} from '@sudoku/shared-types';
 
 export const SCREENS = {
   HOME_TABS: 'HomeTabs',
@@ -43,7 +48,7 @@ export const PLAYER_STATS_THRESHOLDS = {
 export const SHOW_UNSPLASH_IMAGE_INFO = false;
 export const IS_UI_TESTING = false;
 
-export const LANGUAGES = [
+export const LANGUAGES: Language[] = [
   {code: 'en', label: 'English'},
   {code: 'vi', label: 'Tiếng Việt'},
   {code: 'ja', label: '日本語'},
@@ -83,5 +88,6 @@ export const constantEnv: ConstantEnv = {
     highlightIdenticalNumbers: true,
     hideUsedNumbers: true,
     autoRemoveNotes: true,
+    smartMemo: true,
   },
 };

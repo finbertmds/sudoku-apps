@@ -29,6 +29,10 @@
   "devDependencies": {
     "babel-plugin-module-resolver": "^5.0.2",
     "prettier": "^3.6.2",
+    "pretty-format": "^29.7.0",
     "ts-node": "^10.9.2"
+  },
+  "resolutions": {
+    "pretty-format": "^29.7.0"
   }
 }

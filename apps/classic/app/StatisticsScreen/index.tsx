@@ -1,7 +1,6 @@
 // StatisticsScreen/index.tsx
 
 import {LEVELS, SCREENS} from '@/utils/constants';
-import {Ionicons} from '@expo/vector-icons';
 import {
   ChartsStats,
   GameHistory,
@@ -10,6 +9,7 @@ import {
   TimeFilterDropdown,
 } from '@sudoku/shared-components';
 import {useAppPause, useEnsureStatsCache} from '@sudoku/shared-hooks';
+import {Ionicons} from '@sudoku/shared-icons';
 import {PlayerService, StatsService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {

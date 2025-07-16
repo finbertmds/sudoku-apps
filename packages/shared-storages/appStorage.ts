@@ -7,6 +7,7 @@ import {
   STORAGE_KEY_HAS_PLAYED,
   STORAGE_KEY_LANG_KEY_DEFAULT,
   STORAGE_KEY_LANG_KEY_PREFERRED,
+  STORAGE_KEY_LAST_APP_VERSION_KEY,
   STORAGE_KEY_MIGRATION_VERSION,
   STORAGE_KEY_QUOTES,
   STORAGE_KEY_SETTINGS,
@@ -173,6 +174,27 @@ const clearAllForDev = async () => {
   await clearBackgrounds();
   await clearQuotes();
   await clearMigrationVersion();
+  await clearLastAppVersionKey();
+};
+
+const getLastAppVersionKey = async (): Promise<string | null> => {
+  try {
+    return (await storage.getString(STORAGE_KEY_LAST_APP_VERSION_KEY)) || null;
+  } catch (_) {
+    return null;
+  }
+};
+
+const setLastAppVersionKey = async (version: string) => {
+  try {
+    await storage.set(STORAGE_KEY_LAST_APP_VERSION_KEY, version);
+  } catch (_) {}
+};
+
+const clearLastAppVersionKey = async () => {
+  try {
+    await storage.delete(STORAGE_KEY_LAST_APP_VERSION_KEY);
+  } catch (_) {}
 };
 
 export const appStorage = {
@@ -199,4 +221,7 @@ export const appStorage = {
   setMigrationVersion,
   clearMigrationVersion,
   clearAllForDev,
+  getLastAppVersionKey,
+  setLastAppVersionKey,
+  clearLastAppVersionKey,
 };

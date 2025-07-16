@@ -5,7 +5,7 @@ import {
   GameLogEntryV2,
   GameStats,
   Level,
-  TimeRange,
+  TimeFilter,
 } from '@sudoku/shared-types';
 import {
   DAILY_STATS_DATE_FORMAT,
@@ -39,7 +39,7 @@ function createLevelMap<T>(
 
 export function getStatsFromLogs(
   logs: GameLogEntryV2[],
-  filter: TimeRange,
+  filter: TimeFilter,
   userId: string,
   levels: Level[],
 ): Record<Level, GameStats> {
@@ -83,7 +83,7 @@ export function getStatsFromLogs(
 
 export function getDailyStatsFromLogs(
   logs: GameLogEntryV2[],
-  filter: TimeRange,
+  filter: TimeFilter,
 ): DailyStats[] {
   if (logs.length === 0) {
     return [];
@@ -121,7 +121,7 @@ export function convertToPieData(
   logs: GameLogEntryV2[],
   scheme: ColorSchemeName = 'light',
   t: TFunction,
-  filter: TimeRange,
+  filter: TimeFilter,
   levels: Level[],
 ) {
   if (logs.length === 0) {
@@ -152,7 +152,7 @@ export function convertToStackedData(
   logs: GameLogEntryV2[],
   scheme: ColorSchemeName = 'light',
   t: TFunction,
-  filter: TimeRange,
+  filter: TimeFilter,
   levels: Level[],
 ) {
   if (logs.length === 0) {
@@ -188,7 +188,7 @@ export function convertToStackedData(
 
 export function getGameHistory(
   logs: GameLogEntryV2[],
-  filter: TimeRange,
+  filter: TimeFilter,
 ): GameLogEntryV2[] {
   if (logs.length === 0) {
     return [];

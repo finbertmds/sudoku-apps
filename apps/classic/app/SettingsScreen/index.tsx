@@ -70,6 +70,7 @@ const SettingsScreen = () => {
     highlightIdenticalNumbers: t('setting.highlightIdenticalNumbers'),
     hideUsedNumbers: t('setting.hideUsedNumbers'),
     autoRemoveNotes: t('setting.autoRemoveNotes'),
+    smartMemo: t('setting.smartMemo'),
   };
 
   const descriptions = {
@@ -82,6 +83,7 @@ const SettingsScreen = () => {
     highlightIdenticalNumbers: t('desc.highlightIdenticalNumbers'),
     hideUsedNumbers: t('desc.hideUsedNumbers'),
     autoRemoveNotes: t('desc.autoRemoveNotes'),
+    smartMemo: t('desc.smartMemo'),
   };
 
   const handleClearStorage = async () => {

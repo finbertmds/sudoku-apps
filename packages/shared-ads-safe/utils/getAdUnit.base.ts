@@ -1,4 +1,4 @@
-// getAdUnit.base.ts
+// utils/getAdUnit.base.ts
 
 import {AdType, AppEnv} from '@sudoku/shared-types';
 import {isExpoGo} from '@sudoku/shared-utils/ExpoConstantsSafe';
@@ -7,16 +7,19 @@ import {Platform} from 'react-native';
 const impl: () => (type: AdType, env: AppEnv | undefined) => string =
   Platform.select({
     web: () => {
-      return require('@sudoku/shared-utils/getAdUnit.web').getAdUnit;
+      const mod = require('./getAdUnit.web');
+      return mod.getAdUnit;
     },
     default: () => {
       if (isExpoGo) {
-        return require('@sudoku/shared-utils/getAdUnit.web').getAdUnit;
+        const mod = require('./getAdUnit.web');
+        return mod.getAdUnit;
       } else {
         // TODO: to run on web, change to .web
-        return require('@sudoku/shared-utils/getAdUnit.native').getAdUnit;
+        const mod = require('./getAdUnit.web');
+        return mod.getAdUnit;
       }
     },
   });
 
-export const getAdUnitBase = impl();
+export const getAdUnit = impl();

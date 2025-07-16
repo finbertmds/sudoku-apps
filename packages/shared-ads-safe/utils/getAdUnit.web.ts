@@ -1,4 +1,4 @@
-// getAdUnit.web.ts
+// utils/getAdUnit.web.ts
 
 import {AdType, AppEnv} from '@sudoku/shared-types';
 
@@ -9,6 +9,8 @@ const DEV_AD_UNITS: Record<AdType, string> = {
   rewardedInterstitial: '',
 };
 
-export function getAdUnit(type: AdType, env: AppEnv | undefined): string {
+const getAdUnit = (type: AdType, env: AppEnv | undefined): string => {
   return DEV_AD_UNITS[type];
-}
+};
+
+export {getAdUnit};

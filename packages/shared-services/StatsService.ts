@@ -9,7 +9,7 @@ import {
   GameStatsCache,
   InitGame,
   Level,
-  TimeRange,
+  TimeFilter,
 } from '@sudoku/shared-types';
 import {
   getStatsFromLogs,
@@ -46,7 +46,7 @@ export const StatsService = {
 
   async getStatsWithCache(
     logs: GameLogEntryV2[],
-    filter: TimeRange,
+    filter: TimeFilter,
     userId: string,
   ): Promise<Record<Level, GameStats>> {
     try {
@@ -70,7 +70,7 @@ export const StatsService = {
 
   async updateStatsWithAllCache(
     logs: GameLogEntryV2[],
-    affectedRanges: TimeRange[],
+    affectedRanges: TimeFilter[],
     userId: string,
   ): Promise<void> {
     try {
@@ -105,7 +105,7 @@ export const StatsService = {
       const cache: GameStatsCache = await statsStorage.getStatsCache();
 
       // Xác định các khoảng thời gian cần cập nhật lại
-      const rangesToUpdate = new Set<TimeRange>();
+      const rangesToUpdate = new Set<TimeFilter>();
 
       updatedLogs.forEach((log) => {
         if (isInTimeRange(log.endTime, 'today')) {

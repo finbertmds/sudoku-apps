@@ -1,4 +1,4 @@
-// getAdUnit.native.ts
+// utils/getAdUnit.native.ts
 
 import {AdType, AppEnv} from '@sudoku/shared-types';
 import {Platform} from 'react-native';
@@ -11,7 +11,7 @@ const DEV_AD_UNITS: Record<AdType, string> = {
   rewardedInterstitial: TestIds.REWARDED_INTERSTITIAL,
 };
 
-export function getAdUnit(type: AdType, env: AppEnv | undefined): string {
+const getAdUnit = (type: AdType, env: AppEnv | undefined): string => {
   if (__DEV__ || !env) {
     return DEV_AD_UNITS[type];
   }
@@ -34,4 +34,6 @@ export function getAdUnit(type: AdType, env: AppEnv | undefined): string {
     Platform.OS === 'ios' ? prodAdUnitsIOS : prodAdUnitsAndroid;
 
   return platformUnits[type];
-}
+};
+
+export {getAdUnit};

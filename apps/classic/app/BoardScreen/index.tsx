@@ -3,6 +3,7 @@
 import {ClassicLevel} from '@/types';
 import {env} from '@/utils/appUtil';
 import {constantEnv, TUTORIAL_IMAGES} from '@/utils/constants';
+import {BannerAdSafe, useInterstitialAdSafe} from '@sudoku/shared-ads-safe';
 import {
   ActionButtons,
   ConfirmDialog,
@@ -13,7 +14,6 @@ import {
   NumberPad,
   PauseModal,
 } from '@sudoku/shared-components';
-import {BannerAdSafeBase} from '@sudoku/shared-components/commons/BannerAdSafe.base';
 import {CORE_EVENTS, GameEndedCoreEvent} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
 import {
@@ -24,7 +24,6 @@ import {
   useSafeAreaInsetsSafe,
   useSafeGoBack,
 } from '@sudoku/shared-hooks';
-import {useInterstitialAdSafeBase} from '@sudoku/shared-hooks/useInterstitialAdSafe.base';
 import {BoardService, SettingsService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {
@@ -42,7 +41,9 @@ import {
   createEmptyGridNumber,
   deepCloneBoard,
   deepCloneNotes,
+  getAvailableMemoNumbers,
   getTutorialImageList,
+  NUMBERS_1_TO_9,
   removeNoteFromPeers,
 } from '@sudoku/shared-utils';
 import {router, useFocusEffect, useLocalSearchParams} from 'expo-router';
@@ -65,8 +66,6 @@ const BoardScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const [initialBoard, setInitialBoard] =
-    useState<CellValue[][]>(createEmptyGrid<CellValue>());
   const [solvedBoard, setSolvedBoard] = useState<number[][]>(
     createEmptyGridNumber(),
   );
@@ -75,9 +74,8 @@ const BoardScreen = () => {
   const [showPauseModal, setShowPauseModal] = useState<boolean>(false);
   const [noteMode, setNoteMode] = useState<boolean>(false);
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
-  const handleCellPress = useCallback((cell: Cell | null) => {
-    setSelectedCell(cell);
-  }, []);
+  const [availableMemoNumbers, setAvailableMemoNumbers] =
+    useState<number[]>(NUMBERS_1_TO_9);
 
   const [board, setBoard] =
     useState<CellValue[][]>(createEmptyGrid<CellValue>());
@@ -88,6 +86,29 @@ const BoardScreen = () => {
     createEmptyGridNotes<string>(),
   );
 
+  const handleCellPress = useCallback(
+    (cell: Cell | null) => {
+      setSelectedCell(cell);
+      if (noteMode && cell) {
+        const availableMemoNumbers = getAvailableMemoNumbers(board, cell);
+        setAvailableMemoNumbers(availableMemoNumbers);
+      } else {
+        setAvailableMemoNumbers(NUMBERS_1_TO_9);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [noteMode],
+  );
+
+  useEffect(() => {
+    if (noteMode && selectedCell) {
+      setAvailableMemoNumbers(getAvailableMemoNumbers(board, selectedCell));
+    } else {
+      setAvailableMemoNumbers(NUMBERS_1_TO_9);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [noteMode, selectedCell]);
+
   // Lấy initGame and savedGame
   // ===========================================================
   const handeGameStarted = async () => {
@@ -97,7 +118,6 @@ const BoardScreen = () => {
         return;
       }
       setIsLoading(false);
-      setInitialBoard(deepCloneBoard(initGame.initialBoard));
       setBoard(deepCloneBoard(initGame.initialBoard));
       setHistory([deepCloneBoard(initGame.initialBoard)]);
       setNotes(createEmptyGridNotes<string>());
@@ -110,7 +130,6 @@ const BoardScreen = () => {
       setIsLoading(false);
 
       if (initGame && savedGame) {
-        setInitialBoard(deepCloneBoard(initGame.initialBoard));
         setBoard(deepCloneBoard(savedGame.savedBoard));
         setHistory(savedGame.savedHistory);
         setNotes(savedGame.savedNotes);
@@ -120,10 +139,10 @@ const BoardScreen = () => {
       }
     }
   };
-  const handleAfterCheckHasPlayed = () => {
-    SettingsService.setHasPlayed(true);
+  const handleAfterCheckHasPlayed = async () => {
+    await SettingsService.setHasPlayed(true);
     setShowHowToPlay(false);
-    handeGameStarted();
+    await handeGameStarted();
   };
 
   useEffect(() => {
@@ -172,7 +191,7 @@ const BoardScreen = () => {
     isClosed: isClosedRewarded,
     load: loadRewarded,
     show: showRewarded,
-  } = useInterstitialAdSafeBase(env);
+  } = useInterstitialAdSafe(env);
   useEffect(() => {
     loadRewarded();
   }, [loadRewarded]);
@@ -274,20 +293,11 @@ const BoardScreen = () => {
 
   const handleResetGame = async () => {
     await BoardService.clear();
-    setIsPlaying(false);
-    setIsPaused(false);
-    setShowPauseModal(false);
-    setSelectedCell(null);
-    setNoteMode(false);
-    setBoard(deepCloneBoard(initialBoard));
-    setNotes(createEmptyGridNotes<string>());
-    setHistory([]);
-    resetMistakes();
   };
   // ===========================================================
 
-  const handleBackPress = async () => {
-    await BoardService.save({
+  const handleSaveGame = async () => {
+    const savedGame = {
       savedId: id,
       savedLevel: level,
       // savedScore: score,
@@ -300,26 +310,18 @@ const BoardScreen = () => {
       savedHistory: history,
       savedNotes: notes,
       lastSaved: new Date(),
-    } as SavedGame);
+    } as SavedGame;
+    await BoardService.save(savedGame);
+  };
+
+  const handleBackPress = async () => {
+    await handleSaveGame();
     setIsPlaying(false);
     goBack();
   };
 
   const handleGoToSettings = async () => {
-    await BoardService.save({
-      savedId: id,
-      savedLevel: level,
-      // savedScore: score,
-      savedBoard: board,
-      savedHintCount: hintCount,
-      savedTotalHintCountUsed: totalHintCountUsed,
-      savedMistake: mistakes,
-      savedTotalMistake: totalMistakes,
-      savedTimePlayed: secondsRef.current,
-      savedHistory: history,
-      savedNotes: notes,
-      lastSaved: new Date(),
-    } as SavedGame);
+    await handleSaveGame();
     setIsPlaying(false);
     setIsPaused(true);
     router.push({
@@ -329,23 +331,10 @@ const BoardScreen = () => {
   };
 
   const handlePause = async () => {
+    await handleSaveGame();
     setIsPlaying(false);
     setIsPaused(true);
     setShowPauseModal(true);
-    await BoardService.save({
-      savedId: id,
-      savedLevel: level,
-      // savedScore: score,
-      savedBoard: board,
-      savedHintCount: hintCount,
-      savedTotalHintCountUsed: totalHintCountUsed,
-      savedMistake: mistakes,
-      savedTotalMistake: totalMistakes,
-      savedTimePlayed: secondsRef.current,
-      savedHistory: history,
-      savedNotes: notes,
-      lastSaved: new Date(),
-    } as SavedGame);
   };
 
   const handleResume = () => {
@@ -379,15 +368,19 @@ const BoardScreen = () => {
       return;
     }
     const {row, col} = selectedCell;
-    if (initialBoard[row][col]) {
+    if (board[row][col] === null || board[row][col] === 0) {
       return;
+    }
+    if (!__DEV__) {
+      const currentValue = board[row][col];
+      const correctValue = solvedBoard[row][col];
+      if (currentValue === correctValue) {
+        return;
+      }
     }
     const newNotes = deepCloneNotes(notes);
     newNotes[row][col] = [];
     setNotes(newNotes);
-    if (board[row][col] === null || board[row][col] === 0) {
-      return;
-    }
     const newBoard = deepCloneBoard(board);
     newBoard[row][col] = null;
     setSelectedCell({...selectedCell, value: null});
@@ -423,15 +416,33 @@ const BoardScreen = () => {
     );
   };
 
+  const handleInputCorrectValue = (
+    row: number,
+    col: number,
+    num: number,
+    _totalHintCountUsed: number,
+  ) => {
+    const newBoard = deepCloneBoard(board);
+    newBoard[row][col] = num;
+    setBoard(newBoard);
+
+    if (settings.autoRemoveNotes) {
+      setNotes((prevNotes) => removeNoteFromPeers(prevNotes, row, col, num));
+    }
+
+    if (checkBoardIsSolved(newBoard, solvedBoard)) {
+      handleCheckSolved(_totalHintCountUsed);
+    }
+
+    saveHistory(newBoard);
+  };
+
   const handleHint = () => {
     if (!selectedCell) {
       return;
     }
     const {row, col} = selectedCell;
-    if (
-      initialBoard[row][col] != null ||
-      board[row][col] === solvedBoard[row][col]
-    ) {
+    if (board[row][col] === solvedBoard[row][col]) {
       return;
     }
     if (hintCount <= 0) {
@@ -440,18 +451,7 @@ const BoardScreen = () => {
     }
     decrementHintCount();
     const solvedNum = solvedBoard[row][col];
-    const newBoard = deepCloneBoard(board);
-    newBoard[row][col] = solvedNum;
-    setSelectedCell({...selectedCell, value: solvedNum});
-    setBoard(newBoard);
-    setNotes((prevNotes) =>
-      removeNoteFromPeers(prevNotes, row, col, solvedNum),
-    );
-
-    if (checkBoardIsSolved(newBoard, solvedBoard)) {
-      handleCheckSolved(totalHintCountUsed + 1);
-    }
-    saveHistory(newBoard);
+    handleInputCorrectValue(row, col, solvedNum, totalHintCountUsed + 1);
   };
 
   /**
@@ -479,11 +479,12 @@ const BoardScreen = () => {
       return;
     }
     const {row, col} = selectedCell;
-    if (initialBoard[row][col] != null) {
-      return;
-    }
+    const currentValue = board[row][col];
 
     if (noteMode) {
+      if (currentValue != null) {
+        return;
+      }
       const newNotes = deepCloneNotes(notes);
       const cellNotes = newNotes[row][col];
       if (cellNotes.includes(num.toString())) {
@@ -493,7 +494,6 @@ const BoardScreen = () => {
       }
       setNotes(newNotes);
     } else {
-      const currentValue = board[row][col];
       if (currentValue === num) {
         return;
       }
@@ -505,19 +505,7 @@ const BoardScreen = () => {
           incrementMistake();
         }
       }
-      const newBoard = deepCloneBoard(board);
-      newBoard[row][col] = num;
-      setBoard(newBoard);
-      setSelectedCell({...selectedCell, value: num});
-
-      if (settings.autoRemoveNotes) {
-        setNotes((prevNotes) => removeNoteFromPeers(prevNotes, row, col, num));
-      }
-
-      if (checkBoardIsSolved(newBoard, solvedBoard)) {
-        handleCheckSolved(totalHintCountUsed);
-      }
-      saveHistory(newBoard);
+      handleInputCorrectValue(row, col, num, totalHintCountUsed);
     }
   };
 
@@ -670,13 +658,13 @@ const BoardScreen = () => {
           />
           <Grid
             board={board}
+            showCage={false}
             cages={[]}
             notes={notes}
             solvedBoard={solvedBoard}
             selectedCell={selectedCell}
             settings={settings}
             onPress={handleCellPress}
-            showCage={false}
           />
           <ActionButtons
             noteMode={noteMode}
@@ -690,10 +678,12 @@ const BoardScreen = () => {
           <NumberPad
             board={board}
             settings={settings}
+            isNoteMode={noteMode}
+            availableMemoNumbers={availableMemoNumbers}
             onSelectNumber={handleNumberPress}
           />
         </View>
-        {Platform.OS !== 'web' && <BannerAdSafeBase env={env} />}
+        {Platform.OS !== 'web' && <BannerAdSafe env={env} />}
       </SafeAreaView>
       {showPauseModal && (
         <PauseModal

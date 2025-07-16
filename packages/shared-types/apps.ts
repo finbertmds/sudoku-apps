@@ -23,3 +23,28 @@ export interface ConstantEnv {
   DEFAULT_SETTINGS: AppSettings;
   LEVELS: Level[];
 }
+
+export type TranslatedText = {
+  en: string;
+  vi?: string;
+  ja?: string;
+};
+
+export type WhatsNewChange = {
+  title: TranslatedText;
+  description: TranslatedText;
+};
+
+export type WhatsNewEntry = {
+  version: string;
+  changes: WhatsNewChange[];
+};
+
+export type LanguageCode = 'en' | 'vi' | 'ja';
+
+export type Language = {
+  code: LanguageCode;
+  label: string;
+};
+
+export type AppId = 'classic' | 'killer';

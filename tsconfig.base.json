@@ -14,6 +14,7 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
+      "@sudoku/shared-ads-safe": ["packages/shared-ads-safe"],
       "@sudoku/shared-components": ["packages/shared-components"],
       "@sudoku/shared-events": ["packages/shared-events"],
       "@sudoku/shared-hooks": ["packages/shared-hooks"],

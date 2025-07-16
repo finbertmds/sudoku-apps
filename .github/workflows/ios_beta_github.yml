@@ -6,14 +6,6 @@ on:
       - master
     paths:
       - 'packages/**'
-      - 'apps/classic/ios/**'
-      - 'apps/classic/app/**'
-      - 'apps/classic/assets/**'
-      - 'apps/classic/i18n/**'
-      - 'apps/classic/theme/**'
-      - 'apps/classic/types/**'
-      - 'apps/classic/utils/**'
-      - 'apps/classic/app.config.ts'
 
 jobs:
   build-ios:

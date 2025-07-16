@@ -1,6 +1,6 @@
 // constants.ts
 
-import {Level, TimeRange} from '@sudoku/shared-types';
+import {AppId, Level, TimeFilter} from '@sudoku/shared-types';
 
 export const BOARD_SIZE = 9;
 export const CELL_SIZE = 40;
@@ -33,6 +33,7 @@ export const STORAGE_KEY_QUOTES = 'sudoku_quotes';
 export const STORAGE_KEY_MIGRATION_VERSION = 'sudoku_migrationVersion';
 export const STORAGE_KEY_PLAYERS = 'sudoku_players';
 export const STORAGE_KEY_CURRENT_PLAYER_ID = 'sudoku_currentPlayerId';
+export const STORAGE_KEY_LAST_APP_VERSION_KEY = 'sudoku_lastAppVersionKey';
 
 export const CHART_WIDTH = 60;
 export const CHART2_WIDTH = 70;
@@ -66,7 +67,7 @@ export const DEFAULT_PLAYER_ID = '00000000-0000-4000-8000-000000000000'; // hoáº
 
 export const MAX_PLAYER_RANKING_COUNT = 3;
 
-export const ALL_AFFECTED_RANGES: TimeRange[] = [
+export const ALL_AFFECTED_RANGES: TimeFilter[] = [
   'today',
   'week',
   'month',
@@ -82,6 +83,11 @@ export const AD_TYPE = {
 };
 
 export const BANNER_HEIGHT = 70;
+
+export const NUMBERS_1_TO_9 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+export const CLASSIC_APP_ID = 'classic' as AppId;
+export const KILLER_APP_ID = 'killer' as AppId;
 
 // ---------------- Killer Sudoku ----------------
 

@@ -78,6 +78,7 @@
   "setting.highlightIdenticalNumbers": "Highlight Identical Numbers",
   "setting.hideUsedNumbers": "Hide Used Numbers",
   "setting.autoRemoveNotes": "Auto-Remove Notes",
+  "setting.smartMemo": "Smart Memo Filtering",
 
   "desc.statisticsMsg": "Show messages about the number of people who were able to solve a level",
   "desc.numberFirst": "Lock a number by tapping and holding it, then use it for multiple cells",
@@ -88,6 +89,7 @@
   "desc.highlightIdenticalNumbers": "When selecting a cell with a number, highlight the same numbers throughout the grid",
   "desc.hideUsedNumbers": "Hide numbers that have been placed in 9 different cells",
   "desc.autoRemoveNotes": "Remove a number from all notes when it's placed in a cell",
+  "desc.smartMemo": "Only show memo numbers that are valid in the selected cell based on the current board",
 
   "howToPlay.title": "How to Play",
   "howToPlay.slide1": "The field is divided into irregularly shaped areas. These areas are called cages.",
@@ -187,5 +189,8 @@
   "playerNotes_highlights_bestPerformance": "Highest win rate.",
   "playerNotes_highlights_fastest": "Fastest average time.",
   "playerNotes_highlights_mostGames": "Most games played.",
-  "playerNotes_highlights_allNotCompleted": "Hasn't finished any game."
+  "playerNotes_highlights_allNotCompleted": "Hasn't finished any game.",
+
+  "whatsNew.title": "What's New",
+  "common.ok": "Got it"
 }

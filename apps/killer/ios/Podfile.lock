@@ -1812,7 +1812,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNLocalize (3.4.2):
+  - RNLocalize (3.5.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2425,7 +2425,7 @@ SPEC CHECKSUMS:
   ReactCommon: 41137f7e87cf7fd1c041a7124dfa3d0d48aa43f3
   RNDeviceInfo: feea80a690d2bde1fe51461cf548039258bd03f2
   RNGoogleMobileAds: 8f6d63fec26c1dbd0fe0f7196c637a576c2a1956
-  RNLocalize: db0f99765d0af597cff9ef61a0eb0d0e65546d54
+  RNLocalize: 8fac70e2311b54cd75e1b6a1709b6fa368652723
   RNReanimated: c567de23384730756bb19ff55490819980536b09
   RNScreens: c2e3cc506212228c607b4785b315205e28acbf0f
   RNSVG: ee32efbed652c5151fd3f98bed13c68af285bc38
