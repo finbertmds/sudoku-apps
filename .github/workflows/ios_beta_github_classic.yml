@@ -5,6 +5,7 @@ on:
     branches:
       - master
     paths:
+      - '!packages/**'
       - 'apps/classic/ios/**'
       - 'apps/classic/app/**'
       - 'apps/classic/assets/**'

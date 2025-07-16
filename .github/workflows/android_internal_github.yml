@@ -1,6 +1,7 @@
 name: Android Internal Github
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master

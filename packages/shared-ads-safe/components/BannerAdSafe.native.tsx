@@ -49,7 +49,7 @@ const BannerAdSafe = ({env}: NativeAdSafeProps) => {
           console.log('BannerAd loaded');
         }}
         onAdFailedToLoad={(error) => {
-          console.log('BannerAd failed to load', JSON.stringify(error));
+          console.error('BannerAd failed to load', JSON.stringify(error));
         }}
       />
     </View>
