@@ -3,6 +3,7 @@
 import {ClassicLevel} from '@/types';
 import {env} from '@/utils/appUtil';
 import {constantEnv, TUTORIAL_IMAGES} from '@/utils/constants';
+import {BannerAdSafe, useInterstitialAdSafe} from '@sudoku/shared-ads-safe';
 import {
   ActionButtons,
   ConfirmDialog,
@@ -13,7 +14,6 @@ import {
   NumberPad,
   PauseModal,
 } from '@sudoku/shared-components';
-import {BannerAdSafeBase} from '@sudoku/shared-components/commons/BannerAdSafe.base';
 import {CORE_EVENTS, GameEndedCoreEvent} from '@sudoku/shared-events';
 import eventBus from '@sudoku/shared-events/eventBus';
 import {
@@ -24,7 +24,6 @@ import {
   useSafeAreaInsetsSafe,
   useSafeGoBack,
 } from '@sudoku/shared-hooks';
-import {useInterstitialAdSafeBase} from '@sudoku/shared-hooks/useInterstitialAdSafe.base';
 import {BoardService, SettingsService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {
@@ -192,7 +191,7 @@ const BoardScreen = () => {
     isClosed: isClosedRewarded,
     load: loadRewarded,
     show: showRewarded,
-  } = useInterstitialAdSafeBase(env);
+  } = useInterstitialAdSafe(env);
   useEffect(() => {
     loadRewarded();
   }, [loadRewarded]);
@@ -684,7 +683,7 @@ const BoardScreen = () => {
             onSelectNumber={handleNumberPress}
           />
         </View>
-        {Platform.OS !== 'web' && <BannerAdSafeBase env={env} />}
+        {Platform.OS !== 'web' && <BannerAdSafe env={env} />}
       </SafeAreaView>
       {showPauseModal && (
         <PauseModal

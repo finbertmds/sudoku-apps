@@ -1,19 +1,18 @@
 // MaterialCommunityIcons.tsx
 
-import {isExpoGo} from '@sudoku/shared-utils/ExpoConstantsSafe';
 import React from 'react';
 import {Platform} from 'react-native';
 
-const isExpo = Platform.OS === 'web' || isExpoGo;
+const isWeb = typeof window !== 'undefined' && Platform.OS === 'web';
 
 let IconComponent: any;
 
-if (isExpo) {
+if (isWeb) {
   const {MaterialCommunityIcons} = require('@expo/vector-icons');
   IconComponent = MaterialCommunityIcons;
 } else {
-  IconComponent =
-    require('react-native-vector-icons/MaterialCommunityIcons').default;
+  const mod = require('react-native-vector-icons/MaterialCommunityIcons');
+  IconComponent = mod.default;
 }
 
 type Props = {
@@ -32,4 +31,4 @@ const MaterialCommunityIcons = ({
   return <IconComponent name={name} size={size} color={color} style={style} />;
 };
 
-export default MaterialCommunityIcons;
+export {MaterialCommunityIcons};

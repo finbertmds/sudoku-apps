@@ -1,4 +1,4 @@
-// commons/BannerAdSafe.base.tsx
+// components/BannerAdSafe.base.tsx
 
 import {NativeAdSafeProps} from '@sudoku/shared-types';
 import {isExpoGo} from '@sudoku/shared-utils/ExpoConstantsSafe';
@@ -6,19 +6,19 @@ import {Platform} from 'react-native';
 
 const impl: () => (props: NativeAdSafeProps) => any = Platform.select({
   web: () => {
-    return require('@sudoku/shared-components/commons/BannerAdSafe.web')
-      .BannerAdSafe;
+    const mod = require('./BannerAdSafe.web');
+    return mod.BannerAdSafe;
   },
   default: () => {
     if (isExpoGo) {
-      return require('@sudoku/shared-components/commons/BannerAdSafe.web')
-        .BannerAdSafe;
+      const mod = require('./BannerAdSafe.web');
+      return mod.BannerAdSafe;
     } else {
       // TODO: to run on web, change to .web
-      return require('@sudoku/shared-components/commons/BannerAdSafe.native')
-        .BannerAdSafe;
+      const mod = require('./BannerAdSafe.web');
+      return mod.BannerAdSafe;
     }
   },
 });
 
-export const BannerAdSafeBase = impl();
+export const BannerAdSafe = impl();

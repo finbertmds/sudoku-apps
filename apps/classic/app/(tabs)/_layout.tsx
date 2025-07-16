@@ -1,6 +1,6 @@
 // app/(tabs)/_layout.tsx
 
-import {Ionicons} from '@expo/vector-icons';
+import {Ionicons} from '@sudoku/shared-icons';
 import {useTheme} from '@sudoku/shared-themes';
 import {Tabs} from 'expo-router';
 import React from 'react';

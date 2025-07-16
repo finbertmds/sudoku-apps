@@ -1,0 +1,11 @@
+{
+  "name": "@sudoku/shared-ads-safe",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "private": true,
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-google-mobile-ads": "*"
+  }
+}
