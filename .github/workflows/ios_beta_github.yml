@@ -1,6 +1,7 @@
 name: iOS Beta Github
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
