@@ -1,7 +1,7 @@
 // useEnsureStatsCache.ts
 
 import {PlayerService, StatsService} from '@sudoku/shared-services';
-import {TimeRange} from '@sudoku/shared-types';
+import {TimeFilter} from '@sudoku/shared-types';
 import {useEffect} from 'react';
 
 export function useEnsureStatsCache() {
@@ -10,7 +10,7 @@ export function useEnsureStatsCache() {
       const needsUpdate = await StatsService.shouldUpdateStatsCache();
 
       if (needsUpdate) {
-        const affectedRanges: TimeRange[] = [
+        const affectedRanges: TimeFilter[] = [
           'today',
           'week',
           'month',

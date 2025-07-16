@@ -2,11 +2,17 @@
 
 import {StatsService} from '@sudoku/shared-services';
 import {playerProfileStorage, statsStorage} from '@sudoku/shared-storages';
-import {GameLogEntryV2, PlayerProfile} from '@sudoku/shared-types';
+import {
+  GameLogEntryV2,
+  LanguageCode,
+  PlayerProfile,
+} from '@sudoku/shared-types';
 import {createDefaultPlayer, DEFAULT_PLAYER_ID} from '@sudoku/shared-utils';
 
 export const PlayerService = {
-  async createDefaultPlayerIfNeeded(language: string = 'en'): Promise<void> {
+  async createDefaultPlayerIfNeeded(
+    language: LanguageCode = 'en',
+  ): Promise<void> {
     const players = await playerProfileStorage.getAllPlayers();
     if (players.length === 0) {
       const rawLogs = await statsStorage.getGameLogsV2();

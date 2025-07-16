@@ -2,6 +2,7 @@
 
 import {LANGUAGES} from '@/utils/constants';
 import {appStorage} from '@sudoku/shared-storages';
+import {LanguageCode} from '@sudoku/shared-types';
 import * as Localization from 'expo-localization';
 import i18n, {changeLanguage} from 'i18next';
 import {initReactI18next} from 'react-i18next';
@@ -17,7 +18,8 @@ const resources = {
 
 const fallback = {languageTag: LANGUAGES[0].code};
 const getBestLanguage = () => {
-  const deviceLanguage = Localization.getLocales()[0].languageCode; // ví dụ: 'en', 'vi', 'ja'
+  const deviceLanguage = Localization.getLocales()[0]
+    .languageCode as LanguageCode;
 
   const matched = LANGUAGES.find((l) => l.code === deviceLanguage);
   return matched?.code || fallback.languageTag;

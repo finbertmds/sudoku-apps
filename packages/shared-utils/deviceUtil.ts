@@ -16,9 +16,7 @@ if (!isWeb) {
       const DeviceInfo = require('react-native-device-info');
       isTabletFn = () => DeviceInfo.isTablet?.();
     }
-  } catch (_) {
-    console.log('Error loading deviceUtil.ts');
-  }
+  } catch (_) {}
 }
 
 const isMMKVAvailable = () => {

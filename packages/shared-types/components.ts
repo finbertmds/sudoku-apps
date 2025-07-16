@@ -66,8 +66,6 @@ export type LeaderboardTab = {
   testID: string;
 };
 
-export type TimeFilter = 'all' | 'today' | 'week' | 'month' | 'year';
-
 export type DailyBackgrounds = {
   light: UnsplashImageData | null;
   dark: UnsplashImageData | null;

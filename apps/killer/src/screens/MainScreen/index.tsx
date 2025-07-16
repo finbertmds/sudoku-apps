@@ -14,6 +14,7 @@ import {
   Header,
   NewGameMenu,
   QuoteBox,
+  UnsplashImageInfo,
   WhatsNew,
 } from '@sudoku/shared-components';
 import {CORE_EVENTS, InitGameCoreEvent} from '@sudoku/shared-events';
@@ -31,8 +32,8 @@ import {
   SettingsService,
 } from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
-import {Level, RootStackParamList} from '@sudoku/shared-types';
-import {UNSPLASH_URL} from '@sudoku/shared-utils';
+import {Level, RootStackParamList, WhatsNewEntry} from '@sudoku/shared-types';
+import {getWhatsNewList, KILLER_APP_ID} from '@sudoku/shared-utils';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
@@ -61,13 +62,8 @@ const MainScreen = () => {
   const {needUpdate, forceUpdate, storeUrl, checkVersion} =
     useAppUpdateChecker(env);
   const [showWhatsNew, setShowWhatsNew] = useState(false);
+  const [whatsNewEntries, setWhatsNewEntries] = useState<WhatsNewEntry[]>([]);
 
-  const checkWhatsNew = async () => {
-    const lastVersion = await SettingsService.getLastAppVersionKey();
-    if (lastVersion !== appConfig.version) {
-      setShowWhatsNew(true);
-    }
-  };
   // Sau khi navigation.goBack() sẽ gọi hàm này
   useFocusEffect(
     useCallback(() => {
@@ -84,6 +80,15 @@ const MainScreen = () => {
   useEffect(() => {
     checkWhatsNew();
   }, []);
+
+  const checkWhatsNew = async () => {
+    const lastVersion = await SettingsService.getLastAppVersionKey();
+    const entries = getWhatsNewList(KILLER_APP_ID, lastVersion ?? '');
+    if (entries.length > 0) {
+      setShowWhatsNew(true);
+      setWhatsNewEntries(entries);
+    }
+  };
 
   const checkSavedGame = async () => {
     const saved = await BoardService.loadSaved();
@@ -156,6 +161,7 @@ const MainScreen = () => {
   useAppPause(
     () => {
       setShowUpdateAlert(false);
+      setShowWhatsNew(false);
     },
     () => {},
   );
@@ -172,29 +178,11 @@ const MainScreen = () => {
             resizeMode="cover"
             blurRadius={2}>
             {SHOW_UNSPLASH_IMAGE_INFO && (
-              <View style={styles.attributionContainer}>
-                <Text style={[styles.attributionText, {color: theme.text}]}>
-                  Photo by{' '}
-                  <Text
-                    style={[styles.linkText, {color: theme.secondary}]}
-                    onPress={() =>
-                      Linking.openURL(
-                        (background.photographerLink ?? UNSPLASH_URL) +
-                          UNSPLASH_UTM,
-                      )
-                    }>
-                    {background.photographerName}
-                  </Text>{' '}
-                  on{' '}
-                  <Text
-                    style={[styles.linkText, {color: theme.secondary}]}
-                    onPress={() =>
-                      Linking.openURL(UNSPLASH_URL + UNSPLASH_UTM)
-                    }>
-                    Unsplash
-                  </Text>
-                </Text>
-              </View>
+              <UnsplashImageInfo
+                unsplashUtm={UNSPLASH_UTM}
+                photographerName={background.photographerName ?? ''}
+                photographerLink={background.photographerLink ?? ''}
+              />
             )}
           </ImageBackground>
         )}
@@ -263,19 +251,17 @@ const MainScreen = () => {
           )}
         </View>
       </SafeAreaView>
-      {showWhatsNew && (
-        <WhatsNew
-          appId="killer"
-          version={appConfig.version ?? ''}
-          onClose={() => {
-            setShowWhatsNew(false);
-          }}
-          onGotIt={() => {
-            setShowWhatsNew(false);
-            SettingsService.setLastAppVersionKey(appConfig.version ?? '');
-          }}
-        />
-      )}
+      <WhatsNew
+        visible={showWhatsNew}
+        onClose={() => {
+          setShowWhatsNew(false);
+        }}
+        entries={whatsNewEntries}
+        onGotIt={() => {
+          setShowWhatsNew(false);
+          SettingsService.setLastAppVersionKey(appConfig.version ?? '');
+        }}
+      />
     </>
   );
 };

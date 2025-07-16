@@ -171,8 +171,8 @@ const clearAll = async () => {
 };
 
 const clearAllForDev = async () => {
-  // await clearBackgrounds();
-  // await clearQuotes();
+  await clearBackgrounds();
+  await clearQuotes();
   await clearMigrationVersion();
   await clearLastAppVersionKey();
 };
