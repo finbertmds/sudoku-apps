@@ -67,7 +67,7 @@ export const darkTheme: ThemeType = {
   buttonText: '#000000',
   buttonBorder: '#D0BCFF',
   cell: '#1C1B1F',
-  selectedOverlayColor: '#6A5ACD',
+  selectedOverlayColor: '#1d1457',
   sameValueOverlayColor: '#4e5891',
   conflictOverlayColor: '#FF6B6B',
   sameRowOrColumnOverlayColor: '#4A3F85',
