@@ -22,7 +22,7 @@ type Props = {
 
 const WhatsNewComponent = ({visible, onClose, entries, onGotIt}: Props) => {
   const {t, i18n} = useTranslation();
-  const {theme} = useTheme();
+  const {theme, mode} = useTheme();
 
   const renderChange = (change: WhatsNewChange, idx: number) => (
     <View key={idx} style={styles.changeContainer}>
@@ -54,11 +54,11 @@ const WhatsNewComponent = ({visible, onClose, entries, onGotIt}: Props) => {
         {
           backgroundColor: theme.card,
           borderColor: theme.cardBorder,
-          shadowColor: theme.cardShadow,
+          shadowColor: mode === 'dark' ? '#000' : '#ccc',
         },
       ]}>
       <Text style={[styles.versionText, {color: theme.cardText}]}>
-        v{item.version}
+        {item.version}
       </Text>
       {item.changes.map(renderChange)}
     </View>
