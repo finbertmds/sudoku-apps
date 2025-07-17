@@ -70,7 +70,7 @@ export const darkTheme: ThemeType = {
   selectedOverlayColor: '#3C5AB9',
   sameValueOverlayColor: '#2F3F74',
   conflictOverlayColor: '#FF6B6B',
-  sameRowOrColumnOverlayColor: '#2C354D',
+  sameRowOrColumnOverlayColor: '#273A76',
   overlayColor: '#1A1A22',
   cellBorderColor: '#B0B0C0',
   settingItemBackground: '#2C2C2C',
