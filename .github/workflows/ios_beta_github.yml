@@ -1,4 +1,4 @@
-name: iOS Beta Github
+name: iOS Beta Github (Classic & Killer)
 
 on:
   workflow_dispatch:
