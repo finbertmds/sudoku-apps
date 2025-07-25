@@ -10,6 +10,7 @@ import {
 } from '@/utils/constants';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {checkAndRequestAdsConsent} from '@sudoku/shared-ads-safe';
 import {
   Header,
   NewGameMenu,
@@ -73,6 +74,7 @@ const MainScreen = () => {
       loadQuote();
       checkVersion();
       checkWhatsNew();
+      checkAndRequestAdsConsent();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );

@@ -25,12 +25,14 @@ import {
 } from '@sudoku/shared-services';
 import {runMigrationsIfNeeded} from '@sudoku/shared-storages';
 import {ThemeProvider} from '@sudoku/shared-themes';
-import {RootStackParamList} from '@sudoku/shared-types';
-import React, {useCallback, useEffect} from 'react';
+import {LanguageCode, RootStackParamList} from '@sudoku/shared-types';
+import React, {useCallback, useEffect, useState} from 'react';
+import {StatusBar} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const App = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>();
+  const [rootMode, setRootMode] = useState<'light' | 'dark'>('light');
 
   const initEnv = useCallback(() => {
     BackgroundService.init(env);
@@ -47,7 +49,9 @@ const App = () => {
     });
     setupEventListeners();
 
-    getLanguage().then((language) => runMigrationsIfNeeded(language));
+    getLanguage().then((language) =>
+      runMigrationsIfNeeded(language as LanguageCode),
+    );
   }, []);
 
   useAppPause(
@@ -63,7 +67,10 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>
+        <ThemeProvider
+          lightTheme={lightTheme}
+          darkTheme={darkTheme}
+          setRootMode={setRootMode}>
           <Stack.Navigator>
             <Stack.Screen
               name={SCREENS.HOME_TABS}
@@ -106,6 +113,12 @@ const App = () => {
               options={{headerShown: false}}
             />
           </Stack.Navigator>
+
+          <StatusBar
+            barStyle={rootMode === 'dark' ? 'light-content' : 'dark-content'}
+            backgroundColor="transparent"
+            translucent
+          />
         </ThemeProvider>
       </NavigationContainer>
     </SafeAreaProvider>

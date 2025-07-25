@@ -23,9 +23,12 @@ export const ThemeProvider: React.FC<{
   children: React.ReactNode;
   lightTheme: ThemeType;
   darkTheme: ThemeType;
-}> = ({children, lightTheme, darkTheme}) => {
+  setRootMode?: (mode: 'light' | 'dark') => void;
+}> = ({children, lightTheme, darkTheme, setRootMode}) => {
   const colorScheme = Appearance.getColorScheme() as ThemeMode;
-  const [mode, setMode] = useState<'light' | 'dark'>('light');
+  const [mode, setMode] = useState<'light' | 'dark'>(
+    colorScheme === 'dark' ? 'dark' : 'light',
+  );
 
   const theme = useMemo(
     () => (mode === 'dark' ? darkTheme : lightTheme),
@@ -33,7 +36,11 @@ export const ThemeProvider: React.FC<{
   );
 
   const toggleTheme = () => {
-    setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
+    const newMode = mode === 'light' ? 'dark' : 'light';
+    setMode(newMode);
+    if (setRootMode) {
+      setRootMode(newMode);
+    }
   };
 
   return (

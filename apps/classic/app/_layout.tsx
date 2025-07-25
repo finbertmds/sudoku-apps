@@ -15,13 +15,15 @@ import {
 } from '@sudoku/shared-services';
 import {runMigrationsIfNeeded} from '@sudoku/shared-storages';
 import {ThemeProvider} from '@sudoku/shared-themes';
+import {LanguageCode} from '@sudoku/shared-types';
 import {useFonts} from 'expo-font';
 import {Stack, useFocusEffect} from 'expo-router';
 import {StatusBar} from 'expo-status-bar';
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import 'react-native-reanimated';
 
 export default function RootLayout() {
+  const [rootMode, setRootMode] = useState<'light' | 'dark'>('light');
   const initEnv = useCallback(() => {
     BackgroundService.init(env);
     BoardService.init(constantEnv);
@@ -37,7 +39,9 @@ export default function RootLayout() {
     });
     setupEventListeners();
 
-    getLanguage().then((language) => runMigrationsIfNeeded(language));
+    getLanguage().then((language) =>
+      runMigrationsIfNeeded(language as LanguageCode),
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -67,7 +71,10 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider lightTheme={lightTheme} darkTheme={darkTheme}>
+    <ThemeProvider
+      lightTheme={lightTheme}
+      darkTheme={darkTheme}
+      setRootMode={setRootMode}>
       <Stack
         screenOptions={{
           headerShown: false,
@@ -75,7 +82,11 @@ export default function RootLayout() {
         <Stack.Screen name={SCREENS.HOME_TABS} />
         <Stack.Screen name={SCREENS.NOT_FOUND} />
       </Stack>
-      <StatusBar style="auto" />
+      <StatusBar
+        style={rootMode === 'dark' ? 'light' : 'dark'}
+        backgroundColor="transparent"
+        translucent
+      />
     </ThemeProvider>
   );
 }

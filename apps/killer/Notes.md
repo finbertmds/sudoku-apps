@@ -213,32 +213,37 @@ _Android_
 
 ---
 
-app ID
-ca-app-pub-4776985253905766~3093131803
+killer sudoku
 
-ad unit ID: killer-sudoku-ios-main
-ca-app-pub-4776985253905766/8720863006
+iOS
+K_AD_APP_ID_IOS: app id: ca-app-pub-4776985253905766~3093131803
+K_AD_UNIT_INTERSTITIAL_IOS: killer-sudoku-ios-interstitial: ca-app-pub-4776985253905766/9006985221
+K_AD_UNIT_BANNER_IOS: killer-sudoku-ios-main: ca-app-pub-4776985253905766/8720863006
+K_AD_UNIT_REWARDED_IOS: killer-sudoku-ios-reward: ca-app-pub-4776985253905766/3055183330
+K_AD_UNIT_REWARDED_I_IOS: killer-sudoku-ios-reward-interstitial: ca-app-pub-4776985253905766/1244394325
 
-ad unit ID: killer-sudoku-ios-interstitial
-ca-app-pub-4776985253905766/9006985221
+Android
+K_AD_APP_ID_ANDROID: app id: ca-app-pub-4776985253905766~6216922933
+K_AD_UNIT_INTERSTITIAL_ANDROID: killer-sudoku-android-interstitial: ca-app-pub-4776985253905766/1559800119
+K_AD_UNIT_BANNER_ANDROID: killer-sudoku-android-main: ca-app-pub-4776985253905766/8853876327
+K_AD_UNIT_REWARDED_ANDROID: killer-sudoku-android-reward: ca-app-pub-4776985253905766/5016784650
+K_AD_UNIT_REWARDED_I_ANDROID: killer-sudoku-android-reward-interstitial: ca-app-pub-4776985253905766/6812126796
 
-ad unit ID: killer-sudoku-ios-reward
-ca-app-pub-4776985253905766/1244394325
+sudoku classic
 
----
+iOS
+C_AD_APP_ID_IOS: app id: ca-app-pub-4776985253905766~3654919331
+C_AD_UNIT_INTERSTITIAL_IOS: sudoku-classic-ios-interstitial: ca-app-pub-4776985253905766/1944609190
+C_AD_UNIT_BANNER_IOS: sudoku-classic-ios-main: ca-app-pub-4776985253905766/5612391461
+C_AD_UNIT_REWARDED_IOS: sudoku-classic-ios-reward: ca-app-pub-4776985253905766/4013638252
+C_AD_UNIT_REWARDED_I_IOS: sudoku-classic-ios-reward-interstitial: ca-app-pub-4776985253905766/8939045341
 
-android
-app ID
-ca-app-pub-4776985253905766~6216922933
-
-ad unit ID: killer-sudoku-android-main
-ca-app-pub-4776985253905766/8853876327
-
-ad unit ID: killer-sudoku-android-interstitial
-ca-app-pub-4776985253905766/1559800119
-
-ad unit ID: killer-sudoku-android-reward
-ca-app-pub-4776985253905766/6812126796
+Android
+C_AD_APP_ID_ANDROID: app id: ca-app-pub-4776985253905766~3808355203
+C_AD_UNIT_INTERSTITIAL_ANDROID: sudoku-classic-android-interstitial: ca-app-pub-4776985253905766/8719553491
+C_AD_UNIT_BANNER_ANDROID: sudoku-classic-android-main: ca-app-pub-4776985253905766/6075425894
+C_AD_UNIT_REWARDED_ANDROID: sudoku-classic-android-reward: ca-app-pub-4776985253905766/3427298988
+C_AD_UNIT_REWARDED_I_ANDROID: sudoku-classic-android-reward-interstitial: ca-app-pub-4776985253905766/7648377928
 
 ---
 

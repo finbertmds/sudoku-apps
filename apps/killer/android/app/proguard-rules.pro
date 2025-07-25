@@ -11,3 +11,5 @@
 -keep public class com.google.android.gms.ads.** {
     public *;
 }
+
+-keep class com.google.android.gms.internal.consent_sdk.** { *; }

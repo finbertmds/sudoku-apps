@@ -52,8 +52,9 @@ export default ({config}: ConfigContext): ExpoConfig => ({
     [
       'react-native-google-mobile-ads',
       {
-        iosAppId: process.env.AD_APP_ID_IOS,
-        androidAppId: process.env.AD_APP_ID_ANDROID,
+        iosAppId: 'ca-app-pub-4776985253905766~3654919331',
+        androidAppId: 'ca-app-pub-4776985253905766~3808355203',
+        delayAppMeasurementInit: true,
       },
     ],
     'expo-localization',
@@ -66,6 +67,9 @@ export default ({config}: ConfigContext): ExpoConfig => ({
           targetSdkVersion: 35,
           buildToolsVersion: '35.0.0',
           usesCleartextTraffic: true,
+          extraProguardRules: `
+            -keep class com.google.android.gms.internal.consent_sdk.** { *; }
+          `,
         },
         ios: {
           useFrameworks: 'static',

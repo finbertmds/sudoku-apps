@@ -8,6 +8,7 @@ import {
   SHOW_UNSPLASH_IMAGE_INFO,
   UNSPLASH_UTM,
 } from '@/utils/constants';
+import {checkAndRequestAdsConsent} from '@sudoku/shared-ads-safe';
 import {
   Header,
   NewGameMenu,
@@ -76,6 +77,7 @@ const MainScreen = () => {
       loadQuote();
       checkVersion();
       checkWhatsNew();
+      checkAndRequestAdsConsent();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []),
   );
