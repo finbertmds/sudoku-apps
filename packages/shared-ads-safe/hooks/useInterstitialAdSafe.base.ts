@@ -6,16 +6,19 @@ import {Platform} from 'react-native';
 
 const impl: () => (env: AppEnv) => any = Platform.select({
   web: () => {
+    console.log('ad use useInterstitialAdSafe.web');
     const mod = require('./useInterstitialAdSafe.web');
     return mod.useInterstitialAdSafe;
   },
   default: () => {
     if (isExpoGo) {
+      console.log('ad use useInterstitialAdSafe.web expo go');
       const mod = require('./useInterstitialAdSafe.web');
       return mod.useInterstitialAdSafe;
     } else {
       // TODO: to run on web, change to .web
-      const mod = require('./useInterstitialAdSafe.web');
+      console.log('ad use useInterstitialAdSafe.native');
+      const mod = require('./useInterstitialAdSafe.native');
       return mod.useInterstitialAdSafe;
     }
   },

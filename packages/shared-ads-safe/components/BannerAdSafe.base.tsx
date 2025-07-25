@@ -6,16 +6,19 @@ import {Platform} from 'react-native';
 
 const impl: () => (props: NativeAdSafeProps) => any = Platform.select({
   web: () => {
+    console.log('ad use BannerAdSafe.web');
     const mod = require('./BannerAdSafe.web');
     return mod.BannerAdSafe;
   },
   default: () => {
     if (isExpoGo) {
+      console.log('ad use BannerAdSafe.web expo go');
       const mod = require('./BannerAdSafe.web');
       return mod.BannerAdSafe;
     } else {
       // TODO: to run on web, change to .web
-      const mod = require('./BannerAdSafe.web');
+      console.log('ad use BannerAdSafe.native');
+      const mod = require('./BannerAdSafe.native');
       return mod.BannerAdSafe;
     }
   },
