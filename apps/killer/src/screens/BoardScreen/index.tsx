@@ -301,18 +301,21 @@ const BoardScreen = () => {
   };
   // ===========================================================
 
-  const handleSaveGame = async () => {
+  const handleSaveGame = async (
+    newBoard: CellValue[][],
+    newHistory: CellValue[][][],
+  ) => {
     const savedGame = {
       savedId: id,
       savedLevel: level,
       // savedScore: score,
-      savedBoard: board,
+      savedBoard: newBoard,
       savedHintCount: hintCount,
       savedTotalHintCountUsed: totalHintCountUsed,
       savedMistake: mistakes,
       savedTotalMistake: totalMistakes,
       savedTimePlayed: secondsRef.current,
-      savedHistory: history,
+      savedHistory: newHistory,
       savedNotes: notes,
       lastSaved: new Date(),
     } as SavedGame;
@@ -320,13 +323,13 @@ const BoardScreen = () => {
   };
 
   const handleBackPress = async () => {
-    await handleSaveGame();
+    await handleSaveGame(board, history);
     setIsPlaying(false);
     navigation.goBack();
   };
 
   const handleGoToSettings = async () => {
-    await handleSaveGame();
+    await handleSaveGame(board, history);
     setIsPlaying(false);
     setIsPaused(true);
     navigation.navigate(SCREENS.SETTINGS, {
@@ -335,7 +338,7 @@ const BoardScreen = () => {
   };
 
   const handlePause = async () => {
-    await handleSaveGame();
+    await handleSaveGame(board, history);
     setIsPlaying(false);
     setIsPaused(true);
     setShowPauseModal(true);
@@ -347,27 +350,25 @@ const BoardScreen = () => {
     setShowPauseModal(false);
   };
 
-  const saveHistory = (newBoard: CellValue[][]) => {
-    setHistory((prev) => [...prev, deepCloneBoard(newBoard)]);
-  };
-
   /**
    * Quay trở lại trạng thái board trước đó
    */
-  const handleUndo = () => {
+  const handleUndo = async () => {
     if (history.length <= 1) {
       return;
     }
 
     const lastState = history[history.length - 2];
     setBoard(deepCloneBoard(lastState));
-    setHistory((prev) => prev.slice(0, -1));
+    const newHistory = history.slice(0, -1);
+    setHistory(newHistory);
+    await handleSaveGame(deepCloneBoard(lastState), newHistory);
   };
 
   /**
    * Xoá giá trị của ô đã chọn
    */
-  const handleErase = () => {
+  const handleErase = async () => {
     if (!selectedCell) {
       return;
     }
@@ -389,7 +390,11 @@ const BoardScreen = () => {
     newBoard[row][col] = null;
     setSelectedCell({...selectedCell, value: null});
     setBoard(newBoard);
-    saveHistory(newBoard);
+
+    const newHistory = [...history, deepCloneBoard(newBoard)];
+    setHistory(newHistory);
+
+    await handleSaveGame(newBoard, newHistory);
   };
 
   const handleCheckSolved = (_totalHintCountUsed: number) => {
@@ -420,12 +425,14 @@ const BoardScreen = () => {
     );
   };
 
-  const handleInputCorrectValue = (
+  const handleInputCorrectValue = async (
     row: number,
     col: number,
     num: number,
     _totalHintCountUsed: number,
   ) => {
+    setSelectedCell({row, col, value: num});
+
     const newBoard = deepCloneBoard(board);
     newBoard[row][col] = num;
     setBoard(newBoard);
@@ -438,7 +445,10 @@ const BoardScreen = () => {
       handleCheckSolved(_totalHintCountUsed);
     }
 
-    saveHistory(newBoard);
+    const newHistory = [...history, deepCloneBoard(newBoard)];
+    setHistory(newHistory);
+
+    await handleSaveGame(newBoard, newHistory);
   };
 
   const handleHint = () => {
@@ -471,7 +481,8 @@ const BoardScreen = () => {
     setBoard(clonedSolved);
     setNotes(createEmptyGridNotes<string>());
     // handleCheckSolved(solvedBoard);
-    saveHistory(clonedSolved);
+    const newHistory = [...history, deepCloneBoard(clonedSolved)];
+    setHistory(newHistory);
   };
 
   /**
@@ -679,10 +690,10 @@ const BoardScreen = () => {
             onSolve={handleSolve}
           />
           <NumberPad
-            isNoteMode={noteMode}
-            availableMemoNumbers={availableMemoNumbers}
             board={board}
             settings={settings}
+            isNoteMode={noteMode}
+            availableMemoNumbers={availableMemoNumbers}
             onSelectNumber={handleNumberPress}
           />
         </View>

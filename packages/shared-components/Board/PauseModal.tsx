@@ -36,6 +36,7 @@ const PauseModalComponent = ({
         animationIn="zoomIn"
         animationOut="zoomOut"
         backdropOpacity={0.5}
+        backdropColor="black"
         useNativeDriver
         onBackButtonPress={() => onResume()}
         onBackdropPress={() => onResume()}
