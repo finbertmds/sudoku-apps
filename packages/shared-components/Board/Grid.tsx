@@ -176,7 +176,7 @@ const GridComponent = ({
 
       const isMistake = cellValue !== 0 && cellValue !== solvedBoard[row][col];
 
-      let overlayColor = null;
+      let overlayColor: string | null = null;
       if (isSelected) {
         overlayColor = theme.selectedOverlayColor;
       } else if (isSameValueConflict) {
@@ -193,17 +193,33 @@ const GridComponent = ({
       const isBoldBorder = (index: number) => index % 3 === 0;
       const isLastBolBorder = (index: number) => index === BOARD_SIZE - 1;
 
+      const isTablet = DeviceUtil.isTablet();
+      const thinBorder = isTablet ? 0.5 : 0.2;
+      const thickBorderDark = isTablet ? 3.5 : 3;
+      const thickBorderLight = isTablet ? 2.5 : 2;
       const borderStyle = {
         borderColor: theme.cellBorderColor,
-        borderTopWidth: isBoldBorder(row) ? (mode === 'dark' ? 3 : 2) : 0.2,
+        borderTopWidth: isBoldBorder(row)
+          ? mode === 'dark'
+            ? thickBorderDark
+            : thickBorderLight
+          : thinBorder,
         borderBottomWidth: isLastBolBorder(row)
           ? mode === 'dark'
-            ? 2.5
-            : 2
-          : 0.2,
-        borderLeftWidth: isBoldBorder(col) ? (mode === 'dark' ? 3 : 2) : 0.2,
+            ? thickBorderDark
+            : thickBorderLight
+          : thinBorder,
+        borderLeftWidth: isBoldBorder(col)
+          ? mode === 'dark'
+            ? thickBorderDark
+            : thickBorderLight
+          : thinBorder,
         borderRightWidth:
-          col === BOARD_SIZE - 1 ? (mode === 'dark' ? 3 : 2) : 0.2,
+          col === BOARD_SIZE - 1
+            ? mode === 'dark'
+              ? thickBorderDark
+              : thickBorderLight
+            : thinBorder,
       };
 
       return (

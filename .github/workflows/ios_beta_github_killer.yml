@@ -121,6 +121,7 @@ jobs:
         env:
           IDEDisableFileSyncMonitor: 'YES'
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          APP_VARIANT: 'killer'
           UNSPLASH_ACCESS_KEY: ${{ secrets.K_UNSPLASH_ACCESS_KEY }}
           AD_APP_ID_ANDROID: ${{ secrets.K_AD_APP_ID_ANDROID }}
           AD_UNIT_BANNER_ANDROID: ${{ secrets.K_AD_UNIT_BANNER_ANDROID }}

@@ -23,7 +23,7 @@ export const lightTheme: ThemeType = {
   buttonBorder: '#1E3A8A',
   cell: '#F5F8FF',
   selectedOverlayColor: '#A5B4FC',
-  sameValueOverlayColor: '#DBEAFE',
+  sameValueOverlayColor: '#B5B4FC',
   conflictOverlayColor: '#FCA5A5',
   sameRowOrColumnOverlayColor: '#E0E7FF',
   overlayColor: '#FFFFFF',

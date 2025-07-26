@@ -1,6 +1,6 @@
 // deviceUtil.ts
 
-import {isExpoGo} from '@sudoku/shared-utils/ExpoConstantsSafe';
+import {isExpo, isExpoGo} from '@sudoku/shared-utils/ExpoConstantsSafe';
 import {NativeModules, Platform} from 'react-native';
 
 let isTabletFn = () => false;
@@ -9,7 +9,7 @@ const isWeb = typeof window !== 'undefined' && Platform.OS === 'web';
 
 if (!isWeb) {
   try {
-    if (isExpoGo) {
+    if (isExpo) {
       const Device = require('expo-device');
       isTabletFn = () => Device?.deviceType === Device?.DeviceType?.TABLET;
     } else {
