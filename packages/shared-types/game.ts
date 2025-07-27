@@ -52,6 +52,15 @@ export type SavedHintCount = {
 
 export type GenerateBoardFn = (level: Level, id: string) => InitGame;
 
+export type GameEndedData = {
+  id: string;
+  level: Level;
+  timePlayed: number;
+  mistakes: number;
+  hintCount: number;
+  completed: boolean;
+};
+
 // ---------------- Killer Sudoku ----------------
 export type CageInfo = {
   cells: [number, number][];

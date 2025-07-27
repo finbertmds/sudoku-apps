@@ -3,13 +3,13 @@
 import {EmptyContainer} from '@sudoku/shared-components/commons/EmptyContainer';
 import {GameLogCard} from '@sudoku/shared-components/GameHistory/GameLogCard';
 import {useTheme} from '@sudoku/shared-themes';
-import {GameLogEntryV2, TimeFilter} from '@sudoku/shared-types';
+import {GameLogEntryV3, TimeFilter} from '@sudoku/shared-types';
 import {getGameHistory} from '@sudoku/shared-utils';
 import React, {useMemo} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 
 type GameHistoryProps = {
-  logs: GameLogEntryV2[];
+  logs: GameLogEntryV3[];
   filter: TimeFilter;
 };
 

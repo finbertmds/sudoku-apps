@@ -1,6 +1,6 @@
 // constants.ts
 
-import {AppId, Level, TimeFilter} from '@sudoku/shared-types';
+import {AppId, BoardType, Level, TimeFilter} from '@sudoku/shared-types';
 
 export const BOARD_SIZE = 9;
 export const CELL_SIZE = 40;
@@ -88,6 +88,12 @@ export const NUMBERS_1_TO_9 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export const CLASSIC_APP_ID = 'classic' as AppId;
 export const KILLER_APP_ID = 'killer' as AppId;
+
+export const BOARD_TYPE: Record<string, BoardType> = {
+  INIT: 'init',
+  SAVED: 'saved',
+  UNFINISHED: 'unfinished',
+};
 
 // ---------------- Killer Sudoku ----------------
 

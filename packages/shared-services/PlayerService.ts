@@ -3,7 +3,7 @@
 import {StatsService} from '@sudoku/shared-services';
 import {playerProfileStorage, statsStorage} from '@sudoku/shared-storages';
 import {
-  GameLogEntryV2,
+  GameLogEntryV3,
   LanguageCode,
   PlayerProfile,
 } from '@sudoku/shared-types';
@@ -15,7 +15,7 @@ export const PlayerService = {
   ): Promise<void> {
     const players = await playerProfileStorage.getAllPlayers();
     if (players.length === 0) {
-      const rawLogs = await statsStorage.getGameLogsV2();
+      const rawLogs = await statsStorage.getGameLogsV3();
       // count total games from raw logs which completed
       const totalGames = rawLogs.filter((log) => log.completed).length;
       const player = createDefaultPlayer(totalGames, language);
@@ -27,17 +27,17 @@ export const PlayerService = {
   async migrateDataFromDefaultPlayerToNewPlayer(
     newPlayerId: string,
   ): Promise<void> {
-    const rawLogs = await statsStorage.getGameLogsV2();
+    const rawLogs = await statsStorage.getGameLogsV3();
     const migrated = rawLogs.map((entry) => {
       if (entry.playerId === DEFAULT_PLAYER_ID) {
         return {
           ...entry,
           playerId: newPlayerId,
-        } as GameLogEntryV2;
+        } as GameLogEntryV3;
       }
       return entry;
     });
-    await statsStorage.saveGameLogsV2(migrated);
+    await statsStorage.saveGameLogsV3(migrated);
 
     // move total games from default player to new player
     const defaultPlayer =
@@ -77,7 +77,7 @@ export const PlayerService = {
     if (playerId === DEFAULT_PLAYER_ID) {
       return;
     }
-    await statsStorage.deleteGameLogsV2ByPlayerId(playerId);
+    await statsStorage.deleteGameLogsV3ByPlayerId(playerId);
   },
 
   async incrementPlayerTotalGames(): Promise<void> {

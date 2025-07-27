@@ -51,6 +51,7 @@
   "welcomeTitle": "🎯\nWelcome to\n{{appName}}",
   "welcomeUser": "👋 {{playerName}}",
   "continueGame": "Continue Game",
+  "resumeUnfinishedGame": "Resume Unfinished Game",
   "newGame": "New Game",
   "clearStorage": "Clear Storage",
 

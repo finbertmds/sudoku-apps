@@ -2,7 +2,7 @@
 
 import {
   DailyStats,
-  GameLogEntryV2,
+  GameLogEntryV3,
   GameStats,
   Level,
   TimeFilter,
@@ -38,7 +38,7 @@ function createLevelMap<T>(
 }
 
 export function getStatsFromLogs(
-  logs: GameLogEntryV2[],
+  logs: GameLogEntryV3[],
   filter: TimeFilter,
   userId: string,
   levels: Level[],
@@ -82,7 +82,7 @@ export function getStatsFromLogs(
 }
 
 export function getDailyStatsFromLogs(
-  logs: GameLogEntryV2[],
+  logs: GameLogEntryV3[],
   filter: TimeFilter,
 ): DailyStats[] {
   if (logs.length === 0) {
@@ -118,7 +118,7 @@ export function getDailyStatsFromLogs(
 }
 
 export function convertToPieData(
-  logs: GameLogEntryV2[],
+  logs: GameLogEntryV3[],
   scheme: ColorSchemeName = 'light',
   t: TFunction,
   filter: TimeFilter,
@@ -149,7 +149,7 @@ export function convertToPieData(
 }
 
 export function convertToStackedData(
-  logs: GameLogEntryV2[],
+  logs: GameLogEntryV3[],
   scheme: ColorSchemeName = 'light',
   t: TFunction,
   filter: TimeFilter,
@@ -187,9 +187,9 @@ export function convertToStackedData(
 }
 
 export function getGameHistory(
-  logs: GameLogEntryV2[],
+  logs: GameLogEntryV3[],
   filter: TimeFilter,
-): GameLogEntryV2[] {
+): GameLogEntryV3[] {
   if (logs.length === 0) {
     return [];
   }

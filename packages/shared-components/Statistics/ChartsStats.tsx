@@ -6,7 +6,7 @@ import {GamePieChart} from '@sudoku/shared-components/Statistics/GamePieChart';
 import {GameStackedBarChart} from '@sudoku/shared-components/Statistics/GameStackedBarChart';
 import {TimeLineChart} from '@sudoku/shared-components/Statistics/TimeLineChart';
 import {useTheme} from '@sudoku/shared-themes';
-import {GameLogEntryV2, Level, TimeFilter} from '@sudoku/shared-types';
+import {GameLogEntryV3, Level, TimeFilter} from '@sudoku/shared-types';
 import {
   convertToPieData,
   convertToStackedData,
@@ -18,7 +18,7 @@ import {useTranslation} from 'react-i18next';
 import {ScrollView} from 'react-native';
 
 type ChartsStatsProps = {
-  logs: GameLogEntryV2[];
+  logs: GameLogEntryV3[];
   filter: TimeFilter;
   levels: Level[];
 };

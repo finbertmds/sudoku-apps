@@ -45,6 +45,7 @@ export const lightTheme: ThemeType = {
   cardCard: '#ffffff',
   cardBorder: '#e2e8f0',
   cardIcon: '#2563EB',
+  unfinishedGameButton: '#6750A4',
 };
 
 export const darkTheme: ThemeType = {
@@ -90,4 +91,5 @@ export const darkTheme: ThemeType = {
   cardCard: '#1e293b',
   cardBorder: '#334155',
   cardIcon: '#60A5FA',
+  unfinishedGameButton: '#D0BCFF',
 };
