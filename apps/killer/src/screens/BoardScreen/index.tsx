@@ -27,7 +27,11 @@ import {
   useHintCounter,
   useMistakeCounter,
 } from '@sudoku/shared-hooks';
-import {BoardService, SettingsService} from '@sudoku/shared-services';
+import {
+  BoardService,
+  SettingsService,
+  StatsService,
+} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {
   AppSettings,
@@ -36,6 +40,7 @@ import {
   CageInfo,
   Cell,
   CellValue,
+  GameEndedData,
   RootStackParamList,
   SavedGame,
 } from '@sudoku/shared-types';
@@ -242,14 +247,20 @@ const BoardScreen = () => {
 
   const handleLimitMistakeReached = async () => {
     await handleResetGame();
-    eventBus.emit(CORE_EVENTS.gameEnded, {
+    const gameEndedData: GameEndedData = {
       id: id,
       level: level,
       timePlayed: secondsRef.current,
       mistakes: totalMistakes,
       hintCount: totalHintCountUsed,
       completed: false,
-    } as GameEndedCoreEvent);
+    };
+    const newEntry = await StatsService.recordGameEnd(gameEndedData);
+    const payload: GameEndedCoreEvent = {
+      completed: gameEndedData.completed,
+      newEntry: newEntry,
+    };
+    eventBus.emit(CORE_EVENTS.gameEnded, payload);
     navigation.goBack();
   };
 
@@ -283,14 +294,20 @@ const BoardScreen = () => {
   const secondsRef = useRef(0);
   const handleLimitTimeReached = async () => {
     await handleResetGame();
-    eventBus.emit(CORE_EVENTS.gameEnded, {
+    const gameEndedData: GameEndedData = {
       id: id,
       level: level,
       timePlayed: secondsRef.current,
       mistakes: totalMistakes,
       hintCount: totalHintCountUsed,
       completed: false,
-    } as GameEndedCoreEvent);
+    };
+    const newEntry = await StatsService.recordGameEnd(gameEndedData);
+    const payload: GameEndedCoreEvent = {
+      completed: gameEndedData.completed,
+      newEntry: newEntry,
+    };
+    eventBus.emit(CORE_EVENTS.gameEnded, payload);
     navigation.goBack();
   };
   // ===========================================================
@@ -407,14 +424,20 @@ const BoardScreen = () => {
         {
           text: t('backToMain'),
           onPress: async () => {
-            eventBus.emit(CORE_EVENTS.gameEnded, {
+            const gameEndedData: GameEndedData = {
               id: id,
               level: level,
               timePlayed: secondsRef.current,
               mistakes: totalMistakes,
               hintCount: _totalHintCountUsed,
               completed: true,
-            } as GameEndedCoreEvent);
+            };
+            const newEntry = await StatsService.recordGameEnd(gameEndedData);
+            const payload: GameEndedCoreEvent = {
+              completed: gameEndedData.completed,
+              newEntry: newEntry,
+            };
+            eventBus.emit(CORE_EVENTS.gameEnded, payload);
             await BoardService.clear();
             navigation.goBack();
           },

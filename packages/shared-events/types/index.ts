@@ -11,12 +11,8 @@ export type InitGameCoreEvent = {
 };
 
 export type GameEndedCoreEvent = {
-  id: string;
-  level: Level;
-  timePlayed: number;
-  mistakes: number;
-  hintCount: number;
   completed: boolean;
+  newEntry?: GameLogEntryV3;
 };
 
 export type StatisticsUpdatedCoreEvent = {
