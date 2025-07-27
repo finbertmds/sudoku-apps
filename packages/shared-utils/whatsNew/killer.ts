@@ -4,6 +4,23 @@ import {WhatsNewEntry} from '@sudoku/shared-types';
 
 export const WHATS_NEW_KILLER: WhatsNewEntry[] = [
   {
+    version: '1.1.2',
+    changes: [
+      {
+        title: {
+          en: 'Resume Unfinished Game',
+          vi: 'Tiếp tục ván cũ',
+          ja: '未完了ゲームを再開',
+        },
+        description: {
+          en: 'Continue playing the unfinished game.',
+          vi: 'Tiếp tục chơi ván chưa hoàn thành.',
+          ja: '未完了ゲームを再開します。',
+        },
+      },
+    ],
+  },
+  {
     version: '1.1.1',
     changes: [
       {
