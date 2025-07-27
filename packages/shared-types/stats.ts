@@ -1,6 +1,6 @@
 // stats.ts
 
-import {Level} from '@sudoku/shared-types';
+import {CageInfo, CellValue, Level} from '@sudoku/shared-types';
 
 /**
  * @deprecated
@@ -16,8 +16,17 @@ export interface GameLogEntry {
   hintCount?: number;
 }
 
+/**
+ * @deprecated
+ */
 export type GameLogEntryV2 = GameLogEntry & {
   playerId: string; // player ID (UUID)
+};
+
+export type GameLogEntryV3 = GameLogEntryV2 & {
+  initialBoard?: CellValue[][];
+  solvedBoard?: CellValue[][];
+  cages?: CageInfo[];
 };
 
 export type TimeFilter = 'today' | 'week' | 'month' | 'year' | 'all';

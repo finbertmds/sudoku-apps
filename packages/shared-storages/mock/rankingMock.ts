@@ -2,7 +2,7 @@
 
 import {StatsService} from '@sudoku/shared-services';
 import {playerProfileStorage, statsStorage} from '@sudoku/shared-storages';
-import {GameLogEntryV2, PlayerProfile, TimeRange} from '@sudoku/shared-types';
+import {GameLogEntryV3, PlayerProfile, TimeRange} from '@sudoku/shared-types';
 import {ALL_AFFECTED_RANGES} from '@sudoku/shared-utils';
 
 const mockPlayers: PlayerProfile[] = [
@@ -36,7 +36,7 @@ const mockPlayers: PlayerProfile[] = [
   },
 ];
 
-const mockGameLogs: GameLogEntryV2[] = [
+const mockGameLogs: GameLogEntryV3[] = [
   {
     id: 'g1',
     level: 'easy',
@@ -142,7 +142,7 @@ const mockGameLogs: GameLogEntryV2[] = [
 ];
 
 const saveMockRanking = async () => {
-  const oldLogs = await statsStorage.getGameLogsV2();
+  const oldLogs = await statsStorage.getGameLogsV3();
   if (oldLogs.length > 0) {
     return;
   }
@@ -153,10 +153,10 @@ const saveMockRanking = async () => {
 
   // save mock game logs
   console.log('mock game logs', mockGameLogs);
-  await statsStorage.saveGameLogsV2(mockGameLogs);
+  await statsStorage.saveGameLogsV3(mockGameLogs);
   const affectedRanges: TimeRange[] = ALL_AFFECTED_RANGES;
 
-  const allLogs = await statsStorage.getGameLogsV2();
+  const allLogs = await statsStorage.getGameLogsV3();
 
   mockPlayers.forEach(async (player) => {
     await StatsService.updateStatsWithAllCache(

@@ -51,6 +51,7 @@
   "welcomeTitle": "🎯\nChào mừng đến với\n{{appName}}",
   "welcomeUser": "👋 {{playerName}}",
   "continueGame": "Tiếp tục trò chơi",
+  "resumeUnfinishedGame": "Tiếp tục ván cũ",
   "newGame": "Trò chơi mới",
   "clearStorage": "Xóa dữ liệu đã lưu",
 

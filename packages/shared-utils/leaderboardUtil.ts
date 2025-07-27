@@ -2,7 +2,7 @@
 
 import {PlayerService, StatsService} from '@sudoku/shared-services';
 import {
-  GameLogEntryV2,
+  GameLogEntryV3,
   Level,
   LevelPriority,
   LevelStatEntry,
@@ -54,7 +54,7 @@ export const calculatePlayerScore = (
 
 const getSpeedScore = (
   levelWeight: LevelWeight,
-  logs: GameLogEntryV2[],
+  logs: GameLogEntryV3[],
 ): number | undefined => {
   const completed = logs.filter((l) => l.completed);
   if (completed.length === 0) {
@@ -86,7 +86,7 @@ export const getAllStats = async (
 ): Promise<PlayerStats[]> => {
   try {
     const players: PlayerProfile[] = await PlayerService.getAllPlayers();
-    const logs: GameLogEntryV2[] = await StatsService.getLogsDone();
+    const logs: GameLogEntryV3[] = await StatsService.getLogsDone();
 
     return players.map((player) => {
       const playerLogs = logs.filter(
@@ -174,7 +174,7 @@ export const getAllPlayerHighlights = async (
 };
 
 export function getLevelStatsForLevel(
-  logs: GameLogEntryV2[],
+  logs: GameLogEntryV3[],
   players: PlayerProfile[],
   level: Level,
 ): LevelStatEntry[] {

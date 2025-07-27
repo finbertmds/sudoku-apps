@@ -25,10 +25,12 @@ export type SkWebViewScreenRouteProp = RouteProp<
   'SkWebView'
 >;
 
+export type BoardType = 'init' | 'saved' | 'unfinished';
+
 export type BoardParamProps = {
   id: string;
   level: Level;
-  type: 'init' | 'saved';
+  type: BoardType;
 };
 
 /**

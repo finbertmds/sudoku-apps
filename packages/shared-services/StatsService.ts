@@ -1,12 +1,16 @@
 // GameStatsManager.ts
 
+import {BoardService, PlayerService} from '@sudoku/shared-services';
 import {playerProfileStorage, statsStorage} from '@sudoku/shared-storages';
 import {
+  CageInfo,
   ConstantEnv,
   GameEndedCoreEvent,
-  GameLogEntryV2,
+  GameLogEntryV3,
   GameStats,
   GameStatsCache,
+  GenericInitGame,
+  GenericSavedGame,
   InitGame,
   Level,
   TimeFilter,
@@ -45,7 +49,7 @@ export const StatsService = {
   },
 
   async getStatsWithCache(
-    logs: GameLogEntryV2[],
+    logs: GameLogEntryV3[],
     filter: TimeFilter,
     userId: string,
   ): Promise<Record<Level, GameStats>> {
@@ -69,7 +73,7 @@ export const StatsService = {
   },
 
   async updateStatsWithAllCache(
-    logs: GameLogEntryV2[],
+    logs: GameLogEntryV3[],
     affectedRanges: TimeFilter[],
     userId: string,
   ): Promise<void> {
@@ -97,8 +101,8 @@ export const StatsService = {
   },
 
   async updateStatsWithCache(
-    logs: GameLogEntryV2[],
-    updatedLogs: GameLogEntryV2[],
+    logs: GameLogEntryV3[],
+    updatedLogs: GameLogEntryV3[],
     userId: string,
   ): Promise<void> {
     try {
@@ -140,7 +144,7 @@ export const StatsService = {
     }
   },
 
-  async getLog(id: string): Promise<GameLogEntryV2 | null> {
+  async getLog(id: string): Promise<GameLogEntryV3 | null> {
     try {
       const logs = await this.getLogs();
       const log = logs.find((_log) => _log.id === id);
@@ -153,16 +157,16 @@ export const StatsService = {
     return null;
   },
 
-  async getLogs(): Promise<GameLogEntryV2[]> {
+  async getLogs(): Promise<GameLogEntryV3[]> {
     try {
-      return await statsStorage.getGameLogsV2();
+      return await statsStorage.getGameLogsV3();
     } catch (error) {
       console.error('Error loading logs:', error);
     }
     return [];
   },
 
-  async getLogsDone(): Promise<GameLogEntryV2[]> {
+  async getLogsDone(): Promise<GameLogEntryV3[]> {
     try {
       const logs = await this.getLogs();
       return logs.filter((log) => log.durationSeconds > 0);
@@ -172,9 +176,9 @@ export const StatsService = {
     return [];
   },
 
-  async getLogsByPlayerId(playerId: string): Promise<GameLogEntryV2[]> {
+  async getLogsByPlayerId(playerId: string): Promise<GameLogEntryV3[]> {
     try {
-      return statsStorage.getGameLogsV2ByPlayerId(playerId);
+      return statsStorage.getGameLogsV3ByPlayerId(playerId);
     } catch (error) {
       console.error('Error loading logs:', error);
     }
@@ -186,7 +190,7 @@ export const StatsService = {
    * If override is true, it will replace the existing log with the same ID.
    * If override is false, it will append the new log to the existing logs.
    */
-  async saveLog(log: GameLogEntryV2, override: boolean = true) {
+  async saveLog(log: GameLogEntryV3, override: boolean = true) {
     try {
       const existing = await this.getLogs();
       if (override) {
@@ -201,7 +205,7 @@ export const StatsService = {
         existing.unshift(log);
       }
 
-      await statsStorage.saveGameLogsV2(existing);
+      await statsStorage.saveGameLogsV3(existing);
     } catch (error) {
       console.error('Error saving logs:', error);
     }
@@ -212,9 +216,9 @@ export const StatsService = {
    * If append is true, it will append the new logs to the existing logs.
    * If append is false, it will replace the existing logs with the new logs.
    */
-  async saveLogs(logs: GameLogEntryV2[], append: boolean = true) {
+  async saveLogs(logs: GameLogEntryV3[], append: boolean = true) {
     try {
-      let updated: GameLogEntryV2[] = logs;
+      let updated: GameLogEntryV3[] = logs;
       if (append) {
         const existing = await this.getLogs();
         const sortedLogs = logs.sort(
@@ -224,14 +228,14 @@ export const StatsService = {
         updated = [...sortedLogs, ...existing];
       }
 
-      await statsStorage.saveGameLogsV2(updated);
+      await statsStorage.saveGameLogsV3(updated);
     } catch (error) {
       console.error('Error saving logs:', error);
     }
   },
 
-  async recordGameStart(initGame: InitGame): Promise<GameLogEntryV2> {
-    const newEntry: GameLogEntryV2 = {
+  async recordGameStart(initGame: InitGame): Promise<GameLogEntryV3> {
+    const newEntry: GameLogEntryV3 = {
       id: initGame.id,
       level: initGame.savedLevel,
       completed: false,
@@ -241,7 +245,14 @@ export const StatsService = {
       mistakes: 0,
       hintCount: 0,
       playerId: await playerProfileStorage.getCurrentPlayerId(),
+      initialBoard: (initGame as GenericInitGame<string>).initialBoard,
+      solvedBoard: (initGame as GenericInitGame<string>).solvedBoard,
     };
+
+    // use for killer sudoku
+    if (initGame.cages) {
+      newEntry.cages = initGame.cages;
+    }
 
     await this.saveLog(newEntry, false);
     return newEntry;
@@ -250,7 +261,7 @@ export const StatsService = {
   async recordGameEnd(payload: GameEndedCoreEvent) {
     // 👉 Record daily log
     const oldEntry = await this.getLog(payload.id);
-    let newEntry: GameLogEntryV2;
+    let newEntry: GameLogEntryV3;
     if (oldEntry) {
       newEntry = {
         ...oldEntry,
@@ -283,6 +294,93 @@ export const StatsService = {
       await statsStorage.clearStatsData();
     } catch (error) {
       console.error('Error clearing all data:', error);
+    }
+  },
+
+  async hasUnfinishedGame(): Promise<boolean> {
+    const currentPlayerId = await PlayerService.getCurrentPlayerId();
+    const logs = await this.getLogsByPlayerId(currentPlayerId);
+    const unfinishedLogs = logs.filter(
+      (log) => !log.completed && log.initialBoard && log.solvedBoard,
+    );
+    if (unfinishedLogs.length === 0) {
+      return false;
+    }
+    return true;
+  },
+
+  async resumeRandomUnfinishedGame(): Promise<InitGame | null> {
+    const currentPlayerId = await PlayerService.getCurrentPlayerId();
+    const logs = await this.getLogsByPlayerId(currentPlayerId);
+    const unfinishedLogs = logs.filter(
+      (log) => !log.completed && log.initialBoard && log.solvedBoard,
+    );
+    if (unfinishedLogs.length === 0) {
+      return null;
+    }
+    const randomIndex = Math.floor(Math.random() * unfinishedLogs.length);
+    const randomLog = unfinishedLogs[randomIndex];
+    const initGame: GenericInitGame<string, {cages?: CageInfo[]}> = {
+      id: randomLog.id,
+      savedLevel: randomLog.level,
+      initialBoard: randomLog.initialBoard!,
+      solvedBoard: randomLog.solvedBoard!,
+    };
+    // use for killer sudoku
+    if (randomLog.cages) {
+      initGame.cages = randomLog.cages;
+    }
+    await BoardService.clear();
+    await BoardService.save(initGame);
+    await this.afterClear(randomLog.id);
+
+    return initGame;
+  },
+
+  /**
+   * Save log to resume unfinished game when clear board
+   */
+  async beforeClear() {
+    const initGame = (await BoardService.loadInit()) as GenericInitGame<
+      string,
+      {cages?: CageInfo[]}
+    >;
+    const savedGame =
+      (await BoardService.loadSaved()) as GenericSavedGame<string>;
+    if (initGame && savedGame) {
+      let log = await this.getLog(savedGame.savedId);
+      if (log) {
+        log = {
+          ...log,
+          completed: false,
+          endTime: new Date().toISOString(),
+          durationSeconds: savedGame.savedTimePlayed,
+          mistakes: savedGame.savedMistake,
+          hintCount: savedGame.savedHintCount,
+          initialBoard: initGame.initialBoard,
+          solvedBoard: initGame.solvedBoard,
+        };
+        // use for killer sudoku
+        if (initGame.cages) {
+          log.cages = initGame.cages;
+        }
+        await this.saveLog(log, true);
+      }
+    }
+  },
+
+  /**
+   * Remove initBoard and solvedBoard from log when clear board
+   */
+  async afterClear(id: string) {
+    const logNeedUpdated = await this.getLog(id);
+    if (logNeedUpdated) {
+      if (logNeedUpdated) {
+        logNeedUpdated.initialBoard = undefined;
+        logNeedUpdated.solvedBoard = undefined;
+        logNeedUpdated.cages = undefined;
+      }
+      await this.saveLog(logNeedUpdated, true);
     }
   },
 };

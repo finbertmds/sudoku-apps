@@ -1,7 +1,7 @@
 // Leaderboard/LevelRanking.tsx
 
 import {useTheme} from '@sudoku/shared-themes';
-import {GameLogEntryV2, Level, PlayerProfile} from '@sudoku/shared-types';
+import {GameLogEntryV3, Level, PlayerProfile} from '@sudoku/shared-types';
 import {getLevelStatsForLevel} from '@sudoku/shared-utils';
 import React, {useState} from 'react';
 import {
@@ -15,7 +15,7 @@ import {renderMedal} from './sub/RankingComponents';
 
 type LevelRankingProps = {
   levels: Level[];
-  logs: GameLogEntryV2[];
+  logs: GameLogEntryV3[];
   players: PlayerProfile[];
 };
 

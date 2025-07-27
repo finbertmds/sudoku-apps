@@ -51,6 +51,7 @@
   "welcomeTitle": "🎯\nようこそ、\n{{appName}}へ",
   "welcomeUser": "👋 {{playerName}}",
   "continueGame": "ゲームを続ける",
+  "resumeUnfinishedGame": "未完了ゲームを再開",
   "newGame": "新しいゲーム",
   "clearStorage": "保存したデータを削除",
 

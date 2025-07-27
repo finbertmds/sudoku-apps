@@ -45,6 +45,7 @@ export type ThemeType = {
   cardCard: string;
   cardBorder: string;
   cardIcon: string;
+  unfinishedGameButton: string;
 };
 
 export interface ThemeContextValue {

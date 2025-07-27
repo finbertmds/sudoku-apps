@@ -15,7 +15,7 @@ import {Ionicons} from '@sudoku/shared-icons';
 import {PlayerService, StatsService} from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {
-  GameLogEntryV2,
+  GameLogEntryV3,
   GameStats,
   Level,
   RootStackParamList,
@@ -40,7 +40,7 @@ const StatisticsScreen = () => {
   const {theme} = useTheme();
   const {t} = useTranslation();
   const [stats, setStats] = useState<Record<Level, GameStats> | null>(null);
-  const [logs, setLogs] = useState<GameLogEntryV2[]>([]);
+  const [logs, setLogs] = useState<GameLogEntryV3[]>([]);
   const [activeTab, setActiveTab] = useState<StatsTab['key']>('level');
 
   const [filter, setFilter] = useState<TimeFilter>('all');

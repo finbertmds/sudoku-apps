@@ -18,14 +18,14 @@ const checkAndRequestAdsConsent =
         tagForUnderAgeOfConsent: false,
       });
 
-      console.log('ad use consentInfo', consentInfo);
-
       if (
         consentInfo.status === AdsConsentStatus.NOT_REQUIRED ||
         consentInfo.status === AdsConsentStatus.OBTAINED
       ) {
         return consentInfo.status;
       }
+
+      console.log('ad use consentInfo', consentInfo);
 
       // Bước 2: Nếu cần hiển thị form
       if (consentInfo.isConsentFormAvailable) {
