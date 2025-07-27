@@ -69,6 +69,7 @@ export const BoardService = {
       return 0;
     }
   },
+
   async loadSavedMistake(): Promise<SavedMistake> {
     try {
       const savedGame = await this.loadSaved();

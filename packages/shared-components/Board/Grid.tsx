@@ -27,7 +27,7 @@ type GridProps = {
   board: CellValue[][];
   cages: CageInfo[];
   notes: string[][][];
-  solvedBoard: number[][];
+  solvedBoard: CellValue[][];
   selectedCell: Cell | null;
   settings: AppSettings;
   onPress: (cell: Cell | null) => void;
@@ -174,7 +174,10 @@ const GridComponent = ({
         settings.highlightDuplicates &&
         checkSameValueConflict(row, col, cellValue, selectedCell);
 
-      const isMistake = cellValue !== 0 && cellValue !== solvedBoard[row][col];
+      const isMistake =
+        cellValue !== null &&
+        cellValue !== 0 &&
+        cellValue !== solvedBoard[row][col];
 
       let overlayColor: string | null = null;
       if (isSelected) {
@@ -187,7 +190,7 @@ const GridComponent = ({
         overlayColor = theme.sameValueOverlayColor;
       }
 
-      const showValue = cellValue !== 0;
+      const showValue = cellValue !== null && cellValue !== 0;
       const showMistake = settings.autoCheckMistake && isMistake;
 
       const isBoldBorder = (index: number) => index % 3 === 0;

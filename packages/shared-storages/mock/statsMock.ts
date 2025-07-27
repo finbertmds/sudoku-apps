@@ -2,7 +2,7 @@
 
 import {StatsService} from '@sudoku/shared-services';
 import {statsStorage} from '@sudoku/shared-storages';
-import {GameLogEntry, GameLogEntryV2, TimeRange} from '@sudoku/shared-types';
+import {GameLogEntry, GameLogEntryV3, TimeRange} from '@sudoku/shared-types';
 import {ALL_AFFECTED_RANGES, DEFAULT_PLAYER_ID} from '@sudoku/shared-utils';
 
 const gameLog = [
@@ -108,7 +108,7 @@ const gameLog = [
   },
 ] as GameLogEntry[];
 
-const gameLogV2: GameLogEntryV2[] = gameLog.map((log) => ({
+const gameLogV2: GameLogEntryV3[] = gameLog.map((log) => ({
   ...log,
   playerId: DEFAULT_PLAYER_ID,
 }));
@@ -123,12 +123,12 @@ const saveGameLogs = async () => {
 };
 
 const saveGameLogsV2 = async () => {
-  const oldLogs = await statsStorage.getGameLogsV2();
+  const oldLogs = await statsStorage.getGameLogsV3();
   if (oldLogs.length > 0) {
     return;
   }
   console.log('mock game logs', gameLog);
-  await statsStorage.saveGameLogsV2(gameLogV2);
+  await statsStorage.saveGameLogsV3(gameLogV2);
 };
 
 const saveMockGameLogs = async () => {

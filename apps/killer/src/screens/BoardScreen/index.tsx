@@ -1,6 +1,6 @@
 // src/screens/BoardScreen/index.tsx
 
-import {KillerLevel} from '@/types';
+import {KillerInitGame, KillerLevel, KillerSavedGame} from '@/types';
 import {env} from '@/utils/appUtil';
 import {constantEnv, SCREENS, TUTORIAL_IMAGES} from '@/utils/constants';
 import {
@@ -41,10 +41,10 @@ import {
 } from '@sudoku/shared-types';
 import {
   BANNER_HEIGHT,
+  BOARD_TYPE,
   checkBoardIsSolved,
   createEmptyGrid,
   createEmptyGridNotes,
-  createEmptyGridNumber,
   deepCloneBoard,
   deepCloneNotes,
   getAvailableMemoNumbers,
@@ -70,9 +70,8 @@ const BoardScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const [solvedBoard, setSolvedBoard] = useState<number[][]>(
-    createEmptyGridNumber(),
-  );
+  const [solvedBoard, setSolvedBoard] =
+    useState<CellValue[][]>(createEmptyGrid<CellValue>());
   const [cages, setCages] = useState<CageInfo[]>([]);
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [showPauseModal, setShowPauseModal] = useState<boolean>(false);
@@ -117,8 +116,8 @@ const BoardScreen = () => {
   // Lấy initGame and savedGame
   // ===========================================================
   const handeGameStarted = async () => {
-    if (type === 'init') {
-      let initGame = await BoardService.loadInit();
+    if (type === BOARD_TYPE.INIT || type === BOARD_TYPE.UNFINISHED) {
+      let initGame = (await BoardService.loadInit()) as KillerInitGame;
       if (!initGame) {
         return;
       }
@@ -129,9 +128,9 @@ const BoardScreen = () => {
       setCages(initGame.cages);
       setSolvedBoard(initGame.solvedBoard);
       setIsPlaying(true);
-    } else {
-      const initGame = await BoardService.loadInit();
-      const savedGame = await BoardService.loadSaved();
+    } else if (type === BOARD_TYPE.SAVED) {
+      const initGame = (await BoardService.loadInit()) as KillerInitGame;
+      const savedGame = (await BoardService.loadSaved()) as KillerSavedGame;
       setIsLoading(false);
 
       if (initGame && savedGame) {
@@ -428,7 +427,7 @@ const BoardScreen = () => {
   const handleInputCorrectValue = async (
     row: number,
     col: number,
-    num: number,
+    num: CellValue,
     _totalHintCountUsed: number,
   ) => {
     setSelectedCell({row, col, value: num});

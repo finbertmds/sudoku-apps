@@ -2,7 +2,7 @@
 
 import {MaterialCommunityIcons} from '@sudoku/shared-icons';
 import {useTheme} from '@sudoku/shared-themes';
-import {GameLogEntryV2} from '@sudoku/shared-types';
+import {GameLogEntryV3} from '@sudoku/shared-types';
 import {
   formatDateTime,
   formatDuration,
@@ -12,7 +12,7 @@ import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet, Text, View} from 'react-native';
 
-const GameLogCardComponent = ({log}: {log: GameLogEntryV2}) => {
+const GameLogCardComponent = ({log}: {log: GameLogEntryV3}) => {
   const {t} = useTranslation();
   const {mode, theme} = useTheme();
 

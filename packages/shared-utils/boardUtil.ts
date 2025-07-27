@@ -30,12 +30,6 @@ export function createEmptyGrid<T>(): (T | null)[][] {
   );
 }
 
-export function createEmptyGridNumber(): number[][] {
-  return Array.from({length: BOARD_SIZE}, () =>
-    Array.from({length: BOARD_SIZE}, () => 0),
-  );
-}
-
 /**
  * Tạo mảng 9x9x9 cho mỗi note
  * @returns Mảng 9x9x9
@@ -98,8 +92,12 @@ export function removeNoteFromPeers(
   notes: string[][][],
   row: number,
   col: number,
-  value: number,
+  value: CellValue,
 ): string[][][] {
+  if (value === null) {
+    return notes;
+  }
+
   // Clone notes array
   const updatedNotes = notes.map((rowNotes) =>
     rowNotes.map((cellNotes) => [...cellNotes]),
@@ -143,7 +141,7 @@ export function removeNoteFromPeers(
 export const isRowFilled = (
   row: number,
   newBoard: CellValue[][],
-  solvedBoard: number[][],
+  solvedBoard: CellValue[][],
 ): boolean => {
   if (!newBoard[row]) {
     return false;
@@ -159,7 +157,7 @@ export const isRowFilled = (
 export const isColFilled = (
   col: number,
   newBoard: CellValue[][],
-  solvedBoard: number[][],
+  solvedBoard: CellValue[][],
 ): boolean => {
   for (let row = 0; row < BOARD_SIZE; row++) {
     if (!newBoard[row][col] || newBoard[row][col] !== solvedBoard[row][col]) {

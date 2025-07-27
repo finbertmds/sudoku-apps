@@ -31,10 +31,12 @@ import {
   BoardService,
   PlayerService,
   SettingsService,
+  StatsService,
 } from '@sudoku/shared-services';
 import {useTheme} from '@sudoku/shared-themes';
 import {Level, WhatsNewEntry} from '@sudoku/shared-types';
 import {
+  BOARD_TYPE,
   CLASSIC_APP_ID,
   DeviceUtil,
   getWhatsNewList,
@@ -65,6 +67,7 @@ const MainScreen = () => {
     useAppUpdateChecker(env);
   const [showWhatsNew, setShowWhatsNew] = useState(false);
   const [whatsNewEntries, setWhatsNewEntries] = useState<WhatsNewEntry[]>([]);
+  const [hasUnfinishedGame, setHasUnfinishedGame] = useState(false);
 
   const {alert} = useAlert();
 
@@ -73,6 +76,7 @@ const MainScreen = () => {
     useCallback(() => {
       reloadPlayer();
       checkSavedGame();
+      checkUnfinishedGame();
       loadBackgrounds();
       loadQuote();
       checkVersion();
@@ -100,13 +104,20 @@ const MainScreen = () => {
     setHasSavedGame(!!saved);
   };
 
+  const checkUnfinishedGame = async () => {
+    const saved = await BoardService.loadSaved();
+    const hasUnfinished = await StatsService.hasUnfinishedGame();
+    setHasUnfinishedGame(!saved && hasUnfinished);
+  };
+
   const handleNewGame = async (level: Level) => {
+    await StatsService.beforeClear();
     await BoardService.clear();
     const id = uuid.v4().toString();
     eventBus.emit(CORE_EVENTS.initGame, {level, id} as InitGameCoreEvent);
     router.push({
       pathname: 'BoardScreen' as any,
-      params: {id, level, type: 'init'},
+      params: {id, level, type: BOARD_TYPE.INIT},
     });
   };
 
@@ -118,7 +129,21 @@ const MainScreen = () => {
         params: {
           id: savedGame.savedId,
           level: savedGame.savedLevel,
-          type: 'saved',
+          type: BOARD_TYPE.SAVED,
+        },
+      });
+    }
+  };
+
+  const handleResumeUnfinishedGame = async () => {
+    const unfinishedGame = await StatsService.resumeRandomUnfinishedGame();
+    if (unfinishedGame) {
+      router.push({
+        pathname: 'BoardScreen' as any,
+        params: {
+          id: unfinishedGame.id,
+          level: unfinishedGame.savedLevel,
+          type: BOARD_TYPE.UNFINISHED,
         },
       });
     }
@@ -126,7 +151,10 @@ const MainScreen = () => {
 
   const handleClearStorage = async () => {
     eventBus.emit(CORE_EVENTS.clearStorage);
-    BoardService.clear().then(checkSavedGame);
+    BoardService.clear().then(async () => {
+      await checkSavedGame();
+      await checkUnfinishedGame();
+    });
     PlayerService.clear().then(reloadPlayer);
   };
   const insets = useSafeAreaInsetsSafe();
@@ -163,7 +191,6 @@ const MainScreen = () => {
         ]);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [forceUpdate, needUpdate, storeUrl, t, showUpdateAlert]);
 
   useAppPause(
@@ -238,6 +265,18 @@ const MainScreen = () => {
               onPress={handleContinueGame}>
               <Text style={[styles.buttonText, {color: theme.buttonText}]}>
                 {t('continueGame')}
+              </Text>
+            </TouchableOpacity>
+          )}
+          {hasUnfinishedGame && (
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {backgroundColor: theme.unfinishedGameButton},
+              ]}
+              onPress={handleResumeUnfinishedGame}>
+              <Text style={[styles.buttonText, {color: theme.buttonText}]}>
+                {t('resumeUnfinishedGame')}
               </Text>
             </TouchableOpacity>
           )}

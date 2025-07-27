@@ -1,6 +1,6 @@
 // BoardScreen/index.tsx
 
-import {ClassicLevel} from '@/types';
+import {ClassicInitGame, ClassicLevel, ClassicSavedGame} from '@/types';
 import {env} from '@/utils/appUtil';
 import {constantEnv, TUTORIAL_IMAGES} from '@/utils/constants';
 import {BannerAdSafe, useInterstitialAdSafe} from '@sudoku/shared-ads-safe';
@@ -35,10 +35,10 @@ import {
 } from '@sudoku/shared-types';
 import {
   BANNER_HEIGHT,
+  BOARD_TYPE,
   checkBoardIsSolved,
   createEmptyGrid,
   createEmptyGridNotes,
-  createEmptyGridNumber,
   deepCloneBoard,
   deepCloneNotes,
   getAvailableMemoNumbers,
@@ -66,9 +66,8 @@ const BoardScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const [solvedBoard, setSolvedBoard] = useState<number[][]>(
-    createEmptyGridNumber(),
-  );
+  const [solvedBoard, setSolvedBoard] =
+    useState<CellValue[][]>(createEmptyGrid<CellValue>());
   // const [score, setScore] = useState<number>(0);
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [showPauseModal, setShowPauseModal] = useState<boolean>(false);
@@ -113,8 +112,8 @@ const BoardScreen = () => {
   // Lấy initGame and savedGame
   // ===========================================================
   const handeGameStarted = async () => {
-    if (type === 'init') {
-      let initGame = await BoardService.loadInit();
+    if (type === BOARD_TYPE.INIT || type === BOARD_TYPE.UNFINISHED) {
+      let initGame = (await BoardService.loadInit()) as ClassicInitGame;
       if (!initGame) {
         return;
       }
@@ -125,9 +124,9 @@ const BoardScreen = () => {
       // setScore(initGame.savedScore);
       setSolvedBoard(initGame.solvedBoard);
       setIsPlaying(true);
-    } else {
-      const initGame = await BoardService.loadInit();
-      const savedGame = await BoardService.loadSaved();
+    } else if (type === BOARD_TYPE.SAVED) {
+      const initGame = (await BoardService.loadInit()) as ClassicInitGame;
+      const savedGame = (await BoardService.loadSaved()) as ClassicSavedGame;
       setIsLoading(false);
 
       if (initGame && savedGame) {
@@ -425,7 +424,7 @@ const BoardScreen = () => {
   const handleInputCorrectValue = async (
     row: number,
     col: number,
-    num: number,
+    num: CellValue,
     _totalHintCountUsed: number,
   ) => {
     setSelectedCell({row, col, value: num});

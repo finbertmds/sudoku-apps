@@ -35,7 +35,7 @@ const LeaderboardScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [playerStats, setPlayerStats] = useState<PlayerStats[]>([]);
   const [activeTab, setActiveTab] = useState<LeaderboardTab['key']>('player');
-  // const [logs, setLogs] = useState<GameLogEntryV2[]>([]);
+  // const [logs, setLogs] = useState<GameLogEntryV3[]>([]);
   // const [players, setPlayers] = useState<PlayerProfile[]>([]);
 
   const leaderboardTabs: LeaderboardTab[] = [

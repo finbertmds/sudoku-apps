@@ -5,6 +5,7 @@ import {
   DailyStats,
   GameLogEntry,
   GameLogEntryV2,
+  GameLogEntryV3,
   GameStatsCache,
 } from '@sudoku/shared-types';
 import {
@@ -46,20 +47,32 @@ const clearGameLogs = async () => {
   } catch (_) {}
 };
 
+/**
+ * @deprecated
+ */
 const saveGameLogsV2 = async (logs: GameLogEntryV2[]) =>
   await storage.set(STORAGE_KEY_GAME_LOGS, JSON.stringify(logs));
 
+/**
+ * @deprecated
+ */
 const getGameLogsV2 = async (): Promise<GameLogEntryV2[]> => {
   const json = await storage.getString(STORAGE_KEY_GAME_LOGS);
   return json ? JSON.parse(json) : [];
 };
 
+/**
+ * @deprecated
+ */
 const clearGameLogsV2 = async () => {
   try {
     await storage.delete(STORAGE_KEY_GAME_LOGS);
   } catch (_) {}
 };
 
+/**
+ * @deprecated
+ */
 const getGameLogsV2ByPlayerId = async (
   playerId: string,
 ): Promise<GameLogEntryV2[]> => {
@@ -67,10 +80,47 @@ const getGameLogsV2ByPlayerId = async (
   return logs.filter((log) => log.playerId === playerId);
 };
 
+/**
+ * @deprecated
+ */
 const deleteGameLogsV2ByPlayerId = async (playerId: string) => {
   const logs = await getGameLogsV2();
   const updated = logs.filter((log) => log.playerId !== playerId);
   saveGameLogsV2(updated);
+};
+
+const saveGameLogsV3 = async (logs: GameLogEntryV3[]) => {
+  try {
+    await storage.set(STORAGE_KEY_GAME_LOGS, JSON.stringify(logs));
+  } catch (_) {}
+};
+
+const getGameLogsV3 = async (): Promise<GameLogEntryV3[]> => {
+  try {
+    const json = await storage.getString(STORAGE_KEY_GAME_LOGS);
+    return json ? JSON.parse(json) : [];
+  } catch (_) {
+    return [];
+  }
+};
+
+const clearGameLogsV3 = async () => {
+  try {
+    await storage.delete(STORAGE_KEY_GAME_LOGS);
+  } catch (_) {}
+};
+
+const getGameLogsV3ByPlayerId = async (
+  playerId: string,
+): Promise<GameLogEntryV3[]> => {
+  const logs = await getGameLogsV3();
+  return logs.filter((log) => log.playerId === playerId);
+};
+
+const deleteGameLogsV3ByPlayerId = async (playerId: string) => {
+  const logs = await getGameLogsV3();
+  const updated = logs.filter((log) => log.playerId !== playerId);
+  saveGameLogsV3(updated);
 };
 
 const saveStatsCache = async (cache: GameStatsCache) => {
@@ -164,7 +214,7 @@ const clearLastStatsCacheUpdateUserId = async () => {
 const clearStatsData = async () => {
   try {
     await clearDailyStats();
-    await clearGameLogsV2();
+    await clearGameLogsV3();
     await clearStatsCache();
     await clearLastStatsCacheUpdate();
     await clearLastStatsCacheUpdateUserId();
@@ -180,6 +230,11 @@ export const statsStorage = {
   clearGameLogsV2,
   getGameLogsV2ByPlayerId,
   deleteGameLogsV2ByPlayerId,
+  saveGameLogsV3,
+  getGameLogsV3,
+  clearGameLogsV3,
+  getGameLogsV3ByPlayerId,
+  deleteGameLogsV3ByPlayerId,
   saveStatsCache,
   getStatsCache,
   clearStatsCache,

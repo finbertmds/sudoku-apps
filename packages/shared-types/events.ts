@@ -1,6 +1,6 @@
 // events.ts
 
-import {AppSettings, GameLogEntryV2, Level} from '@sudoku/shared-types';
+import {AppSettings, GameLogEntryV3, Level} from '@sudoku/shared-types';
 
 export type DynamicEvents = Record<string, any>;
 export type AppEvents = CoreEvents & DynamicEvents;
@@ -20,7 +20,7 @@ export type GameEndedCoreEvent = {
 };
 
 export type StatisticsUpdatedCoreEvent = {
-  logs: GameLogEntryV2[];
+  logs: GameLogEntryV3[];
 };
 
 export type CoreEvents = {
