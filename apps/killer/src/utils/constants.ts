@@ -45,7 +45,7 @@ export const PLAYER_STATS_THRESHOLDS = {
   strongPlayerWins: 10,
 };
 
-export const SHOW_UNSPLASH_IMAGE_INFO = false;
+export const SHOW_UNSPLASH_IMAGE_INFO = true;
 export const IS_UI_TESTING = false;
 
 export const LANGUAGES: Language[] = [
