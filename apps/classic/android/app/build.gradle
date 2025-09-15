@@ -92,7 +92,7 @@ android {
         applicationId 'com.finbertngo.sudokuclassic'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 16
+        versionCode 17
         versionName "0.0.4"
     }
     signingConfigs {
