@@ -9,10 +9,9 @@ for (const [app, version, previous] of [
   const android = getWhatsNewList(app, previous, 'android');
   const ios = getWhatsNewList(app, previous, 'ios');
   assert.equal(android[0].version, version);
-  assert.equal(ios[0].version, version);
-  assert.equal(android[0].changes.length, 2);
-  assert.equal(ios[0].changes.length, 1);
-  assert.equal(ios[0].changes[0].title.en, 'Internal Event Handling Fix');
+  assert.equal(android[0].changes.length, 1);
+  assert.equal(android[0].changes[0].title.en, 'Android 16 Support');
+  assert.deepEqual(ios, []);
   assert.deepEqual(getWhatsNewList(app, version, 'android'), []);
   assert.deepEqual(getWhatsNewList(app, previous, 'web'), []);
   assert.ok(getWhatsNewList(app, '', 'ios').length > 1);
@@ -22,7 +21,14 @@ for (const [app, version, previous] of [
 // A release can ship under different version numbers on Android and iOS.
 WHATS_NEW_CLASSIC.unshift({
   versions: {android: '0.0.6', ios: '0.0.7'},
-  changes: [{title: {en: 'Shared fix'}, description: {en: 'Both platforms'}}],
+  changes: [
+    {title: {en: 'Shared fix'}, description: {en: 'Both platforms'}},
+    {
+      platforms: ['android'],
+      title: {en: 'Android fix'},
+      description: {en: 'Android only'},
+    },
+  ],
 });
 try {
   assert.equal(
@@ -30,6 +36,18 @@ try {
     '0.0.6',
   );
   assert.equal(getWhatsNewList('classic', '0.0.5', 'ios')[0].version, '0.0.7');
+  assert.deepEqual(
+    getWhatsNewList('classic', '0.0.5', 'android')[0].changes.map(
+      (change) => change.title.en,
+    ),
+    ['Shared fix', 'Android fix'],
+  );
+  assert.deepEqual(
+    getWhatsNewList('classic', '0.0.5', 'ios')[0].changes.map(
+      (change) => change.title.en,
+    ),
+    ['Shared fix'],
+  );
 } finally {
   WHATS_NEW_CLASSIC.shift();
 }
