@@ -8,8 +8,8 @@ platform release is affected.
 - App code, assets, environment and app configuration: that app on both platforms.
 - Android files: Android only. iOS files: iOS only.
 - Shared `packages/**`, root dependencies/lockfile, Node and TypeScript/build
-  configuration, or the shared change detector: both apps.
-- An app's platform workflow: that app and platform.
+  configuration: both apps.
+- Workflow/action versions and CI-only scripts: no automatic release.
 - Markdown documentation, screenshots and test directories: no automatic release.
 - `workflow_dispatch`: force a build/upload without a diff.
 - Missing previous commit or a new branch: conservatively inspect all tracked files.

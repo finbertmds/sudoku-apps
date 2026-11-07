@@ -15,12 +15,12 @@ def affects_release(path, app, platform):
         other_platform = 'ios' if platform == 'android' else 'android'
         return not path.startswith(f'apps/{app}/{other_platform}/')
     if path in {'package.json', 'yarn.lock', '.nvmrc', '.yarnrc', '.yarnrc.yml',
-                'tsconfig.base.json', 'tools/ci/release_changes.py'}:
+                'tsconfig.base.json'}:
         return True
     if '/' not in path and path.startswith(('babel.config.', 'metro.config.', 'tsconfig.')):
         return True
-    workflow = 'android_internal_github' if platform == 'android' else 'ios_beta_github'
-    return path == f'.github/workflows/{workflow}_{app}.yml'
+    # Workflow/action and CI-only changes do not change the shipped app.
+    return False
 
 
 def changed_files(before, head):

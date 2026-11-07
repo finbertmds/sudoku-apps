@@ -16,8 +16,7 @@ class ReleaseChangesTest(unittest.TestCase):
                          f'apps/{app}/package.json', f'apps/{app}/app.config.ts',
                          f'apps/{app}/version.json', 'packages/shared-utils/boardUtil.ts',
                          'packages/shared-types/package.json', 'package.json', 'yarn.lock',
-                         '.nvmrc', 'tsconfig.base.json', 'tools/ci/release_changes.py',
-                         f'.github/workflows/android_internal_github_{app}.yml']:
+                         '.nvmrc', 'tsconfig.base.json']:
                 with self.subTest(app=app, path=path):
                     self.assertTrue(affects_release(path, app, 'android'))
             for path in ['README.md', 'packages/shared-utils/README.md', 'tools/whats-new.test.cts',
@@ -31,8 +30,7 @@ class ReleaseChangesTest(unittest.TestCase):
             for path in [f'apps/{app}/ios/Podfile.lock', f'apps/{app}/ios/fastlane/Fastfile',
                          f'apps/{app}/src/screens/Main.tsx', f'apps/{app}/app/_layout.tsx',
                          f'apps/{app}/package.json', 'packages/shared-utils/boardUtil.ts',
-                         'yarn.lock', '.nvmrc', 'tools/ci/release_changes.py',
-                         f'.github/workflows/ios_beta_github_{app}.yml']:
+                         'yarn.lock', '.nvmrc']:
                 with self.subTest(app=app, path=path):
                     self.assertTrue(affects_release(path, app, 'ios'))
             for path in [f'apps/{app}/android/app/build.gradle', f'apps/{other}/ios/Podfile',
@@ -40,6 +38,20 @@ class ReleaseChangesTest(unittest.TestCase):
                          'README.md', 'tools/ci/test_release_changes.py']:
                 with self.subTest(app=app, path=path):
                     self.assertFalse(affects_release(path, app, 'ios'))
+
+    def test_workflow_only_and_mixed_changes(self):
+        workflows = [str(p) for p in Path('.github/workflows').glob('*.yml')]
+        self.assertEqual(len(workflows), 6)
+        ci_only = workflows + ['tools/ci/release_changes.py']
+        for app in ['classic', 'killer']:
+            for platform in ['android', 'ios']:
+                with self.subTest(app=app, platform=platform):
+                    self.assertFalse(any(affects_release(p, app, platform) for p in ci_only))
+                    mixed = ci_only + ['apps/killer/android/app/build.gradle']
+                    self.assertEqual(
+                        any(affects_release(p, app, platform) for p in mixed),
+                        app == 'killer' and platform == 'android',
+                    )
 
     def test_manual_run_outputs_true_without_diff(self):
         with tempfile.TemporaryDirectory() as directory:
