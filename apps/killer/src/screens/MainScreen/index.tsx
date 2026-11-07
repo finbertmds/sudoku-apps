@@ -42,6 +42,7 @@ import {
   Alert,
   ImageBackground,
   Linking,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -88,7 +89,11 @@ const MainScreen = () => {
 
   const checkWhatsNew = async () => {
     const lastVersion = await SettingsService.getLastAppVersionKey();
-    const entries = getWhatsNewList(KILLER_APP_ID, lastVersion ?? '');
+    const entries = getWhatsNewList(
+      KILLER_APP_ID,
+      lastVersion ?? '',
+      Platform.OS,
+    );
     if (entries.length > 0) {
       setShowWhatsNew(true);
       setWhatsNewEntries(entries);
