@@ -1,56 +1,13 @@
 name: iOS Beta Github (Classic & Killer)
 
+# Automatic pushes are handled by the per-app workflows to avoid duplicate uploads.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
-    paths:
-      - 'packages/**'
 
 jobs:
-  check-changes:
-    name: Check Code Changes
-    runs-on: ubuntu-latest
-    outputs:
-      should_run: ${{ steps.filter.outputs.should_run }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-
-      - name: Determine diff range
-        id: sha-range
-        run: |
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            echo "base_sha=${{ github.event.pull_request.base.sha }}" >> $GITHUB_OUTPUT
-            echo "head_sha=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
-          else
-            echo "base_sha=${{ github.event.before }}" >> $GITHUB_OUTPUT
-            echo "head_sha=${{ github.sha }}" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Get changed files
-        id: get-changes
-        run: |
-          changed_files=$(git diff --name-only ${{ steps.sha-range.outputs.base_sha }} ${{ steps.sha-range.outputs.head_sha }})
-          echo "$changed_files" > changed.txt
-          echo "Changed files:"
-          cat changed.txt
-
-      - name: Check affected paths
-        id: filter
-        run: |
-          if grep -q '^packages/' changed.txt; then
-            echo "Changes in packages/** detected → skip workflow"
-            echo "should_run=true" >> $GITHUB_OUTPUT
-          fi
-
   build:
     name: Run Classic and Killer Build
-    needs: check-changes
-    if: needs.check-changes.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
-    runs-on: macos-14
+    runs-on: macos-latest
     timeout-minutes: 60
 
     steps:
@@ -72,9 +29,20 @@ jobs:
         with:
           node-version-file: '.nvmrc'
 
+      - name: Install Yarn Classic
+        run: npm install --global yarn@1.22.22
+
+      - name: Verify Xcode
+        run: |
+          xcode-select --print-path
+          xcodebuild -version
+
+      - name: Install CocoaPods
+        run: gem install cocoapods --no-document
+
       - name: Install dependencies
         run: |
-          yarn install
+          yarn install --frozen-lockfile --non-interactive
           cd apps/classic/ios && pod install
           cd ../../killer/ios && pod install
 
@@ -86,9 +54,9 @@ jobs:
           C_APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.C_APP_STORE_CONNECT_API_KEY_BASE64 }}
           K_APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.K_APP_STORE_CONNECT_API_KEY_BASE64 }}
 
-      - name: Install fastlane (global)
+      - name: Install fastlane
         run: |
-          sudo gem install fastlane
+          gem install fastlane --no-document
           fastlane --version
 
       - name: Run Fastlane classic beta_github (iOS)

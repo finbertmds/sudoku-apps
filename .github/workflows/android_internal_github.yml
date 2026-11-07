@@ -1,56 +1,13 @@
 name: Android Internal Github (Classic & Killer)
 
+# Automatic pushes are handled by the per-app workflows to avoid duplicate uploads.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
-    paths:
-      - 'packages/**'
 
 jobs:
-  check-changes:
-    name: Check Code Changes
-    runs-on: ubuntu-latest
-    outputs:
-      should_run: ${{ steps.filter.outputs.should_run }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-
-      - name: Determine diff range
-        id: sha-range
-        run: |
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            echo "base_sha=${{ github.event.pull_request.base.sha }}" >> $GITHUB_OUTPUT
-            echo "head_sha=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
-          else
-            echo "base_sha=${{ github.event.before }}" >> $GITHUB_OUTPUT
-            echo "head_sha=${{ github.sha }}" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Get changed files
-        id: get-changes
-        run: |
-          changed_files=$(git diff --name-only ${{ steps.sha-range.outputs.base_sha }} ${{ steps.sha-range.outputs.head_sha }})
-          echo "$changed_files" > changed.txt
-          echo "Changed files:"
-          cat changed.txt
-
-      - name: Check affected paths
-        id: filter
-        run: |
-          if grep -q '^packages/' changed.txt; then
-            echo "Changes in packages/** detected → skip workflow"
-            echo "should_run=true" >> $GITHUB_OUTPUT
-          fi
-
   build:
     name: Run Classic and Killer Build
-    needs: check-changes
-    if: needs.check-changes.outputs.should_run == 'true' || github.event_name == 'workflow_dispatch'
-    runs-on: macos-14
+    runs-on: macos-latest
     timeout-minutes: 60
 
     steps:
@@ -68,6 +25,20 @@ jobs:
         with:
           node-version-file: '.nvmrc'
 
+      - name: Install Yarn Classic
+        run: npm install --global yarn@1.22.22
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Install Android release SDK
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006"
+
       - name: Decode keystore
         run: |
           echo "$C_ANDROID_KEYSTORE_BASE64" | base64 --decode > apps/classic/android/app/sudoku-key.keystore
@@ -82,11 +53,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn install
+          yarn install --frozen-lockfile --non-interactive
 
-      - name: Install fastlane (global)
+      - name: Install fastlane
         run: |
-          sudo gem install fastlane
+          gem install fastlane --no-document
           fastlane --version
 
       - name: Run Fastlane classic internal_github (Android)
@@ -107,10 +78,7 @@ jobs:
 
       - name: Run Fastlane killer internal_github (Android)
         run: |
-          cd apps/killer
-          rm -rf node_modules
-          ln -s ../../node_modules .
-          cd android
+          cd apps/killer/android
           fastlane internal_github
         env:
           APP_PACKAGE_NAME: ${{ secrets.K_APP_PACKAGE_NAME }}
