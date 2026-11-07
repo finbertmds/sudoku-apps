@@ -1,0 +1,54 @@
+name: iOS Verify Signing (Classic & Killer)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-signing:
+    name: Verify ${{ matrix.app }} signing
+    runs-on: macos-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - app: classic
+            api_key_secret: C_APP_STORE_CONNECT_API_KEY_BASE64
+          - app: killer
+            api_key_secret: K_APP_STORE_CONNECT_API_KEY_BASE64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Verify certificates repository access
+        uses: ./.github/actions/verify-certificates
+        with:
+          ssh-private-key: ${{ secrets.MATCH_SSH_KEY }}
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Install Fastlane
+        run: gem install fastlane --no-document
+
+      - name: Restore App Store Connect key
+        env:
+          API_KEY_BASE64: ${{ secrets[matrix.api_key_secret] }}
+          APP: ${{ matrix.app }}
+        run: |
+          if [ -z "$API_KEY_BASE64" ]; then
+            echo "::error::Missing App Store Connect API key secret for $APP."
+            exit 1
+          fi
+          printf '%s' "$API_KEY_BASE64" | base64 --decode > "apps/$APP/ios/fastlane/AuthKey.p8"
+
+      - name: Verify Fastlane Match (read-only)
+        working-directory: apps/${{ matrix.app }}/ios
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        run: fastlane verify_signing

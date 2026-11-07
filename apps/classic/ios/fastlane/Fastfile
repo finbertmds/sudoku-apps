@@ -21,6 +21,18 @@ end
 default_platform(:ios)
 
 platform :ios do
+  desc "Verify CI signing access and import certificates without building or uploading"
+  lane :verify_signing do
+    setup_ci(force: true)
+    app_store_connect_api_key(
+      key_id: "SFP99U9WMY",
+      issuer_id: "a43e1ea3-3ccd-4012-96d8-a1d3504f23c1",
+      key_filepath: File.expand_path("AuthKey.p8", __dir__),
+      in_house: false
+    )
+    match(type: "appstore", readonly: true)
+  end
+
   desc "Runs all the tests"
   lane :tests do
     run_tests(scheme: "sudokuclassic")
