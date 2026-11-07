@@ -30,13 +30,23 @@ export type TranslatedText = {
   ja?: string;
 };
 
+export type WhatsNewPlatform = 'android' | 'ios' | 'web';
+
 export type WhatsNewChange = {
+  /** Omit to show this change on every platform in the release. */
+  platforms?: WhatsNewPlatform[];
   title: TranslatedText;
   description: TranslatedText;
 };
 
 export type WhatsNewEntry = {
   version: string;
+  changes: WhatsNewChange[];
+};
+
+/** Release versions are independent across platforms. Omit unreleased platforms. */
+export type WhatsNewRelease = {
+  versions: Partial<Record<WhatsNewPlatform, string>>;
   changes: WhatsNewChange[];
 };
 

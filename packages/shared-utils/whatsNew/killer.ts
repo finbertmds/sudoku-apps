@@ -1,10 +1,28 @@
 // whatsNew/killer.ts
 
-import {WhatsNewEntry} from '@sudoku/shared-types';
+import {WhatsNewRelease} from '@sudoku/shared-types';
 
-export const WHATS_NEW_KILLER: WhatsNewEntry[] = [
+export const WHATS_NEW_KILLER: WhatsNewRelease[] = [
   {
-    version: '1.1.2',
+    versions: {android: '1.1.4', ios: '1.1.4'},
+    changes: [
+      {
+        platforms: ['android'],
+        title: {
+          en: 'Android 16 Support',
+          vi: 'Hỗ trợ Android 16',
+          ja: 'Android 16対応',
+        },
+        description: {
+          en: 'Updated the app for Android 16 compatibility.',
+          vi: 'Cập nhật ứng dụng để tương thích với Android 16.',
+          ja: 'Android 16に対応しました。',
+        },
+      },
+    ],
+  },
+  {
+    versions: {android: '1.1.2', ios: '1.1.2', web: '1.1.2'},
     changes: [
       {
         title: {
@@ -21,7 +39,7 @@ export const WHATS_NEW_KILLER: WhatsNewEntry[] = [
     ],
   },
   {
-    version: '1.1.1',
+    versions: {android: '1.1.1', ios: '1.1.1', web: '1.1.1'},
     changes: [
       {
         title: {
@@ -38,7 +56,7 @@ export const WHATS_NEW_KILLER: WhatsNewEntry[] = [
     ],
   },
   {
-    version: '1.1.0',
+    versions: {android: '1.1.0', ios: '1.1.0', web: '1.1.0'},
     changes: [
       {
         title: {

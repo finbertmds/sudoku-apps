@@ -9,5 +9,8 @@
     "react-native": "*",
     "@expo/vector-icons": "*",
     "react-native-vector-icons": "*"
+  },
+  "engines": {
+    "node": ">=26.0.0 <27"
   }
 }

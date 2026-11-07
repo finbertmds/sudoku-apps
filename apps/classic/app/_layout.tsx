@@ -82,11 +82,7 @@ export default function RootLayout() {
         <Stack.Screen name={SCREENS.HOME_TABS} />
         <Stack.Screen name={SCREENS.NOT_FOUND} />
       </Stack>
-      <StatusBar
-        style={rootMode === 'dark' ? 'light' : 'dark'}
-        backgroundColor="transparent"
-        translucent
-      />
+      <StatusBar style={rootMode === 'dark' ? 'light' : 'dark'} />
     </ThemeProvider>
   );
 }

@@ -1,10 +1,28 @@
 // whatsNew/classic.ts
 
-import {WhatsNewEntry} from '@sudoku/shared-types';
+import {WhatsNewRelease} from '@sudoku/shared-types';
 
-export const WHATS_NEW_CLASSIC: WhatsNewEntry[] = [
+export const WHATS_NEW_CLASSIC: WhatsNewRelease[] = [
   {
-    version: '0.0.3',
+    versions: {android: '0.0.5', ios: '0.0.5'},
+    changes: [
+      {
+        platforms: ['android'],
+        title: {
+          en: 'Android 16 Support',
+          vi: 'Hỗ trợ Android 16',
+          ja: 'Android 16対応',
+        },
+        description: {
+          en: 'Updated the app for Android 16 compatibility.',
+          vi: 'Cập nhật ứng dụng để tương thích với Android 16.',
+          ja: 'Android 16に対応しました。',
+        },
+      },
+    ],
+  },
+  {
+    versions: {android: '0.0.3', ios: '0.0.3', web: '0.0.3'},
     changes: [
       {
         title: {
@@ -21,7 +39,7 @@ export const WHATS_NEW_CLASSIC: WhatsNewEntry[] = [
     ],
   },
   {
-    version: '0.0.2',
+    versions: {android: '0.0.2', ios: '0.0.2', web: '0.0.2'},
     changes: [
       {
         title: {
@@ -38,7 +56,7 @@ export const WHATS_NEW_CLASSIC: WhatsNewEntry[] = [
     ],
   },
   {
-    version: '0.0.1',
+    versions: {android: '0.0.1', ios: '0.0.1', web: '0.0.1'},
     changes: [
       {
         title: {
