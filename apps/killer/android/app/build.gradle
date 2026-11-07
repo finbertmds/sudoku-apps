@@ -29,6 +29,8 @@ react {
         }.standardOutput.asText.get().trim()
     ).getParentFile()
     cliFile = new File(reactNativeDir.get().asFile, "cli.js")
+    // Hermes auto-detection assumes app-local node_modules, unlike this workspace.
+    hermesCommand = new File(reactNativeDir.get().asFile, "sdks/hermesc/%OS-BIN%/hermesc").absolutePath
     /* Folders */
     //   The root of your project, i.e. where "package.json" lives. Default is '../..'
     // root = file("../../")
