@@ -10,5 +10,8 @@
     "expo-constants": "*",
     "killer-sudoku-generator": "*",
     "react-native-device-info": "*"
+  },
+  "engines": {
+    "node": ">=26.0.0 <27"
   }
 }

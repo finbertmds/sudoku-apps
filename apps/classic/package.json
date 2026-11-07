@@ -78,5 +78,8 @@
     "prettier": "^3.6.2",
     "typescript": "~5.8.3"
   },
-  "private": true
+  "private": true,
+  "engines": {
+    "node": ">=26.0.0 <27"
+  }
 }

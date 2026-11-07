@@ -126,8 +126,15 @@ Each app maintains its own `package.json`, assets, `App.tsx`, and native code, b
 git clone https://github.com/FinbertMDS/sudoku-apps.git
 cd sudoku-apps
 
-# Install all dependencies
-yarn install
+# Use Node.js 26 (all apps and CI)
+nvm install
+nvm use
+
+# Install Yarn Classic if needed
+npm install --global yarn@1.22.22
+
+# Install all dependencies from the repository root
+yarn install --frozen-lockfile
 
 # Run Sudoku Classic (Expo)
 dev:classic
@@ -137,6 +144,17 @@ dev:killer
 ```
 
 ---
+
+Node.js 26 is required by every workspace. All Android and iOS CI workflows read
+`.nvmrc`. Use Yarn Classic 1.22.22 and keep `yarn.lock` when installing dependencies.
+If Xcode still uses an older Node installation, regenerate each app’s ignored
+`ios/.xcode.env.local` after `nvm use`:
+
+```bash
+node_path="$(node -p process.execPath)"
+printf 'export NODE_BINARY="%s"\n' "$node_path" > apps/classic/ios/.xcode.env.local
+printf 'export NODE_BINARY="%s"\n' "$node_path" > apps/killer/ios/.xcode.env.local
+```
 
 ## 🧠 Maintained by
 

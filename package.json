@@ -19,7 +19,7 @@
     "prod:all:force": "yarn workspace classic prebuild:force && yarn workspace killer prebuild:force",
     "format": "prettier --write .",
     "postinstall": "expo-yarn-workspaces postinstall",
-    "check:deps": "npx ts-node tools/compare-package-versions.cts"
+    "check:deps": "ts-node tools/compare-package-versions.cts"
   },
   "dependencies": {
     "@babel/runtime": "^7.20.0",
@@ -30,9 +30,15 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "prettier": "^3.6.2",
     "pretty-format": "^29.7.0",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "@types/node": "^26.6.6",
+    "typescript": "~5.8.3"
   },
   "resolutions": {
     "pretty-format": "^29.7.0"
-  }
+  },
+  "engines": {
+    "node": ">=26.0.0 <27"
+  },
+  "packageManager": "yarn@1.22.22"
 }
