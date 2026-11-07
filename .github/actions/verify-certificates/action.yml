@@ -1,0 +1,26 @@
+name: Verify certificates repository access
+description: Load the Match SSH identity and verify read access to mobile_certs.
+inputs:
+  ssh-private-key:
+    description: Private SSH key authorized to read mobile_certs
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Load Match SSH key
+      uses: webfactory/ssh-agent@v0.10.0
+      with:
+        ssh-private-key: ${{ inputs.ssh-private-key }}
+    - name: Verify certificates repository access
+      shell: bash
+      env:
+        GIT_TERMINAL_PROMPT: '0'
+      run: |
+        if ! ssh-add -l >/dev/null 2>&1; then
+          echo "::error::No SSH identity loaded. Check the MATCH_SSH_KEY Actions secret."
+          exit 1
+        fi
+        if ! git ls-remote git@github.com:FinbertMDS/mobile_certs.git HEAD >/dev/null; then
+          echo "::error::MATCH_SSH_KEY cannot read mobile_certs. Register the matching public key as a read-only deploy key in mobile_certs and store the private key in sudoku-apps Actions secrets."
+          exit 1
+        fi
