@@ -98,8 +98,7 @@ platform :ios do
   desc "Push a new beta build to TestFlight by Github Actions"
   lane :beta_github do
     setup_ci(force: true)
-    xcversion(version: "16.2")
-    xcode_select("/Applications/Xcode_16.2.app")
+    # Use the Xcode selected by the GitHub runner image.
 
     app_store_connect_api_key(
       key_id: "SFP99U9WMY",

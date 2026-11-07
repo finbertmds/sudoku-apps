@@ -1,18 +1,10 @@
 name: Android Internal Github (Classic)
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
-    paths:
-      - 'apps/classic/android/**'
-      - 'apps/classic/app/**'
-      - 'apps/classic/assets/**'
-      - 'apps/classic/i18n/**'
-      - 'apps/classic/theme/**'
-      - 'apps/classic/types/**'
-      - 'apps/classic/utils/**'
-      - 'apps/classic/app.config.ts'
 
 jobs:
   check-changes:
@@ -23,66 +15,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2
-
-      - name: Determine diff range
-        id: sha-range
-        run: |
-          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-            echo "base_sha=${{ github.event.pull_request.base.sha }}" >> $GITHUB_OUTPUT
-            echo "head_sha=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
-          else
-            echo "base_sha=${{ github.event.before }}" >> $GITHUB_OUTPUT
-            echo "head_sha=${{ github.sha }}" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Get changed files
-        id: get-changes
-        run: |
-          changed_files=$(git diff --name-only ${{ steps.sha-range.outputs.base_sha }} ${{ steps.sha-range.outputs.head_sha }})
-          echo "$changed_files" > changed.txt
-          echo "Changed files:"
-          cat changed.txt
+          fetch-depth: 0
 
       - name: Check affected paths
         id: filter
-        run: |
-          if grep -q '^packages/' changed.txt; then
-            echo "Changes in packages/** detected → skip workflow"
-            echo "should_run=false" >> $GITHUB_OUTPUT
-          elif grep -qE '^(apps/classic/)' changed.txt; then
-            echo "Changes in apps/classic/** → continue"
-            echo "should_run=true" >> $GITHUB_OUTPUT
-          else
-            echo "No relevant changes → skip"
-            echo "should_run=false" >> $GITHUB_OUTPUT
-          fi
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: python3 tools/ci/release_changes.py --app classic --platform android
 
   build:
     name: Run Classic Build
     needs: check-changes
     if: needs.check-changes.outputs.should_run == 'true'
-    runs-on: macos-14
+    runs-on: macos-latest
     timeout-minutes: 60
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Check if packages/** changed
-        id: check-packages
-        run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^packages/'; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "changed=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Cancel if packages changed
-        if: steps.check-packages.outputs.changed == 'true'
-        run: |
-          echo "Changes detected in packages/**. Skipping workflow."
-          exit 0
 
       - name: Setup JDK
         uses: actions/setup-java@v4
@@ -95,6 +47,20 @@ jobs:
         with:
           node-version-file: '.nvmrc'
 
+      - name: Install Yarn Classic
+        run: npm install --global yarn@1.22.22
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Install Android release SDK
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006"
+
       - name: Decode keystore
         run: |
           echo "$C_ANDROID_KEYSTORE_BASE64" | base64 --decode > apps/classic/android/app/sudoku-key.keystore
@@ -105,11 +71,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn install
+          yarn install --frozen-lockfile --non-interactive
 
-      - name: Install fastlane (global)
+      - name: Install fastlane
         run: |
-          sudo gem install fastlane
+          gem install fastlane --no-document
           fastlane --version
 
       - name: Run Fastlane classic internal_github (Android)
